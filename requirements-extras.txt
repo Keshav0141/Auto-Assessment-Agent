@@ -1,0 +1,10 @@
+# Optional enhancements (not required for the core pipeline)
+# Semantic embeddings for confidence scoring (falls back to a dependency-free
+# character n-gram embedding if this package is not installed)
+sentence-transformers>=2.7
+
+# OCR for scanned answer sheets / images (also requires the Tesseract binary:
+# https://github.com/UB-Mannheim/tesseract/wiki)
+pytesseract>=0.3.10
+pypdfium2>=4.30
+Pillow>=10.0

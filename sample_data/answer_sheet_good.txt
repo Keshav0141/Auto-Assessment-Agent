@@ -1,0 +1,11 @@
+Question 1
+Newton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.
+
+Question 2
+Photosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.
+
+Question 3
+x^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.
+
+Question 4
+The ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.

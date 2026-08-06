@@ -1,0 +1,378 @@
+{
+  "metrics": {
+    "n_items": 26,
+    "mae": 0.1346153846153846,
+    "pearson_r": 0.9681914091210004,
+    "agreement_rate": 0.8846153846153846,
+    "auroc": 0.45652173913043476,
+    "error_count": 3,
+    "mean_confidence": 0.9839743589743589,
+    "mean_confidence_errors": 1.0,
+    "mean_confidence_correct": 0.9818840579710144,
+    "margin": 0.5
+  },
+  "calibration": {
+    "bin_centers": [
+      0.75
+    ],
+    "error_rates": [
+      0.0
+    ],
+    "counts": [
+      2
+    ],
+    "bins": [
+      0.0,
+      0.1,
+      0.2,
+      0.30000000000000004,
+      0.4,
+      0.5,
+      0.6000000000000001,
+      0.7000000000000001,
+      0.8,
+      0.9,
+      1.0
+    ]
+  },
+  "details": [
+    {
+      "id": "P1",
+      "predicted": 5.0,
+      "ground_truth": 5.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        5.0,
+        5.0,
+        5.0
+      ]
+    },
+    {
+      "id": "P2",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "P3",
+      "predicted": 6.0,
+      "ground_truth": 6.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        6.0,
+        6.0,
+        6.0
+      ]
+    },
+    {
+      "id": "P4",
+      "predicted": 6.0,
+      "ground_truth": 6.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        6.0,
+        6.0,
+        6.0
+      ]
+    },
+    {
+      "id": "P5",
+      "predicted": 2.0,
+      "ground_truth": 2.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        2.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "id": "M1",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "M2",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "M3",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "C1",
+      "predicted": 5.0,
+      "ground_truth": 5.0,
+      "error": 0.0,
+      "confidence": 0.792,
+      "flagged": false,
+      "sampled_totals": [
+        5.0,
+        5.0,
+        5.0
+      ]
+    },
+    {
+      "id": "C2",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "C3",
+      "predicted": 5.0,
+      "ground_truth": 5.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        5.0,
+        5.0,
+        5.0
+      ]
+    },
+    {
+      "id": "C4",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "E1",
+      "predicted": 3.0,
+      "ground_truth": 3.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        3.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "id": "E2",
+      "predicted": 1.0,
+      "ground_truth": 1.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "id": "E3",
+      "predicted": 3.0,
+      "ground_truth": 3.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        3.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "id": "M4",
+      "predicted": 0.0,
+      "ground_truth": 0.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "P6",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "P7",
+      "predicted": 4.0,
+      "ground_truth": 4.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "M5",
+      "predicted": 2.0,
+      "ground_truth": 2.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        2.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "id": "M6",
+      "predicted": 3.0,
+      "ground_truth": 3.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        3.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "id": "M7",
+      "predicted": 0.0,
+      "ground_truth": 2.0,
+      "error": 2.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "P8",
+      "predicted": 2.0,
+      "ground_truth": 2.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        2.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "id": "C5",
+      "predicted": 0.0,
+      "ground_truth": 1.0,
+      "error": 1.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "C6",
+      "predicted": 3.0,
+      "ground_truth": 3.0,
+      "error": 0.0,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        3.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "id": "E4",
+      "predicted": 2.5,
+      "ground_truth": 2.0,
+      "error": 0.5,
+      "confidence": 1.0,
+      "flagged": false,
+      "sampled_totals": [
+        2.5,
+        2.5,
+        2.5
+      ]
+    },
+    {
+      "id": "E5",
+      "predicted": 1.0,
+      "ground_truth": 1.0,
+      "error": 0.0,
+      "confidence": 0.792,
+      "flagged": false,
+      "sampled_totals": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ]
+}

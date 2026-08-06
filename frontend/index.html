@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Confidence-Aware Auto-Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-gradient-blobs"></div>
+  <div class="bg-noise"></div>
+
+  <div class="container">
+    <header class="hero">
+      <div class="hero-glow-orb"></div>
+      <h1>Confidence-Aware Auto-Assessment</h1>
+      <p class="sub">Per-question marks + rubric-defensible feedback + a confidence score per grading decision, so low-confidence gradings are flagged for human review.</p>
+      <div id="status-pill" class="pill hidden"></div>
+    </header>
+
+    <main>
+      <section class="card neon-border" id="input-card">
+        <div class="card-header">
+          <h2>Assessment Inputs</h2>
+        </div>
+
+        <div class="grid">
+          <div class="field group">
+            <label for="question_paper_text">Question paper <em class="req">(required)</em></label>
+            <div class="file-upload-wrapper neon-btn-border">
+              <label for="question_paper" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
+              <input type="file" id="question_paper" accept=".txt,.md,.pdf" class="file-input" />
+              <span class="file-name">No file chosen</span>
+            </div>
+            <textarea id="question_paper_text" rows="5" placeholder="…or paste question paper text (Question 1 (5 marks) …)"></textarea>
+          </div>
+
+          <div class="field group">
+            <label for="answer_sheet_text">Answer sheet</label>
+            <div class="file-upload-wrapper neon-btn-border">
+              <label for="answer_sheet" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
+              <input type="file" id="answer_sheet" accept=".txt,.md,.pdf,.png,.jpg,.jpeg" class="file-input" />
+              <span class="file-name">No file chosen</span>
+            </div>
+            <textarea id="answer_sheet_text" rows="5" placeholder="…or paste student answers"></textarea>
+          </div>
+
+          <div class="field group">
+            <label for="rubric_text">Rubric <em>(optional)</em></label>
+            <div class="file-upload-wrapper neon-btn-border">
+              <label for="rubric" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
+              <input type="file" id="rubric" accept=".txt,.md,.pdf" class="file-input" />
+              <span class="file-name">No file chosen</span>
+            </div>
+            <textarea id="rubric_text" rows="5" placeholder="…or paste rubric (1 mark for defining X, …)"></textarea>
+          </div>
+
+          <div class="field group">
+            <label for="model_answers_text">Model answers <em>(optional)</em></label>
+            <div class="file-upload-wrapper neon-btn-border">
+              <label for="model_answers" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
+              <input type="file" id="model_answers" accept=".txt,.md,.pdf" class="file-input" />
+              <span class="file-name">No file chosen</span>
+            </div>
+            <textarea id="model_answers_text" rows="5" placeholder="…or paste model answers"></textarea>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <div class="control-group">
+            <label for="n_samples">Samples / question</label>
+            <input type="number" id="n_samples" value="5" min="1" max="20" class="num-input" />
+          </div>
+          <div class="control-group">
+            <label for="threshold">Confidence threshold</label>
+            <input type="number" id="threshold" value="0.6" min="0" max="1" step="0.05" class="num-input" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="grade-btn" class="primary-btn neon-primary">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-text">Grade answer sheet</span>
+          </button>
+          <button id="sample-btn" class="secondary-btn ghost-neon">
+            <i class="ph ph-magic-wand"></i> Load sample data
+          </button>
+        </div>
+        
+        <div id="loading" class="hidden">
+          <div class="spinner-container">
+            <div class="neon-spinner"></div>
+          </div>
+          <div class="loading-text">
+            <span id="loading-msg">Grading in progress…</span>
+            <div class="neon-shimmer"></div>
+            <span id="elapsed" class="elapsed timer-font">0:00</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="results-card" class="card neon-border hidden">
+        <div class="card-header row spread">
+          <h2>Results</h2>
+          <button id="download-btn" class="secondary-btn ghost-neon sm"><i class="ph ph-download-simple"></i> Download JSON</button>
+        </div>
+        <div id="summary" class="summary-grid"></div>
+        <div id="legend" class="legend"></div>
+        <div id="warnings" class="warnings-container"></div>
+        <div id="questions" class="questions-list"></div>
+      </section>
+    </main>
+
+    <footer class="subtle-footer">
+      <div class="neon-footer-line"></div>
+      <p>&copy; 2026 Confidence-Aware Auto-Assessment. Powered by Generative AI.</p>
+    </footer>
+  </div>
+  <div id="confetti-container"></div>
+
+  <script src="app.js"></script>
+  <script>
+    // Custom file input logic
+    document.querySelectorAll('.file-input').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const fileName = e.target.files[0] ? e.target.files[0].name : "No file chosen";
+        const wrapper = e.target.closest('.file-upload-wrapper');
+        wrapper.querySelector('.file-name').textContent = fileName;
+      });
+    });
+  </script>
+</body>
+</html>
