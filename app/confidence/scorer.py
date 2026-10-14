@@ -27,6 +27,24 @@ def _score_variance_confidence(totals: List[float], max_marks: float) -> float:
     return float(np.clip(1.0 - std / max_marks, 0.0, 1.0))
 
 
+def representative_total(totals: List[float]) -> float:
+    """Median of the sample totals, snapped to the nearest sampled value."""
+    arr = np.asarray(totals, dtype=float)
+    if arr.size == 0:
+        return 0.0
+    med = float(np.median(arr))
+    idx = int(np.argmin(np.abs(arr - med)))
+    return float(arr[idx])
+
+
+def _agreement_confidence(totals: List[float], representative: float, tol: float = 0.25) -> float:
+    """Fraction of sample totals within `tol` marks of the representative total."""
+    arr = np.asarray(totals, dtype=float)
+    if arr.size == 0:
+        return 1.0
+    return float(np.mean(np.abs(arr - representative) <= tol))
+
+
 def _max_linkage_clusters(vectors, threshold):
     """Cluster vectors by max-linkage: join the cluster containing the most similar
     member (cosine >= threshold). Robust to rephrased-but-identical feedback."""
@@ -85,6 +103,8 @@ def compute_confidence(
     results: List[GradingResult],
     threshold: float | None = None,
     include_eigv: bool = False,
+    conf_cross: float | None = None,
+    representative: float | None = None,
 ) -> ConfidenceScore:
     if not results:
         raise ValueError("compute_confidence requires at least one grading result")
@@ -92,27 +112,34 @@ def compute_confidence(
     totals = [r.total_awarded for r in results]
     max_marks = max(r.max_marks for r in results)
     feedbacks = [r.feedback for r in results]
+    if representative is None:
+        representative = representative_total(totals)
 
+    conf_agree = _agreement_confidence(totals, representative)
     conf_var = _score_variance_confidence(totals, max_marks)
     conf_sem = _semantic_consistency(feedbacks)
     conf_eig = _eigv_confidence(feedbacks) if include_eigv else None
 
+    # Weighted average of the available components; missing components (e.g. no
+    # cross-model judge) are skipped and the remaining weights renormalised.
+    components = [
+        (settings.w_agree, conf_agree),
+        (settings.w_variance, conf_var),
+        (settings.w_semantic, conf_sem),
+        (settings.w_cross, conf_cross),
+    ]
     if include_eigv and conf_eig is not None:
-        combined = (
-            settings.w_variance * conf_var
-            + settings.w_semantic * conf_sem
-            + 0.2 * conf_eig
-        ) / (settings.w_variance + settings.w_semantic + 0.2)
-    else:
-        combined = (
-            settings.w_variance * conf_var + settings.w_semantic * conf_sem
-        ) / (settings.w_variance + settings.w_semantic)
-
+        components.append((0.2, conf_eig))
+    used = [(w, v) for (w, v) in components if v is not None and w > 0]
+    weight_sum = sum(w for w, _ in used)
+    combined = float(sum(w * v for w, v in used) / weight_sum) if weight_sum > 0 else 0.0
     combined = float(np.clip(combined, 0.0, 1.0))
     return ConfidenceScore(
         n_samples=len(results),
         score_variance=conf_var,
         semantic_consistency=conf_sem,
+        agreement_confidence=conf_agree,
+        cross_model_confidence=conf_cross,
         eigv_confidence=conf_eig,
         combined_confidence=combined,
         threshold=threshold,

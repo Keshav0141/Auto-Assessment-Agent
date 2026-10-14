@@ -1,0 +1,26 @@
+# Never upload local secrets / environments
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# VCS metadata
+.git/
+.gitignore
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Eval artefacts (plots + metrics, not needed at runtime)
+eval/results/
+
+# Local backups / scratch
+*.bak
+*.backup
+*.orig
+*.log
+backups/

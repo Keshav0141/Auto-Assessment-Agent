@@ -55,6 +55,20 @@ def _is_rate_limit(exc):
     return False
 
 
+def _is_auth_error(exc):
+    """Check if an exception is an authentication/permission (401/403) error."""
+    if type(exc).__name__ in ("AuthenticationError", "PermissionDeniedError"):
+        return True
+    exc_str = str(exc).lower()
+    if "401" in exc_str or "403" in exc_str:
+        return True
+    if "invalid api key" in exc_str or "invalid_api_key" in exc_str:
+        return True
+    if "authentication" in exc_str or "permission denied" in exc_str or "permission_denied" in exc_str:
+        return True
+    return False
+
+
 class LLMClient:
     """Minimal OpenAI-compatible client with retry/backoff and forced-JSON parsing.
 
@@ -74,6 +88,14 @@ class LLMClient:
             )
         return self._client
 
+    @staticmethod
+    def _extra_body():
+        """Disable reasoning/thinking tokens when the provider supports it
+        (e.g. DeepSeek V4.1 via Goedel Machines)."""
+        if settings.llm_disable_thinking:
+            return {"chat_template_kwargs": {"thinking": False}}
+        return None
+
     def warmup(self):
         """Fire a tiny request to keep the provider instance warm (free tiers have
         slow cold starts). Best-effort; never raises."""
@@ -81,13 +103,19 @@ class LLMClient:
             return
         try:
             client = self._get_client()
-            client.chat.completions.create(
+            kwargs = dict(
                 model=settings.llm_model,
                 messages=[{"role": "user", "content": "Reply with exactly: OK"}],
                 temperature=0.0,
                 max_tokens=10,
             )
-        except Exception:
+            extra_body = self._extra_body()
+            if extra_body is not None:
+                kwargs["extra_body"] = extra_body
+            client.chat.completions.create(**kwargs)
+        except Exception as exc:
+            if _is_auth_error(exc):
+                raise LLMError(f"invalid API key for {settings.openai_base_url}") from exc
             pass
 
     def chat_json(self, system, user, temperature=None, max_tokens=1500):
@@ -97,7 +125,7 @@ class LLMClient:
         for attempt in range(max_attempts):
             try:
                 client = self._get_client()
-                resp = client.chat.completions.create(
+                kwargs = dict(
                     model=settings.llm_model,
                     messages=[
                         {"role": "system", "content": system},
@@ -105,8 +133,12 @@ class LLMClient:
                     ],
                     temperature=temperature,
                     max_tokens=max_tokens,
-                    response_format={"type": "json_object"}
+                    response_format={"type": "json_object"},
                 )
+                extra_body = self._extra_body()
+                if extra_body is not None:
+                    kwargs["extra_body"] = extra_body
+                resp = client.chat.completions.create(**kwargs)
                 content = resp.choices[0].message.content or ""
                 if not content.strip():
                     # Free-tier gateways sometimes return 200 with empty content
@@ -114,6 +146,8 @@ class LLMClient:
                     raise LLMError("Empty response from model")
                 return extract_json(content)
             except Exception as exc:
+                if _is_auth_error(exc):
+                    raise LLMError(f"invalid API key for {settings.openai_base_url}") from exc
                 last_error = exc
                 if attempt == max_attempts - 1:
                     break
@@ -126,5 +160,56 @@ class LLMClient:
                     time.sleep(wait)
                 else:
                     # Shorter backoff for other transient errors
+                    time.sleep(2.0 * (attempt + 1))
+        raise LLMError(f"LLM call failed after {max_attempts} attempts: {last_error}")
+
+    def chat_json_n(self, system, user, n, temperature=None, max_tokens=1500):
+        """One request asking for `n` choices; returns a list of parsed JSON dicts
+        (unparseable choices are skipped). Raises LLMError if none parse."""
+        temperature = settings.grading_temperature if temperature is None else temperature
+        max_attempts = settings.max_retries + 3  # extra retries for rate limits
+        last_error = None
+        for attempt in range(max_attempts):
+            try:
+                client = self._get_client()
+                kwargs = dict(
+                    model=settings.llm_model,
+                    messages=[
+                        {"role": "system", "content": system},
+                        {"role": "user", "content": user},
+                    ],
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    n=n,
+                    response_format={"type": "json_object"},
+                )
+                extra_body = self._extra_body()
+                if extra_body is not None:
+                    kwargs["extra_body"] = extra_body
+                resp = client.chat.completions.create(**kwargs)
+                parsed = []
+                for choice in resp.choices:
+                    content = (choice.message.content or "") if choice.message else ""
+                    if not content.strip():
+                        continue
+                    try:
+                        parsed.append(extract_json(content))
+                    except LLMError:
+                        continue
+                if not parsed:
+                    raise LLMError("No parseable JSON choices in response")
+                return parsed
+            except Exception as exc:
+                if _is_auth_error(exc):
+                    raise LLMError(f"invalid API key for {settings.openai_base_url}") from exc
+                last_error = exc
+                if attempt == max_attempts - 1:
+                    break
+                if isinstance(exc, LLMError):
+                    time.sleep(1.5 * (attempt + 1))
+                elif _is_rate_limit(exc):
+                    wait = min(5 * (3 ** attempt), 120)
+                    time.sleep(wait)
+                else:
                     time.sleep(2.0 * (attempt + 1))
         raise LLMError(f"LLM call failed after {max_attempts} attempts: {last_error}")

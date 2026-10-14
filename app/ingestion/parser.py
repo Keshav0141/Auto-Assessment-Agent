@@ -14,59 +14,35 @@ class ParseError(Exception):
 # Text extraction (PDF / images / plain text)
 # ---------------------------------------------------------------------------
 
-def extract_text(filename, data: bytes) -> str:
+def extract_text_meta(filename, data: bytes):
+    """Return (text, ocr_backend_or_None)."""
+    from app.ingestion.ocr import OCRError, ocr_pages, render_pdf_pages
+
     name = (filename or "").lower()
-    if name.endswith(".pdf"):
-        from pypdf import PdfReader
-
-        reader = PdfReader(io.BytesIO(data))
-        text = "\n".join((page.extract_text() or "") for page in reader.pages)
-        if text.strip():
-            return text
-        return _ocr_pdf(data)
-    if name.endswith((".png", ".jpg", ".jpeg", ".tif", ".tiff", ".webp", ".bmp")):
-        return _ocr_image(data)
     try:
-        return data.decode("utf-8", errors="replace")
+        if name.endswith(".pdf"):
+            from pypdf import PdfReader
+
+            reader = PdfReader(io.BytesIO(data))
+            text = "\n".join((page.extract_text() or "") for page in reader.pages)
+            if text.strip():
+                return text, None
+            return ocr_pages(render_pdf_pages(data))
+        if name.endswith((".png", ".jpg", ".jpeg", ".tif", ".tiff", ".webp", ".bmp")):
+            return ocr_pages([data])
+    except (OCRError, ImportError) as exc:
+        raise ParseError(
+            f"Could not OCR '{filename}': {exc}. Set an LLM API key (Gemini OCR) or "
+            "install Tesseract, or upload a text / text-layer PDF."
+        ) from exc
+    try:
+        return data.decode("utf-8", errors="replace"), None
     except Exception:
-        return data.decode("latin-1", errors="replace")
+        return data.decode("latin-1", errors="replace"), None
 
 
-def _ocr_image(data: bytes) -> str:
-    try:
-        import pytesseract
-        from PIL import Image
-
-        return pytesseract.image_to_string(Image.open(io.BytesIO(data)))
-    except Exception as exc:
-        raise ParseError(
-            f"OCR required for this image but is unavailable: {exc}. "
-            "Install `pip install -r requirements-extras.txt` plus the Tesseract "
-            "binary, or upload a text/PDF-with-text file."
-        ) from exc
-
-
-def _ocr_pdf(data: bytes) -> str:
-    try:
-        import pytesseract
-        import pypdfium2 as pdfium
-
-        pdf = pdfium.PdfDocument(data)
-        pages = []
-        for page in pdf:
-            bmp = page.render(scale=2.0)
-            img = bmp.to_pil()
-            pages.append(pytesseract.image_to_string(img))
-        pdf.close()
-        if not any(p.strip() for p in pages):
-            raise ValueError("OCR produced no text")
-        return "\n".join(pages)
-    except Exception as exc:
-        raise ParseError(
-            f"PDF appears scanned and OCR is unavailable: {exc}. "
-            "Install `pip install -r requirements-extras.txt` plus the Tesseract "
-            "binary, or upload a PDF that contains a text layer."
-        ) from exc
+def extract_text(filename, data: bytes) -> str:
+    return extract_text_meta(filename, data)[0]
 
 
 # ---------------------------------------------------------------------------

@@ -41,7 +41,14 @@ class ConfidenceScore(BaseModel):
     n_samples: int
     score_variance: float
     semantic_consistency: float
+    agreement_confidence: Optional[float] = None
+    cross_model_confidence: Optional[float] = None
+    judge2_total: Optional[float] = None
+    adjudicated: bool = False
+    pre_adjudication_total: Optional[float] = None
+    referee_reason: Optional[str] = None
     eigv_confidence: Optional[float] = None
+    warnings: List[str] = []
     combined_confidence: float
     threshold: float
     flagged: bool

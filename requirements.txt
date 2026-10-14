@@ -7,3 +7,5 @@ pypdf>=4.0
 python-dotenv>=1.0
 numpy>=1.26
 matplotlib>=3.8
+pypdfium2>=4.30
+Pillow>=10.0

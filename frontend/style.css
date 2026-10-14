@@ -689,6 +689,19 @@ th {
 }
 .error-banner .close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
 
+.demo-note {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: rgba(0,240,255,0.06);
+  border: 1px solid rgba(0,240,255,0.25);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 /* Confetti */
 #confetti-container { position: fixed; inset: 0; pointer-events: none; z-index: 100; }
 .confetti { position: absolute; top: -20px; width: 10px; height: 10px; border-radius: 2px; }

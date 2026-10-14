@@ -1,25 +1,1995 @@
 {
+  "repeats": 3,
+  "summary": {
+    "repeats": 3,
+    "mae": {
+      "mean": 0.1794871794871795,
+      "std": 0.018130943107347374
+    },
+    "mae_before_adjudication": {
+      "mean": 0.20512820512820515,
+      "std": 0.018130943107347374
+    },
+    "agreement_rate": {
+      "mean": 0.8076923076923078,
+      "std": 1.1102230246251565e-16
+    },
+    "agreement_rate_before_adjudication": {
+      "mean": 0.794871794871795,
+      "std": 0.01813094310734736
+    },
+    "auroc": {
+      "mean": 0.7698412698412698,
+      "std": 0.03527954090617914
+    },
+    "auroc_pre_adjudication": {
+      "mean": 0.7890873015873016,
+      "std": 0.027631417135209956
+    },
+    "n_adjudicated": {
+      "mean": 1.3333333333333333,
+      "std": 0.4714045207910317
+    },
+    "ablation": {
+      "agree": {
+        "mean": 0.673015873015873,
+        "std": 0.08195765487889257
+      },
+      "variance": {
+        "mean": 0.6746031746031745,
+        "std": 0.092772312356841
+      },
+      "semantic": {
+        "mean": 0.46507936507936504,
+        "std": 0.07441719472845107
+      },
+      "cross": {
+        "mean": 0.7809523809523808,
+        "std": 0.020573779994945602
+      },
+      "combined": {
+        "mean": 0.7698412698412698,
+        "std": 0.03527954090617914
+      }
+    },
+    "ablation_pre_adjudication": {
+      "agree": {
+        "mean": 0.6535714285714286,
+        "std": 0.07160692019915506
+      },
+      "variance": {
+        "mean": 0.6561507936507937,
+        "std": 0.08943682098749771
+      },
+      "semantic": {
+        "mean": 0.4583333333333333,
+        "std": 0.06574619653087654
+      },
+      "cross": {
+        "mean": 0.8037698412698413,
+        "std": 0.012676692734097841
+      },
+      "combined": {
+        "mean": 0.7890873015873016,
+        "std": 0.027631417135209956
+      }
+    },
+    "flagged_at_threshold": {
+      "threshold": 0.85,
+      "error_rate_flagged_post": {
+        "mean": 0.41071428571428575,
+        "std": 0.02525381361380526
+      },
+      "error_rate_unflagged_post": {
+        "mean": 0.10721247563352826,
+        "std": 0.0027567515835732847
+      },
+      "error_rate_flagged_pre": {
+        "mean": 0.4583333333333333,
+        "std": 0.08290707307847689
+      },
+      "error_rate_unflagged_pre": {
+        "mean": 0.10721247563352826,
+        "std": 0.0027567515835732847
+      }
+    }
+  },
+  "runs": [
+    {
+      "metrics": {
+        "n_items": 26,
+        "mae": 0.19230769230769232,
+        "pearson_r": 0.9633057476150018,
+        "agreement_rate": 0.8076923076923077,
+        "auroc": 0.819047619047619,
+        "error_count": 5,
+        "mean_confidence": 0.9145032867064347,
+        "mean_confidence_errors": 0.7607407407407406,
+        "mean_confidence_correct": 0.9511134166982668,
+        "margin": 0.5,
+        "mae_before_adjudication": 0.19230769230769232,
+        "agreement_rate_before_adjudication": 0.8076923076923077,
+        "n_adjudicated": 1,
+        "auroc_pre_adjudication": 0.819047619047619,
+        "ablation": {
+          "agree": 0.7285714285714285,
+          "variance": 0.7666666666666667,
+          "semantic": 0.4523809523809524,
+          "cross": 0.7904761904761904,
+          "combined": 0.819047619047619
+        },
+        "ablation_pre_adjudication": {
+          "agree": 0.7285714285714285,
+          "variance": 0.7666666666666667,
+          "semantic": 0.4523809523809524,
+          "cross": 0.7904761904761904,
+          "combined": 0.819047619047619
+        },
+        "low_conf_20pct": {
+          "fraction": 0.2,
+          "threshold": 0.7950056695246311,
+          "n_flagged": 6,
+          "n_unflagged": 20,
+          "error_rate_flagged": 0.5,
+          "error_rate_unflagged": 0.1
+        },
+        "flagged_at_threshold": {
+          "threshold": 0.85,
+          "post": {
+            "threshold": 0.85,
+            "n_flagged": 7,
+            "n_unflagged": 19,
+            "error_rate_flagged": 0.42857142857142855,
+            "error_rate_unflagged": 0.10526315789473684
+          },
+          "pre": {
+            "threshold": 0.85,
+            "n_flagged": 7,
+            "n_unflagged": 19,
+            "error_rate_flagged": 0.42857142857142855,
+            "error_rate_unflagged": 0.10526315789473684
+          }
+        }
+      },
+      "details": [
+        {
+          "id": "P1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "P2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.795,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            3.0,
+            4.0,
+            4.0,
+            4.0,
+            3.0
+          ]
+        },
+        {
+          "id": "P3",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P4",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M1",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.795,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            3.0,
+            3.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M3",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.8,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            3.5,
+            4.0,
+            3.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C3",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C4",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 1.0,
+          "confidence": 0.636,
+          "agreement": 0.8,
+          "cross_model": 0.2,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.5
+          ]
+        },
+        {
+          "id": "E1",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted": 1.0,
+          "pre_adjudication_total": 1.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 1.0,
+          "flagged": false,
+          "sampled_totals": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M4",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 0.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P6",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.867,
+          "agreement": 1.0,
+          "cross_model": 0.6,
+          "judge2_total": 4.5,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "P7",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M7",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": true,
+          "referee_reason": "Adjudicated 0/5: the student never correctly identifies the coefficients (c is treated as -8), computes the discriminant as 68 instead of 4, and gives wrong solutions; to improve, explicitly write a=1, b=-6, c=8, compute b^2-4ac=4, then x=(6\u00b12)/2=4,2.",
+          "ground_truth": 2.0,
+          "error": 2.0,
+          "confidence": 0.542,
+          "agreement": 0.8,
+          "cross_model": 0.0,
+          "judge2_total": 2.0,
+          "flagged": true,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        },
+        {
+          "id": "P8",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "C5",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 1.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "C6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 0.717,
+          "agreement": 0.4,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": true,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            2.5,
+            2.5,
+            3.5
+          ]
+        },
+        {
+          "id": "E4",
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.5,
+          "confidence": 0.896,
+          "agreement": 0.8,
+          "cross_model": 1.0,
+          "judge2_total": 2.5,
+          "flagged": false,
+          "sampled_totals": [
+            2.5,
+            2.5,
+            2.0,
+            2.5,
+            2.5
+          ]
+        },
+        {
+          "id": "E5",
+          "predicted": 0.5,
+          "pre_adjudication_total": 0.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.5,
+          "confidence": 0.73,
+          "agreement": 0.8,
+          "cross_model": 0.5,
+          "judge2_total": 1.0,
+          "flagged": true,
+          "sampled_totals": [
+            0.5,
+            0.5,
+            0.5,
+            1.0,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "n_items": 26,
+        "mae": 0.15384615384615385,
+        "pearson_r": 0.9767587872474853,
+        "agreement_rate": 0.8076923076923077,
+        "auroc": 0.7380952380952381,
+        "error_count": 5,
+        "mean_confidence": 0.9045404239178639,
+        "mean_confidence_errors": 0.7364160243134028,
+        "mean_confidence_correct": 0.944570042871307,
+        "margin": 0.5,
+        "mae_before_adjudication": 0.23076923076923078,
+        "agreement_rate_before_adjudication": 0.7692307692307693,
+        "n_adjudicated": 2,
+        "auroc_pre_adjudication": 0.7958333333333333,
+        "ablation": {
+          "agree": 0.7333333333333333,
+          "variance": 0.7095238095238096,
+          "semantic": 0.5619047619047619,
+          "cross": 0.7523809523809524,
+          "combined": 0.7380952380952381
+        },
+        "ablation_pre_adjudication": {
+          "agree": 0.675,
+          "variance": 0.6541666666666667,
+          "semantic": 0.5416666666666666,
+          "cross": 0.8208333333333333,
+          "combined": 0.7958333333333333
+        },
+        "low_conf_20pct": {
+          "fraction": 0.2,
+          "threshold": 0.7950056695246311,
+          "n_flagged": 6,
+          "n_unflagged": 20,
+          "error_rate_flagged": 0.5,
+          "error_rate_unflagged": 0.1
+        },
+        "flagged_at_threshold": {
+          "threshold": 0.85,
+          "post": {
+            "threshold": 0.85,
+            "n_flagged": 7,
+            "n_unflagged": 19,
+            "error_rate_flagged": 0.42857142857142855,
+            "error_rate_unflagged": 0.10526315789473684
+          },
+          "pre": {
+            "threshold": 0.85,
+            "n_flagged": 7,
+            "n_unflagged": 19,
+            "error_rate_flagged": 0.5714285714285714,
+            "error_rate_unflagged": 0.10526315789473684
+          }
+        }
+      },
+      "details": [
+        {
+          "id": "P1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "P2",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": true,
+          "referee_reason": "The statement criterion is fully met, but the example criterion is only partially met because the explanation lacks the key idea that the forces act on different bodies; add that detail to make the example fully clear.",
+          "ground_truth": 4.0,
+          "error": 1.0,
+          "confidence": 0.367,
+          "agreement": 0.4,
+          "cross_model": 0.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            2.5,
+            3.0,
+            4.0,
+            3.0
+          ]
+        },
+        {
+          "id": "P3",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P4",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M1",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.8,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            3.0,
+            4.0,
+            4.0,
+            3.5
+          ]
+        },
+        {
+          "id": "M2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M3",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.795,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            3.0,
+            4.0,
+            3.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C3",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C4",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 1.0,
+          "confidence": 0.678,
+          "agreement": 0.6,
+          "cross_model": 0.6,
+          "judge2_total": 3.5,
+          "flagged": true,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.5,
+            3.5,
+            3.0
+          ]
+        },
+        {
+          "id": "E1",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted": 1.0,
+          "pre_adjudication_total": 1.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.0,
+          "confidence": 0.896,
+          "agreement": 0.8,
+          "cross_model": 1.0,
+          "judge2_total": 1.0,
+          "flagged": false,
+          "sampled_totals": [
+            1.5,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M4",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 0.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P6",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "P7",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M7",
+          "predicted": 2.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": true,
+          "referee_reason": "The student correctly identified a=1 and b=-6 by substituting into the quadratic formula, earning the identification mark, but made a sign error in the discriminant (36+32 instead of 36-32), leading to incorrect solutions; to improve, compute b^2 - 4ac carefully and verify the final roots.",
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 0.667,
+          "agreement": 1.0,
+          "cross_model": 0.0,
+          "judge2_total": 2.0,
+          "flagged": true,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P8",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "C5",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 1.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "C6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 0.678,
+          "agreement": 0.6,
+          "cross_model": 0.6,
+          "judge2_total": 3.5,
+          "flagged": true,
+          "sampled_totals": [
+            2.5,
+            3.0,
+            3.0,
+            3.0,
+            2.5
+          ]
+        },
+        {
+          "id": "E4",
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.5,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.5,
+          "flagged": false,
+          "sampled_totals": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ]
+        },
+        {
+          "id": "E5",
+          "predicted": 0.5,
+          "pre_adjudication_total": 0.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.5,
+          "confidence": 0.637,
+          "agreement": 0.6,
+          "cross_model": 0.5,
+          "judge2_total": 1.0,
+          "flagged": true,
+          "sampled_totals": [
+            1.0,
+            0.5,
+            1.0,
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "n_items": 26,
+        "mae": 0.19230769230769232,
+        "pearson_r": 0.957563202715845,
+        "agreement_rate": 0.8076923076923077,
+        "auroc": 0.7523809523809524,
+        "error_count": 5,
+        "mean_confidence": 0.9207294123726724,
+        "mean_confidence_errors": 0.7879266818625433,
+        "mean_confidence_correct": 0.9523491101131792,
+        "margin": 0.5,
+        "mae_before_adjudication": 0.19230769230769232,
+        "agreement_rate_before_adjudication": 0.8076923076923077,
+        "n_adjudicated": 1,
+        "auroc_pre_adjudication": 0.7523809523809524,
+        "ablation": {
+          "agree": 0.5571428571428572,
+          "variance": 0.5476190476190477,
+          "semantic": 0.38095238095238093,
+          "cross": 0.8,
+          "combined": 0.7523809523809524
+        },
+        "ablation_pre_adjudication": {
+          "agree": 0.5571428571428572,
+          "variance": 0.5476190476190477,
+          "semantic": 0.38095238095238093,
+          "cross": 0.8,
+          "combined": 0.7523809523809524
+        },
+        "low_conf_20pct": {
+          "fraction": 0.2,
+          "threshold": 0.7999999999999998,
+          "n_flagged": 6,
+          "n_unflagged": 20,
+          "error_rate_flagged": 0.5,
+          "error_rate_unflagged": 0.1
+        },
+        "flagged_at_threshold": {
+          "threshold": 0.85,
+          "post": {
+            "threshold": 0.85,
+            "n_flagged": 8,
+            "n_unflagged": 18,
+            "error_rate_flagged": 0.375,
+            "error_rate_unflagged": 0.1111111111111111
+          },
+          "pre": {
+            "threshold": 0.85,
+            "n_flagged": 8,
+            "n_unflagged": 18,
+            "error_rate_flagged": 0.375,
+            "error_rate_unflagged": 0.1111111111111111
+          }
+        }
+      },
+      "details": [
+        {
+          "id": "P1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "P2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.787,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            3.0,
+            4.0,
+            4.0,
+            2.5
+          ]
+        },
+        {
+          "id": "P3",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P4",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M1",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.8,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            3.0,
+            4.0,
+            3.5
+          ]
+        },
+        {
+          "id": "M2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M3",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.8,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            3.0,
+            3.5
+          ]
+        },
+        {
+          "id": "C3",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C4",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 1.0,
+          "confidence": 0.733,
+          "agreement": 1.0,
+          "cross_model": 0.2,
+          "judge2_total": 4.0,
+          "flagged": true,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "E1",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted": 1.5,
+          "pre_adjudication_total": 1.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.5,
+          "confidence": 0.637,
+          "agreement": 0.6,
+          "cross_model": 0.5,
+          "judge2_total": 1.0,
+          "flagged": true,
+          "sampled_totals": [
+            1.0,
+            1.5,
+            1.5,
+            1.5,
+            1.0
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M4",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 0.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P6",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "P7",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M7",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": true,
+          "referee_reason": "Adjudicated 0/5: the student did not explicitly identify a, b, c, used an incorrect discriminant (68 instead of 4), and produced wrong solutions; to improve, write a=1, b=-6, c=8, compute b^2-4ac=36-32=4, then x=(6\u00b12)/2=4,2.",
+          "ground_truth": 2.0,
+          "error": 2.0,
+          "confidence": 0.569,
+          "agreement": 0.8,
+          "cross_model": 0.0,
+          "judge2_total": 2.0,
+          "flagged": true,
+          "sampled_totals": [
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P8",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "C5",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 1.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "C6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 0.808,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "flagged": true,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            2.5,
+            3.5
+          ]
+        },
+        {
+          "id": "E4",
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.5,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.5,
+          "flagged": false,
+          "sampled_totals": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ]
+        },
+        {
+          "id": "E5",
+          "predicted": 1.0,
+          "pre_adjudication_total": 1.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.0,
+          "confidence": 0.804,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 1.0,
+          "flagged": true,
+          "sampled_totals": [
+            1.0,
+            0.5,
+            1.0,
+            0.5,
+            1.0
+          ]
+        }
+      ]
+    }
+  ],
   "metrics": {
     "n_items": 26,
-    "mae": 0.1346153846153846,
-    "pearson_r": 0.9681914091210004,
-    "agreement_rate": 0.8846153846153846,
-    "auroc": 0.45652173913043476,
-    "error_count": 3,
-    "mean_confidence": 0.9839743589743589,
-    "mean_confidence_errors": 1.0,
-    "mean_confidence_correct": 0.9818840579710144,
-    "margin": 0.5
+    "mae": 0.19230769230769232,
+    "pearson_r": 0.9633057476150018,
+    "agreement_rate": 0.8076923076923077,
+    "auroc": 0.819047619047619,
+    "error_count": 5,
+    "mean_confidence": 0.9145032867064347,
+    "mean_confidence_errors": 0.7607407407407406,
+    "mean_confidence_correct": 0.9511134166982668,
+    "margin": 0.5,
+    "mae_before_adjudication": 0.19230769230769232,
+    "agreement_rate_before_adjudication": 0.8076923076923077,
+    "n_adjudicated": 1,
+    "auroc_pre_adjudication": 0.819047619047619,
+    "ablation": {
+      "agree": 0.7285714285714285,
+      "variance": 0.7666666666666667,
+      "semantic": 0.4523809523809524,
+      "cross": 0.7904761904761904,
+      "combined": 0.819047619047619
+    },
+    "ablation_pre_adjudication": {
+      "agree": 0.7285714285714285,
+      "variance": 0.7666666666666667,
+      "semantic": 0.4523809523809524,
+      "cross": 0.7904761904761904,
+      "combined": 0.819047619047619
+    },
+    "low_conf_20pct": {
+      "fraction": 0.2,
+      "threshold": 0.7950056695246311,
+      "n_flagged": 6,
+      "n_unflagged": 20,
+      "error_rate_flagged": 0.5,
+      "error_rate_unflagged": 0.1
+    },
+    "flagged_at_threshold": {
+      "threshold": 0.85,
+      "post": {
+        "threshold": 0.85,
+        "n_flagged": 7,
+        "n_unflagged": 19,
+        "error_rate_flagged": 0.42857142857142855,
+        "error_rate_unflagged": 0.10526315789473684
+      },
+      "pre": {
+        "threshold": 0.85,
+        "n_flagged": 7,
+        "n_unflagged": 19,
+        "error_rate_flagged": 0.42857142857142855,
+        "error_rate_unflagged": 0.10526315789473684
+      }
+    }
   },
   "calibration": {
     "bin_centers": [
-      0.75
+      0.35000000000000003,
+      0.55,
+      0.6500000000000001,
+      0.75,
+      0.8500000000000001,
+      0.95
     ],
     "error_rates": [
-      0.0
+      1.0,
+      1.0,
+      0.6666666666666666,
+      0.2857142857142857,
+      0.1111111111111111,
+      0.09433962264150944
     ],
     "counts": [
-      2
+      1,
+      2,
+      6,
+      7,
+      9,
+      53
     ],
     "bins": [
       0.0,
@@ -39,11 +2009,19 @@
     {
       "id": "P1",
       "predicted": 5.0,
+      "pre_adjudication_total": 5.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 5.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 5.0,
       "flagged": false,
       "sampled_totals": [
+        5.0,
+        5.0,
         5.0,
         5.0,
         5.0
@@ -52,24 +2030,40 @@
     {
       "id": "P2",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 1.0,
-      "flagged": false,
+      "confidence": 0.795,
+      "agreement": 0.6,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
+      "flagged": true,
       "sampled_totals": [
+        3.0,
         4.0,
         4.0,
-        4.0
+        4.0,
+        3.0
       ]
     },
     {
       "id": "P3",
       "predicted": 6.0,
+      "pre_adjudication_total": 6.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 6.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 6.0,
       "flagged": false,
       "sampled_totals": [
+        6.0,
+        6.0,
         6.0,
         6.0,
         6.0
@@ -78,11 +2072,19 @@
     {
       "id": "P4",
       "predicted": 6.0,
+      "pre_adjudication_total": 6.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 6.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 6.0,
       "flagged": false,
       "sampled_totals": [
+        6.0,
+        6.0,
         6.0,
         6.0,
         6.0
@@ -91,11 +2093,19 @@
     {
       "id": "P5",
       "predicted": 2.0,
+      "pre_adjudication_total": 2.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 2.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 2.0,
       "flagged": false,
       "sampled_totals": [
+        2.0,
+        2.0,
         2.0,
         2.0,
         2.0
@@ -104,24 +2114,40 @@
     {
       "id": "M1",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 1.0,
-      "flagged": false,
+      "confidence": 0.795,
+      "agreement": 0.6,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
+      "flagged": true,
       "sampled_totals": [
         4.0,
         4.0,
+        3.0,
+        3.0,
         4.0
       ]
     },
     {
       "id": "M2",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
       "flagged": false,
       "sampled_totals": [
+        4.0,
+        4.0,
         4.0,
         4.0,
         4.0
@@ -130,11 +2156,19 @@
     {
       "id": "M3",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
       "flagged": false,
       "sampled_totals": [
+        4.0,
+        4.0,
         4.0,
         4.0,
         4.0
@@ -143,11 +2177,19 @@
     {
       "id": "C1",
       "predicted": 5.0,
+      "pre_adjudication_total": 5.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 5.0,
       "error": 0.0,
-      "confidence": 0.792,
+      "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 5.0,
       "flagged": false,
       "sampled_totals": [
+        5.0,
+        5.0,
         5.0,
         5.0,
         5.0
@@ -156,24 +2198,40 @@
     {
       "id": "C2",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 1.0,
-      "flagged": false,
+      "confidence": 0.8,
+      "agreement": 0.6,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
+      "flagged": true,
       "sampled_totals": [
         4.0,
+        3.5,
         4.0,
+        3.0,
         4.0
       ]
     },
     {
       "id": "C3",
       "predicted": 5.0,
+      "pre_adjudication_total": 5.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 5.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 5.0,
       "flagged": false,
       "sampled_totals": [
+        5.0,
+        5.0,
         5.0,
         5.0,
         5.0
@@ -181,25 +2239,41 @@
     },
     {
       "id": "C4",
-      "predicted": 4.0,
+      "predicted": 3.0,
+      "pre_adjudication_total": 3.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
-      "error": 0.0,
-      "confidence": 1.0,
-      "flagged": false,
+      "error": 1.0,
+      "confidence": 0.636,
+      "agreement": 0.8,
+      "cross_model": 0.2,
+      "judge2_total": 4.0,
+      "flagged": true,
       "sampled_totals": [
-        4.0,
-        4.0,
-        4.0
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.5
       ]
     },
     {
       "id": "E1",
       "predicted": 3.0,
+      "pre_adjudication_total": 3.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 3.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 3.0,
       "flagged": false,
       "sampled_totals": [
+        3.0,
+        3.0,
         3.0,
         3.0,
         3.0
@@ -208,11 +2282,19 @@
     {
       "id": "E2",
       "predicted": 1.0,
+      "pre_adjudication_total": 1.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 1.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 1.0,
       "flagged": false,
       "sampled_totals": [
+        1.0,
+        1.0,
         1.0,
         1.0,
         1.0
@@ -221,11 +2303,19 @@
     {
       "id": "E3",
       "predicted": 3.0,
+      "pre_adjudication_total": 3.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 3.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 3.0,
       "flagged": false,
       "sampled_totals": [
+        3.0,
+        3.0,
         3.0,
         3.0,
         3.0
@@ -234,11 +2324,19 @@
     {
       "id": "M4",
       "predicted": 0.0,
+      "pre_adjudication_total": 0.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 0.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 0.0,
       "flagged": false,
       "sampled_totals": [
+        0.0,
+        0.0,
         0.0,
         0.0,
         0.0
@@ -247,11 +2345,19 @@
     {
       "id": "P6",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 1.0,
+      "confidence": 0.867,
+      "agreement": 1.0,
+      "cross_model": 0.6,
+      "judge2_total": 4.5,
       "flagged": false,
       "sampled_totals": [
+        4.0,
+        4.0,
         4.0,
         4.0,
         4.0
@@ -260,11 +2366,19 @@
     {
       "id": "P7",
       "predicted": 4.0,
+      "pre_adjudication_total": 4.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
       "flagged": false,
       "sampled_totals": [
+        4.0,
+        4.0,
         4.0,
         4.0,
         4.0
@@ -273,11 +2387,19 @@
     {
       "id": "M5",
       "predicted": 2.0,
+      "pre_adjudication_total": 2.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 2.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 2.0,
       "flagged": false,
       "sampled_totals": [
+        2.0,
+        2.0,
         2.0,
         2.0,
         2.0
@@ -286,11 +2408,19 @@
     {
       "id": "M6",
       "predicted": 3.0,
+      "pre_adjudication_total": 3.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 3.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 3.0,
       "flagged": false,
       "sampled_totals": [
+        3.0,
+        3.0,
         3.0,
         3.0,
         3.0
@@ -299,24 +2429,40 @@
     {
       "id": "M7",
       "predicted": 0.0,
+      "pre_adjudication_total": 0.0,
+      "adjudicated": true,
+      "referee_reason": "Adjudicated 0/5: the student never correctly identifies the coefficients (c is treated as -8), computes the discriminant as 68 instead of 4, and gives wrong solutions; to improve, explicitly write a=1, b=-6, c=8, compute b^2-4ac=4, then x=(6\u00b12)/2=4,2.",
       "ground_truth": 2.0,
       "error": 2.0,
-      "confidence": 1.0,
-      "flagged": false,
+      "confidence": 0.542,
+      "agreement": 0.8,
+      "cross_model": 0.0,
+      "judge2_total": 2.0,
+      "flagged": true,
       "sampled_totals": [
         0.0,
         0.0,
-        0.0
+        0.0,
+        0.0,
+        2.0
       ]
     },
     {
       "id": "P8",
       "predicted": 2.0,
+      "pre_adjudication_total": 2.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 2.0,
       "error": 0.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 2.0,
       "flagged": false,
       "sampled_totals": [
+        2.0,
+        2.0,
         2.0,
         2.0,
         2.0
@@ -325,11 +2471,19 @@
     {
       "id": "C5",
       "predicted": 0.0,
+      "pre_adjudication_total": 0.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 1.0,
       "error": 1.0,
       "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 0.0,
       "flagged": false,
       "sampled_totals": [
+        0.0,
+        0.0,
         0.0,
         0.0,
         0.0
@@ -338,40 +2492,64 @@
     {
       "id": "C6",
       "predicted": 3.0,
+      "pre_adjudication_total": 3.0,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 3.0,
       "error": 0.0,
-      "confidence": 1.0,
-      "flagged": false,
+      "confidence": 0.717,
+      "agreement": 0.4,
+      "cross_model": 1.0,
+      "judge2_total": 3.0,
+      "flagged": true,
       "sampled_totals": [
         3.0,
         3.0,
-        3.0
+        2.5,
+        2.5,
+        3.5
       ]
     },
     {
       "id": "E4",
       "predicted": 2.5,
+      "pre_adjudication_total": 2.5,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 2.0,
       "error": 0.5,
-      "confidence": 1.0,
+      "confidence": 0.896,
+      "agreement": 0.8,
+      "cross_model": 1.0,
+      "judge2_total": 2.5,
       "flagged": false,
       "sampled_totals": [
         2.5,
+        2.5,
+        2.0,
         2.5,
         2.5
       ]
     },
     {
       "id": "E5",
-      "predicted": 1.0,
+      "predicted": 0.5,
+      "pre_adjudication_total": 0.5,
+      "adjudicated": false,
+      "referee_reason": null,
       "ground_truth": 1.0,
-      "error": 0.0,
-      "confidence": 0.792,
-      "flagged": false,
+      "error": 0.5,
+      "confidence": 0.73,
+      "agreement": 0.8,
+      "cross_model": 0.5,
+      "judge2_total": 1.0,
+      "flagged": true,
       "sampled_totals": [
+        0.5,
+        0.5,
+        0.5,
         1.0,
-        1.0,
-        1.0
+        0.5
       ]
     }
   ]

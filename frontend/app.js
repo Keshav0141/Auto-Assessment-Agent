@@ -6,6 +6,14 @@ let _timer = null;
 let _t0 = 0;
 let _nSamples = "5";
 let _threshold = "0.6";
+let _stageTimer = null;
+
+const STAGES = [
+  "Reading inputs (OCR)…",
+  "Grading each question…",
+  "Second grader + referee check…",
+  "Scoring confidence…",
+];
 
 async function init() {
   try {
@@ -18,7 +26,9 @@ async function init() {
       pill.innerHTML = "<i class='ph ph-warning'></i> MOCK mode — no LLM API key set. Set OPENAI_API_KEY in .env for real grading.";
     } else {
       pill.className = "pill ok";
-      pill.innerHTML = `<i class='ph ph-check-circle'></i> LLM ready — ${h.model} · ${h.samples_per_question} samples/question · threshold ${h.confidence_threshold}`;
+      const judge2 = h.judge2 ? ` · second grader ${h.judge2_model}` : " · no second grader";
+      const adj = h.adjudicate ? " · adjudication on" : "";
+      pill.innerHTML = `<i class='ph ph-check-circle'></i> ${h.model} · ${h.samples_per_question} samples/question · threshold ${h.confidence_threshold}${judge2}${adj}`;
     }
   } catch {
     const pill = $("status-pill");
@@ -100,6 +110,14 @@ function qCard(r, idx) {
     ? `<div class="q-block q-answer"><div class="q-block-label"><i class="ph ph-user"></i> Student answer</div>${esc(r.student_answer_text)}</div>`
     : "";
 
+  const adjBadge = c.adjudicated
+    ? `<div style="margin-top:0.75rem; padding:0.75rem 1rem; border-left:4px solid #8a2be2; background:rgba(138,43,226,0.08); border-radius:8px;">
+         <span style="display:inline-block; background:#8a2be2; color:#fff; padding:0.2rem 0.6rem; border-radius:6px; font-weight:600; font-size:0.85rem;">
+           <i class="ph ph-gavel"></i> Adjudicated: ${(c.pre_adjudication_total ?? 0).toFixed(1)} &rarr; ${g.total_awarded}
+         </span>${c.referee_reason ? `<div style="color:#c9b8ff; font-size:0.9rem; margin-top:0.4rem;">${esc(c.referee_reason)}</div>` : ""}
+       </div>`
+    : "";
+
   return `
     <div class="${qClass}" style="transition-delay: ${idx * 100}ms">
       <button class="q-head" aria-expanded="${ariaExpanded}">
@@ -118,14 +136,15 @@ function qCard(r, idx) {
         ${qText}
         ${ansText}
         <div class="q-feedback"><strong><i class="ph ph-chat-teardrop-text"></i> Feedback:</strong><br/> ${esc(g.feedback)}</div>
+        ${adjBadge}
         <table>
           <thead><tr><th>Criterion</th><th>Awarded</th><th>Justification</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
         <div class="samples" style="color: #a0aec0; font-size: 0.9rem;">
           <b><i class="ph ph-chart-bar"></i> Confidence breakdown:</b> score-variance ${(c.score_variance * 100).toFixed(0)}% ·
-          semantic-consistency ${(c.semantic_consistency * 100).toFixed(0)}%${c.eigv_confidence != null ? ` · eigv ${(c.eigv_confidence * 100).toFixed(0)}%` : ""} ·
-          sampled totals: ${r.sampled_totals.map((t) => t.toFixed(1)).join(", ")}
+          semantic-consistency ${(c.semantic_consistency * 100).toFixed(0)}%${c.agreement_confidence != null ? ` · agreement ${(c.agreement_confidence * 100).toFixed(0)}%` : ""}${c.cross_model_confidence != null ? ` · cross-model ${(c.cross_model_confidence * 100).toFixed(0)}%` : ""}${c.eigv_confidence != null ? ` · eigv ${(c.eigv_confidence * 100).toFixed(0)}%` : ""} ·
+          sampled totals: ${r.sampled_totals.map((t) => t.toFixed(1)).join(", ")}${c.judge2_total != null ? ` · second grader: ${c.judge2_total.toFixed(1)}/${g.max_marks}` : ""}
         </div>
       </div>
     </div>`;
@@ -300,35 +319,122 @@ function stopTimer() {
   }
 }
 
-async function grade() {
-  const fd = new FormData();
-  inputIds.forEach((id) => {
-    const f = $(id).files[0];
-    if (f) fd.append(id, f);
+function startStages() {
+  let i = 0;
+  $("loading-msg").textContent = STAGES[0];
+  _stageTimer = setInterval(() => {
+    i = Math.min(i + 1, STAGES.length - 1);
+    $("loading-msg").textContent = STAGES[i];
+  }, 5000);
+}
+
+function stopStages() {
+  if (_stageTimer) {
+    clearInterval(_stageTimer);
+    _stageTimer = null;
+  }
+}
+
+const IMAGE_RE = /\.(png|jpe?g|webp)$/i;
+const MAX_IMAGE_SIDE = 2000;
+const JPEG_QUALITY = 0.85;
+const MAX_REQUEST_BYTES = 4 * 1024 * 1024;
+
+function isImageFile(f) {
+  return (f.type && f.type.startsWith("image/")) || IMAGE_RE.test(f.name || "");
+}
+
+function loadImageEl(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("could not read image")); };
+    img.src = url;
   });
-  textIds.forEach((id) => {
+}
+
+async function downscaleImage(file) {
+  const img = await loadImageEl(file);
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
+  const scale = Math.min(1, MAX_IMAGE_SIDE / Math.max(w, h));
+  const tw = Math.max(1, Math.round(w * scale));
+  const th = Math.max(1, Math.round(h * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = tw;
+  canvas.height = th;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, tw, th);
+  ctx.drawImage(img, 0, 0, tw, th);
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY));
+  if (!blob) return file;
+  const base = (file.name || "image").replace(/\.[^.]+$/, "");
+  return new File([blob], `${base}.jpg`, { type: "image/jpeg" });
+}
+
+async function buildFormData() {
+  const fd = new FormData();
+  for (const id of inputIds) {
+    const f = $(id).files[0];
+    if (!f) continue;
+    fd.append(id, isImageFile(f) ? await downscaleImage(f) : f);
+  }
+  for (const id of textIds) {
     const v = $(id).value.trim();
     if (v) fd.append(id, v);
-  });
+  }
   _nSamples = $("n_samples").value || "5";
   _threshold = $("threshold").value || "0.6";
   fd.append("n_samples", _nSamples);
   fd.append("threshold", _threshold);
+  return fd;
+}
 
-  $("loading-msg").textContent = `Grading ${_nSamples} samples per question…`;
-  $("loading").classList.remove("hidden");
-  $("grade-btn").disabled = true;
-  $("results-card").classList.add("hidden");
-  startTimer();
+function formDataBytes(fd) {
+  let total = 0;
+  for (const [, v] of fd.entries()) {
+    total += typeof v === "string" ? new Blob([v]).size : v.size;
+  }
+  return total;
+}
 
+async function grade() {
   const errB = $("error-banner");
   if (errB) errB.remove();
 
+  $("loading").classList.remove("hidden");
+  $("grade-btn").disabled = true;
+  $("results-card").classList.add("hidden");
+  $("loading-msg").textContent = "Preparing files…";
+
+  let fd;
+  try {
+    fd = await buildFormData();
+  } catch {
+    $("loading").classList.add("hidden");
+    $("grade-btn").disabled = false;
+    showError("We couldn't process one of your images. Please try a different photo.");
+    return;
+  }
+
+  if (formDataBytes(fd) > MAX_REQUEST_BYTES) {
+    $("loading").classList.add("hidden");
+    $("grade-btn").disabled = false;
+    showError("Files too large — try fewer pages or smaller photos.");
+    return;
+  }
+
+  startTimer();
+  startStages();
+
   try {
     const res = await fetch("/api/grade", { method: "POST", body: fd });
-    const data = await res.json();
+    let data = {};
+    try { data = await res.json(); } catch { data = {}; }
     if (!res.ok) {
-      showError("Error: " + (data.detail || JSON.stringify(data)));
+      showError(friendlyError(res.status, data.detail));
       return;
     }
     render(data);
@@ -336,12 +442,20 @@ async function grade() {
       $("results-card").scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   } catch (e) {
-    showError("Request failed: " + e);
+    showError("We couldn't reach the server. Please check your connection and try again.");
   } finally {
     stopTimer();
+    stopStages();
     $("loading").classList.add("hidden");
     $("grade-btn").disabled = false;
   }
+}
+
+function friendlyError(status, detail) {
+  if (status === 413) return "That file is too large — please upload files up to 4 MB each.";
+  if (status === 400) return detail || "We couldn't read your inputs. Please check the files or pasted text and try again.";
+  if (status === 502) return detail || "The grading model is unavailable right now. Please try again in a moment.";
+  return detail || `Something went wrong (HTTP ${status}). Please try again.`;
 }
 
 function showError(msg) {
@@ -409,15 +523,25 @@ Question 4
 At maximum height the final velocity v = 0. (a) v^2 = u^2 - 2gh, so h = u^2 / (2g) = 900 / 20 = 45 m. (b) v = u - gt, so t = u/g = 30/10 = 3 s.`
 };
 
-$("sample-btn").addEventListener("click", () => {
-  Object.entries(SAMPLE).forEach(([id, val]) => { $(id).value = val; });
+async function loadSample() {
+  let sample = SAMPLE;
+  try {
+    const res = await fetch("/api/sample");
+    if (res.ok) {
+      const s = await res.json();
+      if (textIds.every((id) => (s[id] || "").trim())) sample = s;
+    }
+  } catch { /* fall back to the inline sample */ }
+  Object.entries(sample).forEach(([id, val]) => { $(id).value = val; });
   inputIds.forEach((id) => { $(id).value = ""; }); // clear any picked files
   $("results-card").classList.add("hidden");
-});
+}
+
+$("sample-btn").addEventListener("click", loadSample);
 
 // Auto-load sample data on first visit so "Grade" works immediately.
 if (!textIds.some((id) => $(id).value.trim())) {
-  Object.entries(SAMPLE).forEach(([id, val]) => { $(id).value = val; });
+  loadSample();
 }
 
 init();

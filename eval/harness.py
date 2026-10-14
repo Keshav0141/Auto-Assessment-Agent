@@ -69,6 +69,52 @@ def compute_metrics(predictions, ground_truths, confidences, errors, margin):
     }
 
 
+def _safe_auroc(values, errors, margin):
+    """AUROC for one confidence component, ignoring items where it is missing."""
+    pairs = [(v, e) for v, e in zip(values, errors) if v is not None]
+    if len(pairs) < 2:
+        return None
+    vs = [p[0] for p in pairs]
+    errs = [p[1] for p in pairs]
+    correct = [e < margin for e in errs]
+    if all(correct) or not any(correct):
+        return None
+    return auroc(vs, correct)
+
+
+def low_conf_threshold_analysis(confidences, errors, margin, frac=0.2):
+    """Threshold that flags the lowest-confidence `frac` of items, and the error
+    rate among flagged vs unflagged items at that threshold."""
+    conf = np.asarray(confidences, dtype=float)
+    err = np.asarray(errors, dtype=float)
+    thr = float(np.quantile(conf, frac))
+    flagged = conf <= thr
+    unflagged = ~flagged
+    return {
+        "fraction": frac,
+        "threshold": thr,
+        "n_flagged": int(flagged.sum()),
+        "n_unflagged": int(unflagged.sum()),
+        "error_rate_flagged": float(np.mean(err[flagged] >= margin)) if flagged.sum() else None,
+        "error_rate_unflagged": float(np.mean(err[unflagged] >= margin)) if unflagged.sum() else None,
+    }
+
+
+def threshold_error_rates(confidences, errors, margin, threshold):
+    """Error rate among items flagged (confidence < threshold) vs unflagged."""
+    conf = np.asarray(confidences, dtype=float)
+    err = np.asarray(errors, dtype=float)
+    flagged = conf < threshold
+    unflagged = ~flagged
+    return {
+        "threshold": threshold,
+        "n_flagged": int(flagged.sum()),
+        "n_unflagged": int(unflagged.sum()),
+        "error_rate_flagged": float(np.mean(err[flagged] >= margin)) if flagged.sum() else None,
+        "error_rate_unflagged": float(np.mean(err[unflagged] >= margin)) if unflagged.sum() else None,
+    }
+
+
 def calibration_curve(confidences, errors, margin, bins=None):
     confidences = np.asarray(confidences, dtype=float)
     errors = np.asarray(errors, dtype=float)
@@ -76,7 +122,11 @@ def calibration_curve(confidences, errors, margin, bins=None):
         bins = np.arange(0.0, 1.05, 0.1)
     centers, error_rates, counts = [], [], []
     for i in range(len(bins) - 1):
-        mask = (confidences >= bins[i]) & (confidences < bins[i + 1])
+        if i == len(bins) - 2:
+            # final bin is inclusive of 1.0
+            mask = (confidences >= bins[i]) & (confidences <= bins[i + 1])
+        else:
+            mask = (confidences >= bins[i]) & (confidences < bins[i + 1])
         if mask.sum() == 0:
             continue
         centers.append((bins[i] + bins[i + 1]) / 2)
@@ -89,6 +139,8 @@ def run_eval(engine, items: List[Dict], n_samples: int = None, threshold: float 
     n_samples = n_samples or settings.n_samples
     threshold = threshold if threshold is not None else settings.confidence_threshold
     predictions, ground_truths, confidences, errors, details = [], [], [], [], []
+    pre_predictions = []
+    agrees, variances, semantics, crosses = [], [], [], []
     for it in items:
         rubric_map = parse_rubric(it["rubric_text"])
         criteria = (
@@ -104,26 +156,69 @@ def run_eval(engine, items: List[Dict], n_samples: int = None, threshold: float 
             model_answer=it["model_answer"],
         )
         student = StudentAnswer(question_id=it["id"], student_answer_text=it["answer"])
-        representative, samples, conf = engine.grade_with_confidence(q, student)
+        representative, samples, conf = engine.grade_with_confidence(
+            q, student, n_samples=n_samples, threshold=threshold
+        )
         pred = representative.total_awarded
         gt = float(it["ground_truth"])
         error = abs(pred - gt)
+        pre_pred = conf.pre_adjudication_total if conf.pre_adjudication_total is not None else pred
         predictions.append(pred)
+        pre_predictions.append(pre_pred)
         ground_truths.append(gt)
         confidences.append(conf.combined_confidence)
+        agrees.append(conf.agreement_confidence)
+        variances.append(conf.score_variance)
+        semantics.append(conf.semantic_consistency)
+        crosses.append(conf.cross_model_confidence)
         errors.append(error)
         details.append(
             {
                 "id": it["id"],
                 "predicted": pred,
+                "pre_adjudication_total": pre_pred,
+                "adjudicated": conf.adjudicated,
+                "referee_reason": conf.referee_reason,
                 "ground_truth": gt,
                 "error": round(error, 3),
                 "confidence": round(conf.combined_confidence, 3),
+                "agreement": None if conf.agreement_confidence is None else round(conf.agreement_confidence, 3),
+                "cross_model": None if conf.cross_model_confidence is None else round(conf.cross_model_confidence, 3),
+                "judge2_total": conf.judge2_total,
                 "flagged": conf.flagged,
                 "sampled_totals": [round(s.total_awarded, 1) for s in samples],
             }
         )
 
-    metrics = compute_metrics(predictions, ground_truths, confidences, errors, settings.error_margin)
-    curve = calibration_curve(confidences, errors, settings.error_margin)
+    margin = settings.error_margin
+    metrics = compute_metrics(predictions, ground_truths, confidences, errors, margin)
+    pre_errors = [abs(p - g) for p, g in zip(pre_predictions, ground_truths)]
+    metrics["mae_before_adjudication"] = float(np.mean(pre_errors))
+    metrics["agreement_rate_before_adjudication"] = float(np.mean(np.asarray(pre_errors) < margin))
+    metrics["n_adjudicated"] = int(sum(1 for d in details if d["adjudicated"]))
+    post_flags = (np.asarray(errors, dtype=float) >= margin)
+    pre_flags = (np.asarray(pre_errors, dtype=float) >= margin)
+    metrics["auroc_pre_adjudication"] = auroc(confidences, pre_flags == 0)
+    metrics["ablation"] = {
+        "agree": _safe_auroc(agrees, errors, margin),
+        "variance": _safe_auroc(variances, errors, margin),
+        "semantic": _safe_auroc(semantics, errors, margin),
+        "cross": _safe_auroc(crosses, errors, margin),
+        "combined": auroc(confidences, post_flags == 0),
+    }
+    metrics["ablation_pre_adjudication"] = {
+        "agree": _safe_auroc(agrees, pre_errors, margin),
+        "variance": _safe_auroc(variances, pre_errors, margin),
+        "semantic": _safe_auroc(semantics, pre_errors, margin),
+        "cross": _safe_auroc(crosses, pre_errors, margin),
+        "combined": auroc(confidences, pre_flags == 0),
+    }
+    metrics["low_conf_20pct"] = low_conf_threshold_analysis(confidences, errors, margin, frac=0.2)
+    thr = settings.confidence_threshold
+    metrics["flagged_at_threshold"] = {
+        "threshold": thr,
+        "post": threshold_error_rates(confidences, errors, margin, thr),
+        "pre": threshold_error_rates(confidences, pre_errors, margin, thr),
+    }
+    curve = calibration_curve(confidences, errors, margin)
     return metrics, curve, details
