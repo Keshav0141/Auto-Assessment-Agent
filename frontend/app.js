@@ -5,7 +5,9 @@ const textIds = ["question_paper_text", "answer_sheet_text", "rubric_text", "mod
 let _timer = null;
 let _t0 = 0;
 let _nSamples = "5";
-let _threshold = "0.6";
+let _threshold = "0.85";
+let _thrNum = 0.85;
+let _weights = { agreement: 1, variance: 1, semantic: 1, cross: 1 };
 let _stageTimer = null;
 
 const STAGES = [
@@ -16,10 +18,15 @@ const STAGES = [
 ];
 
 async function init() {
+  const pill = $("status-pill");
   try {
     const res = await fetch("/api/health");
     const h = await res.json();
-    const pill = $("status-pill");
+    if (h.samples_per_question != null) $("n_samples").value = h.samples_per_question;
+    if (h.confidence_threshold != null) $("threshold").value = h.confidence_threshold;
+    if (h.weights) _weights = h.weights;
+    _thrNum = Number(h.confidence_threshold);
+    if (!Number.isFinite(_thrNum)) _thrNum = 0.85;
     pill.classList.remove("hidden");
     if (h.mock) {
       pill.className = "pill warn";
@@ -31,7 +38,9 @@ async function init() {
       pill.innerHTML = `<i class='ph ph-check-circle'></i> ${h.model} · ${h.samples_per_question} samples/question · threshold ${h.confidence_threshold}${judge2}${adj}`;
     }
   } catch {
-    const pill = $("status-pill");
+    $("n_samples").value = $("n_samples").value || "5";
+    $("threshold").value = $("threshold").value || "0.85";
+    _thrNum = Number($("threshold").value) || 0.85;
     pill.classList.remove("hidden");
     pill.className = "pill warn";
     pill.innerHTML = "<i class='ph ph-warning'></i> Backend not reachable.";
@@ -39,8 +48,8 @@ async function init() {
 }
 
 function confColor(c) {
-  if (c >= 0.8) return "#00ff88"; // neon green
-  if (c >= 0.6) return "#ffaa00"; // neon amber
+  if (c >= _thrNum) return "#00ff88"; // neon green
+  if (c >= _thrNum * 0.7) return "#ffaa00"; // neon amber
   return "#ff3366"; // neon red
 }
 
@@ -79,9 +88,9 @@ function qCard(r, idx) {
   const color = confColor(c.combined_confidence);
   
   let qClass = "q";
-  if (c.combined_confidence >= 0.8) {
+  if (c.combined_confidence >= _thrNum) {
       qClass += " ok";
-  } else if (c.combined_confidence >= 0.6) {
+  } else if (c.combined_confidence >= _thrNum * 0.7) {
       qClass += " warn";
   }
   
@@ -118,6 +127,19 @@ function qCard(r, idx) {
        </div>`
     : "";
 
+  const pctStr = (v) => `${(v * 100).toFixed(0)}%`;
+  const breakdown = [];
+  if (_weights.agreement !== 0 && c.agreement_confidence != null)
+    breakdown.push(`agreement ${pctStr(c.agreement_confidence)}`);
+  if (_weights.cross !== 0 && c.cross_model_confidence != null)
+    breakdown.push(`cross-model ${pctStr(c.cross_model_confidence)}`);
+  if (_weights.variance !== 0)
+    breakdown.push(`score-spread ${pctStr(c.score_variance)}`);
+  if (_weights.semantic !== 0 && c.semantic_consistency != null)
+    breakdown.push(`semantic-consistency ${pctStr(c.semantic_consistency)}`);
+  if (c.eigv_confidence != null)
+    breakdown.push(`eigv ${pctStr(c.eigv_confidence)}`);
+
   return `
     <div class="${qClass}" style="transition-delay: ${idx * 100}ms">
       <button class="q-head" aria-expanded="${ariaExpanded}">
@@ -142,8 +164,7 @@ function qCard(r, idx) {
           <tbody>${rows}</tbody>
         </table>
         <div class="samples" style="color: #a0aec0; font-size: 0.9rem;">
-          <b><i class="ph ph-chart-bar"></i> Confidence breakdown:</b> score-variance ${(c.score_variance * 100).toFixed(0)}% ·
-          semantic-consistency ${(c.semantic_consistency * 100).toFixed(0)}%${c.agreement_confidence != null ? ` · agreement ${(c.agreement_confidence * 100).toFixed(0)}%` : ""}${c.cross_model_confidence != null ? ` · cross-model ${(c.cross_model_confidence * 100).toFixed(0)}%` : ""}${c.eigv_confidence != null ? ` · eigv ${(c.eigv_confidence * 100).toFixed(0)}%` : ""} ·
+          <b><i class="ph ph-chart-bar"></i> Confidence breakdown:</b> ${breakdown.join(" · ")} ·
           sampled totals: ${r.sampled_totals.map((t) => t.toFixed(1)).join(", ")}${c.judge2_total != null ? ` · second grader: ${c.judge2_total.toFixed(1)}/${g.max_marks}` : ""}
         </div>
       </div>
@@ -245,9 +266,7 @@ function render(data) {
     </div>`;
 
   $("legend").innerHTML = `
-    <div style="background: rgba(0,240,255,0.05); border-left: 4px solid #00f0ff; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;"><strong>How to read this:</strong> each question is graded ${esc(_nSamples)} times and the confidence score reflects how
-    consistently those samplings agree (score variance + semantic similarity). Gradings below the ${esc(_threshold)} threshold
-    are flagged in red — click any question to review the question, student answer, criterion breakdown and feedback.</div>`;
+    <div style="background: rgba(0,240,255,0.05); border-left: 4px solid #00f0ff; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;"><strong>How to read this:</strong> each question is graded ${esc(_nSamples)} times by the primary model and once by a second model. The confidence score combines sample agreement, score spread and cross-model agreement. If the two models disagree materially, a referee decides the final mark. Questions below the ${esc(_threshold)} threshold are flagged for human review — click any question to review the question, student answer, criterion breakdown and feedback.</div>`;
 
   $("warnings").innerHTML = data.warnings.map((w) => `<p style="color: #ffaa00; margin-bottom: 1rem;">⚠ ${esc(w)}</p>`).join("");
 
@@ -386,7 +405,9 @@ async function buildFormData() {
     if (v) fd.append(id, v);
   }
   _nSamples = $("n_samples").value || "5";
-  _threshold = $("threshold").value || "0.6";
+  _threshold = $("threshold").value || "0.85";
+  _thrNum = Number(_threshold);
+  if (!Number.isFinite(_thrNum)) _thrNum = 0.85;
   fd.append("n_samples", _nSamples);
   fd.append("threshold", _threshold);
   return fd;

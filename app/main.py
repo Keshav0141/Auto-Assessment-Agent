@@ -66,6 +66,12 @@ def health():
         "judge2": bool(settings.judge2_api_key),
         "judge2_model": settings.judge2_model if settings.judge2_api_key else None,
         "adjudicate": settings.adjudicate,
+        "weights": {
+            "agreement": settings.w_agree,
+            "variance": settings.w_variance,
+            "semantic": settings.w_semantic,
+            "cross": settings.w_cross,
+        },
     }
 
 

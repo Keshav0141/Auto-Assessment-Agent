@@ -71,7 +71,7 @@ are derived from the outputs only:
   agreeing samples, ≈0 when samples form disconnected clusters. (Disabled by default due to graph-laplacian overhead).
 
 These are combined into a single 0–1 score (weighted average, weights in `.env`),
-and any question scoring **below `CONFIDENCE_THRESHOLD` (default 0.6)** is flagged
+and any question scoring **below `CONFIDENCE_THRESHOLD` (default 0.85)** is flagged
 `needs human review`.
 
 The scorer is a self-contained module — swap or extend it without touching grading
