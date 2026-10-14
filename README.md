@@ -153,9 +153,8 @@ sample_data/         demo question paper / rubric / model answers / answer sheet
 ## Deploy on Vercel
 
 The app is a single FastAPI function (`app/main.py`) that also serves the static
-frontend. `vercel.json` sets `functions["app/main.py"].maxDuration = 300` seconds —
-**the real cap depends on your Vercel plan** (Hobby is 60s; Pro/Enterprise allow
-300s+), so a full multi-question grading run needs a plan that permits it.
+frontend. `vercel.json` uses the platform's default function timeout — the Hobby
+default (300s) is used, which is enough for a full multi-question grading run.
 
 1. Import the repo at [vercel.com/new](https://vercel.com/new) (framework preset: **Other**).
 2. Add the environment variables below (Project → Settings → Environment Variables),
