@@ -1,4 +1,5 @@
 """Application configuration, loaded from environment variables (.env supported)."""
+import json
 import os
 
 from dotenv import load_dotenv
@@ -22,6 +23,17 @@ def _env_float(name, default):
         return default
     try:
         return float(raw)
+    except ValueError:
+        return default
+
+
+def _env_json(name, default):
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    try:
+        value = json.loads(raw)
+        return value if isinstance(value, dict) else default
     except ValueError:
         return default
 
@@ -67,6 +79,10 @@ class Settings:
         self.ocr_base_url = (os.getenv("OCR_BASE_URL", "").strip() or self.openai_base_url).rstrip("/")
         self.ocr_api_key = os.getenv("OCR_API_KEY", "").strip() or self.openai_api_key
         self.ocr_disable_thinking = os.getenv("OCR_DISABLE_THINKING", "false").lower() in ("1", "true", "yes")
+        # Optional JSON merged into the OCR request body (provider-specific flags, e.g.
+        # {"reasoning": {"effort": "none"}} for OpenRouter). Takes precedence over the
+        # OCR_DISABLE_THINKING shortcut when set.
+        self.ocr_extra_body = _env_json("OCR_EXTRA_BODY", {})
 
     @property
     def using_mock(self) -> bool:

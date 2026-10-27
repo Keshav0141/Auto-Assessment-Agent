@@ -1,0 +1,293 @@
+{
+  "generated_at": "2026-10-27T21:47:55.521114+00:00",
+  "provider": "openrouter",
+  "ocr_config": {
+    "backend": "gemini",
+    "model": "deepseek/deepseek-v4.1-flash-1017",
+    "base_url": "https://openrouter.ai/api/v1",
+    "api_key_set": true,
+    "extra_body_set": true
+  },
+  "limit": 8,
+  "repeats": 1,
+  "n_images": 8,
+  "n_ocr_calls": 8,
+  "total_latency_s": 77.94084789999988,
+  "per_style": {
+    "clean typed": {
+      "n_images": 3,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 3
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 3
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 21.16150703333339,
+        "std": 23.853331644601052,
+        "n": 3
+      }
+    },
+    "handwriting": {
+      "n_images": 3,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 3
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 3
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 3.648797866666579,
+        "std": 2.4416965617422965,
+        "n": 3
+      }
+    },
+    "phone photo": {
+      "n_images": 2,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 2
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 2
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 1.7549665999999888,
+        "std": 0.13261030000012397,
+        "n": 2
+      }
+    }
+  },
+  "overall": {
+    "n_images": 8,
+    "n_failures": 0,
+    "cer": {
+      "mean": 0.0,
+      "std": 0.0,
+      "n": 8
+    },
+    "wer": {
+      "mean": 0.0,
+      "std": 0.0,
+      "n": 8
+    },
+    "label_recall": {
+      "mean": null,
+      "std": null,
+      "n": 0
+    },
+    "latency_s": {
+      "mean": 9.742605987499985,
+      "std": 17.157532130298765,
+      "n": 8
+    }
+  },
+  "end_to_end": null,
+  "entries": [
+    {
+      "id": "P1_clean",
+      "doc_id": "P1",
+      "item_id": "P1",
+      "style": "clean",
+      "kind": "item",
+      "image": "P1_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 54.736752199999955,
+          "text": "Newton's second law states that the force acting on an object equals\nthe rate of change of momentum. F=ma. For 2kg and 10N, a = F/m =\n10/2 = 5 m/s^2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 54.736752199999955
+    },
+    {
+      "id": "P1_handwriting",
+      "doc_id": "P1",
+      "item_id": "P1",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P1_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 2.173451699999987,
+          "text": "Newton's second law states that the force acting on\nan object equals the rate of change of momentum.\nF=ma. For 2kg and 10N, a = F/m = 10/2 = 5\nm/s^2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 2.173451699999987
+    },
+    {
+      "id": "P1_photo",
+      "doc_id": "P1",
+      "item_id": "P1",
+      "style": "photo",
+      "kind": "item",
+      "image": "P1_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.8875769000001128,
+          "text": "Newton's second law states that the force acting on\nan object equals the rate of change of momentum.\nF=ma. For 2kg and 10N, a = F/m = 10/2 = 5\nm/s^2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.8875769000001128
+    },
+    {
+      "id": "P2_clean",
+      "doc_id": "P2",
+      "item_id": "P2",
+      "style": "clean",
+      "kind": "item",
+      "image": "P2_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.5455758000002788,
+          "text": "Every action has an equal and opposite reaction. For example, when\nyou push a wall, the wall pushes you back."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.5455758000002788
+    },
+    {
+      "id": "P2_handwriting",
+      "doc_id": "P2",
+      "item_id": "P2",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P2_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.6827072000000953,
+          "text": "Every action has an equal and opposite reaction.\nFor example, when you push a wall, the wall\npushes you back."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.6827072000000953
+    },
+    {
+      "id": "P2_photo",
+      "doc_id": "P2",
+      "item_id": "P2",
+      "style": "photo",
+      "kind": "item",
+      "image": "P2_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.6223562999998649,
+          "text": "Every action has an equal and opposite reaction.\nFor example, when you push a wall, the wall\npushes you back."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.6223562999998649
+    },
+    {
+      "id": "P3_clean",
+      "doc_id": "P3",
+      "item_id": "P3",
+      "style": "clean",
+      "kind": "item",
+      "image": "P3_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 7.202193099999931,
+          "text": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration =\n1000 x 2 = 2000 N."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 7.202193099999931
+    },
+    {
+      "id": "P3_handwriting",
+      "doc_id": "P3",
+      "item_id": "P3",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P3_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "gemini",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 7.090234699999655,
+          "text": "acceleration = (20-10)/5 = 2 m/s^2. Then force =\nmass x acceleration = 1000 x 2 = 2000 N."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 7.090234699999655
+    }
+  ]
+}

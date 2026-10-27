@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
+
+# OCR benchmark: generated images are rebuilt by eval/make_ocr_images.py
+eval/ocr_data/*
+!eval/ocr_data/manifest.json
+!eval/ocr_data/real/

@@ -18,6 +18,9 @@ __pycache__/
 # Eval artefacts (plots + metrics, not needed at runtime)
 eval/results/
 
+# OCR benchmark images (generated locally, large)
+eval/ocr_data/
+
 # Local backups / scratch
 *.bak
 *.backup

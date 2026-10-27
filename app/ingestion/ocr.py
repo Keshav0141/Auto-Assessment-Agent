@@ -77,7 +77,9 @@ def _gemini_page(img_or_bytes):
                     ],
                 }],
             )
-            if settings.ocr_disable_thinking:
+            if settings.ocr_extra_body:
+                kwargs["extra_body"] = dict(settings.ocr_extra_body)
+            elif settings.ocr_disable_thinking:
                 kwargs["extra_body"] = {"chat_template_kwargs": {"thinking": False}}
             resp = client.chat.completions.create(**kwargs)
             text = (resp.choices[0].message.content or "").strip()

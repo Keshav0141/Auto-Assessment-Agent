@@ -103,6 +103,57 @@ writes `eval/results/metrics.json` and `eval/results/calibration_curve.png`, rep
 
 This mirrors the MTP eval methodology and is the core deliverable to showcase for this course assignment demo.
 
+## OCR evaluation
+
+Scanned answer sheets pass through `app/ingestion/ocr.py` before grading, so OCR errors
+propagate into marks. This benchmark measures that effect end to end.
+
+Build the images (26 eval items x 3 capture styles, the two sample sheets, and one
+scanned image-only PDF; ground truth is always the original text):
+
+```bash
+python -m eval.make_ocr_images
+```
+
+This writes `eval/ocr_data/` (excluded via `.vercelignore`) with a `manifest.json`. The
+three styles are `clean` typed, `handwriting` (script font), and `phone photo`
+(handwriting plus ±2° rotation, blur, noise, uneven lighting and JPEG q~60). Drop your
+own photos into `eval/ocr_data/real/` as `<name>.jpg` + `<name>.txt` (matching
+transcription) and they join the run automatically.
+
+Run a provider (the endpoint comes from env vars; `--provider` is a report label):
+
+```bash
+# current Goedel setup (values from .env)
+python -m eval.ocr_run --provider goedel --limit 8
+
+# OpenRouter: export its endpoint/key/model first (these win over .env for the run)
+export OCR_BASE_URL=https://openrouter.ai/api/v1 OCR_API_KEY=... OCR_MODEL=...
+python -m eval.ocr_run --provider openrouter --limit 8
+
+# local Tesseract, if installed
+python -m eval.ocr_run --provider tesseract
+```
+
+`OCR_BASE_URL` / `OCR_API_KEY` / `OCR_MODEL` (plus `OCR_EXTRA_BODY` and
+`OCR_DISABLE_THINKING`) exported in the shell override `.env` for that run.
+`OCR_EXTRA_BODY` is a JSON object merged into the provider request body and takes
+precedence over the `OCR_DISABLE_THINKING` shortcut, so OpenRouter / Goedel / Gemini can
+each send their own flags (e.g. `OCR_EXTRA_BODY='{"reasoning":{"enable":false}}'`).
+
+Reported per style and overall (mean ± std when `--repeats` > 1):
+
+- **CER / WER** — Levenshtein character / word error rate against the ground truth.
+- **Question-label recall** — fraction of `Question N` anchors that survive OCR
+  (computed on the multi-question sheets / PDF; `-` for single-answer items).
+- **Latency** and **failure** counts per image.
+- **End-to-end impact** — each item's ground-truth text and OCR text are graded by the
+  same grader (`--samples`, default 2); reports mean |Δmarks|, the share of items whose
+  mark moves by `>= ERROR_MARGIN`, and mean combined confidence for GT vs OCR text.
+  `--no-grade` skips this for a cheaper OCR-only run.
+
+Results go to `eval/results/ocr_metrics.json`, and a comparison table is printed.
+
 ## Project layout
 
 ```
@@ -120,6 +171,9 @@ eval/
   dataset.py         labeled items incl. borderline cases
   harness.py         metrics: MAE, Pearson, AUROC, calibration curve
   run.py             CLI entry point
+  ocr_dataset.py     OCR benchmark definitions + manifest / real-photo loaders
+  make_ocr_images.py generates clean / handwriting / phone-photo benchmark images
+  ocr_run.py         OCR benchmark CLI (CER/WER/label recall/latency + grading impact)
 sample_data/         demo question paper / rubric / model answers / answer sheets
 ```
 

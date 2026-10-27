@@ -1,0 +1,776 @@
+{
+  "generated_by": "eval/make_ocr_images.py",
+  "styles": [
+    "clean",
+    "handwriting",
+    "photo"
+  ],
+  "n_entries": 85,
+  "entries": [
+    {
+      "id": "P1_clean",
+      "doc_id": "P1",
+      "item_id": "P1",
+      "style": "clean",
+      "kind": "item",
+      "image": "P1_clean.png",
+      "ground_truth": "Newton's second law states that the force acting on an object equals the rate of change of momentum. F=ma. For 2kg and 10N, a = F/m = 10/2 = 5 m/s^2."
+    },
+    {
+      "id": "P1_handwriting",
+      "doc_id": "P1",
+      "item_id": "P1",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P1_handwriting.png",
+      "ground_truth": "Newton's second law states that the force acting on an object equals the rate of change of momentum. F=ma. For 2kg and 10N, a = F/m = 10/2 = 5 m/s^2."
+    },
+    {
+      "id": "P1_photo",
+      "doc_id": "P1",
+      "item_id": "P1",
+      "style": "photo",
+      "kind": "item",
+      "image": "P1_photo.jpg",
+      "ground_truth": "Newton's second law states that the force acting on an object equals the rate of change of momentum. F=ma. For 2kg and 10N, a = F/m = 10/2 = 5 m/s^2."
+    },
+    {
+      "id": "P2_clean",
+      "doc_id": "P2",
+      "item_id": "P2",
+      "style": "clean",
+      "kind": "item",
+      "image": "P2_clean.png",
+      "ground_truth": "Every action has an equal and opposite reaction. For example, when you push a wall, the wall pushes you back."
+    },
+    {
+      "id": "P2_handwriting",
+      "doc_id": "P2",
+      "item_id": "P2",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P2_handwriting.png",
+      "ground_truth": "Every action has an equal and opposite reaction. For example, when you push a wall, the wall pushes you back."
+    },
+    {
+      "id": "P2_photo",
+      "doc_id": "P2",
+      "item_id": "P2",
+      "style": "photo",
+      "kind": "item",
+      "image": "P2_photo.jpg",
+      "ground_truth": "Every action has an equal and opposite reaction. For example, when you push a wall, the wall pushes you back."
+    },
+    {
+      "id": "P3_clean",
+      "doc_id": "P3",
+      "item_id": "P3",
+      "style": "clean",
+      "kind": "item",
+      "image": "P3_clean.png",
+      "ground_truth": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration = 1000 x 2 = 2000 N."
+    },
+    {
+      "id": "P3_handwriting",
+      "doc_id": "P3",
+      "item_id": "P3",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P3_handwriting.png",
+      "ground_truth": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration = 1000 x 2 = 2000 N."
+    },
+    {
+      "id": "P3_photo",
+      "doc_id": "P3",
+      "item_id": "P3",
+      "style": "photo",
+      "kind": "item",
+      "image": "P3_photo.jpg",
+      "ground_truth": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration = 1000 x 2 = 2000 N."
+    },
+    {
+      "id": "P4_clean",
+      "doc_id": "P4",
+      "item_id": "P4",
+      "style": "clean",
+      "kind": "item",
+      "image": "P4_clean.png",
+      "ground_truth": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 = 3 s."
+    },
+    {
+      "id": "P4_handwriting",
+      "doc_id": "P4",
+      "item_id": "P4",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P4_handwriting.png",
+      "ground_truth": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 = 3 s."
+    },
+    {
+      "id": "P4_photo",
+      "doc_id": "P4",
+      "item_id": "P4",
+      "style": "photo",
+      "kind": "item",
+      "image": "P4_photo.jpg",
+      "ground_truth": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 = 3 s."
+    },
+    {
+      "id": "P5_clean",
+      "doc_id": "P5",
+      "item_id": "P5",
+      "style": "clean",
+      "kind": "item",
+      "image": "P5_clean.png",
+      "ground_truth": "a = F/m = 20/5 = 4 m/s^2."
+    },
+    {
+      "id": "P5_handwriting",
+      "doc_id": "P5",
+      "item_id": "P5",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P5_handwriting.png",
+      "ground_truth": "a = F/m = 20/5 = 4 m/s^2."
+    },
+    {
+      "id": "P5_photo",
+      "doc_id": "P5",
+      "item_id": "P5",
+      "style": "photo",
+      "kind": "item",
+      "image": "P5_photo.jpg",
+      "ground_truth": "a = F/m = 20/5 = 4 m/s^2."
+    },
+    {
+      "id": "M1_clean",
+      "doc_id": "M1",
+      "item_id": "M1",
+      "style": "clean",
+      "kind": "item",
+      "image": "M1_clean.png",
+      "ground_truth": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
+    },
+    {
+      "id": "M1_handwriting",
+      "doc_id": "M1",
+      "item_id": "M1",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M1_handwriting.png",
+      "ground_truth": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
+    },
+    {
+      "id": "M1_photo",
+      "doc_id": "M1",
+      "item_id": "M1",
+      "style": "photo",
+      "kind": "item",
+      "image": "M1_photo.jpg",
+      "ground_truth": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
+    },
+    {
+      "id": "M2_clean",
+      "doc_id": "M2",
+      "item_id": "M2",
+      "style": "clean",
+      "kind": "item",
+      "image": "M2_clean.png",
+      "ground_truth": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
+    },
+    {
+      "id": "M2_handwriting",
+      "doc_id": "M2",
+      "item_id": "M2",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M2_handwriting.png",
+      "ground_truth": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
+    },
+    {
+      "id": "M2_photo",
+      "doc_id": "M2",
+      "item_id": "M2",
+      "style": "photo",
+      "kind": "item",
+      "image": "M2_photo.jpg",
+      "ground_truth": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
+    },
+    {
+      "id": "M3_clean",
+      "doc_id": "M3",
+      "item_id": "M3",
+      "style": "clean",
+      "kind": "item",
+      "image": "M3_clean.png",
+      "ground_truth": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the answer is x^4 + c."
+    },
+    {
+      "id": "M3_handwriting",
+      "doc_id": "M3",
+      "item_id": "M3",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M3_handwriting.png",
+      "ground_truth": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the answer is x^4 + c."
+    },
+    {
+      "id": "M3_photo",
+      "doc_id": "M3",
+      "item_id": "M3",
+      "style": "photo",
+      "kind": "item",
+      "image": "M3_photo.jpg",
+      "ground_truth": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the answer is x^4 + c."
+    },
+    {
+      "id": "C1_clean",
+      "doc_id": "C1",
+      "item_id": "C1",
+      "style": "clean",
+      "kind": "item",
+      "image": "C1_clean.png",
+      "ground_truth": "O(log n). Each comparison halves the search space, so after k steps there are n/2^k elements left. Setting this to 1 gives k = log2(n)."
+    },
+    {
+      "id": "C1_handwriting",
+      "doc_id": "C1",
+      "item_id": "C1",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "C1_handwriting.png",
+      "ground_truth": "O(log n). Each comparison halves the search space, so after k steps there are n/2^k elements left. Setting this to 1 gives k = log2(n)."
+    },
+    {
+      "id": "C1_photo",
+      "doc_id": "C1",
+      "item_id": "C1",
+      "style": "photo",
+      "kind": "item",
+      "image": "C1_photo.jpg",
+      "ground_truth": "O(log n). Each comparison halves the search space, so after k steps there are n/2^k elements left. Setting this to 1 gives k = log2(n)."
+    },
+    {
+      "id": "C2_clean",
+      "doc_id": "C2",
+      "item_id": "C2",
+      "style": "clean",
+      "kind": "item",
+      "image": "C2_clean.png",
+      "ground_truth": "Arrays store elements in contiguous memory and allow O(1) random access but fixed size. Linked lists use nodes with pointers, allow O(1) insertion/deletion but O(n) access."
+    },
+    {
+      "id": "C2_handwriting",
+      "doc_id": "C2",
+      "item_id": "C2",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "C2_handwriting.png",
+      "ground_truth": "Arrays store elements in contiguous memory and allow O(1) random access but fixed size. Linked lists use nodes with pointers, allow O(1) insertion/deletion but O(n) access."
+    },
+    {
+      "id": "C2_photo",
+      "doc_id": "C2",
+      "item_id": "C2",
+      "style": "photo",
+      "kind": "item",
+      "image": "C2_photo.jpg",
+      "ground_truth": "Arrays store elements in contiguous memory and allow O(1) random access but fixed size. Linked lists use nodes with pointers, allow O(1) insertion/deletion but O(n) access."
+    },
+    {
+      "id": "C3_clean",
+      "doc_id": "C3",
+      "item_id": "C3",
+      "style": "clean",
+      "kind": "item",
+      "image": "C3_clean.png",
+      "ground_truth": "A hash table maps keys to indices using a hash function for fast lookup. Average case search is O(1). Worst case is O(n) when all keys hash to the same bucket."
+    },
+    {
+      "id": "C3_handwriting",
+      "doc_id": "C3",
+      "item_id": "C3",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "C3_handwriting.png",
+      "ground_truth": "A hash table maps keys to indices using a hash function for fast lookup. Average case search is O(1). Worst case is O(n) when all keys hash to the same bucket."
+    },
+    {
+      "id": "C3_photo",
+      "doc_id": "C3",
+      "item_id": "C3",
+      "style": "photo",
+      "kind": "item",
+      "image": "C3_photo.jpg",
+      "ground_truth": "A hash table maps keys to indices using a hash function for fast lookup. Average case search is O(1). Worst case is O(n) when all keys hash to the same bucket."
+    },
+    {
+      "id": "C4_clean",
+      "doc_id": "C4",
+      "item_id": "C4",
+      "style": "clean",
+      "kind": "item",
+      "image": "C4_clean.png",
+      "ground_truth": "In a BST, each node has a left and right child. Insert and search compare from the root and go left or right. The average case is O(log n)."
+    },
+    {
+      "id": "C4_handwriting",
+      "doc_id": "C4",
+      "item_id": "C4",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "C4_handwriting.png",
+      "ground_truth": "In a BST, each node has a left and right child. Insert and search compare from the root and go left or right. The average case is O(log n)."
+    },
+    {
+      "id": "C4_photo",
+      "doc_id": "C4",
+      "item_id": "C4",
+      "style": "photo",
+      "kind": "item",
+      "image": "C4_photo.jpg",
+      "ground_truth": "In a BST, each node has a left and right child. Insert and search compare from the root and go left or right. The average case is O(log n)."
+    },
+    {
+      "id": "E1_clean",
+      "doc_id": "E1",
+      "item_id": "E1",
+      "style": "clean",
+      "kind": "item",
+      "image": "E1_clean.png",
+      "ground_truth": "Photosynthesis is the process by which plants convert sunlight into chemical energy, using water and carbon dioxide to make glucose and release oxygen."
+    },
+    {
+      "id": "E1_handwriting",
+      "doc_id": "E1",
+      "item_id": "E1",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "E1_handwriting.png",
+      "ground_truth": "Photosynthesis is the process by which plants convert sunlight into chemical energy, using water and carbon dioxide to make glucose and release oxygen."
+    },
+    {
+      "id": "E1_photo",
+      "doc_id": "E1",
+      "item_id": "E1",
+      "style": "photo",
+      "kind": "item",
+      "image": "E1_photo.jpg",
+      "ground_truth": "Photosynthesis is the process by which plants convert sunlight into chemical energy, using water and carbon dioxide to make glucose and release oxygen."
+    },
+    {
+      "id": "E2_clean",
+      "doc_id": "E2",
+      "item_id": "E2",
+      "style": "clean",
+      "kind": "item",
+      "image": "E2_clean.png",
+      "ground_truth": "It is what plants do to make food."
+    },
+    {
+      "id": "E2_handwriting",
+      "doc_id": "E2",
+      "item_id": "E2",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "E2_handwriting.png",
+      "ground_truth": "It is what plants do to make food."
+    },
+    {
+      "id": "E2_photo",
+      "doc_id": "E2",
+      "item_id": "E2",
+      "style": "photo",
+      "kind": "item",
+      "image": "E2_photo.jpg",
+      "ground_truth": "It is what plants do to make food."
+    },
+    {
+      "id": "E3_clean",
+      "doc_id": "E3",
+      "item_id": "E3",
+      "style": "clean",
+      "kind": "item",
+      "image": "E3_clean.png",
+      "ground_truth": "A machine learning model learns patterns from data and uses them to make predictions on new unseen data."
+    },
+    {
+      "id": "E3_handwriting",
+      "doc_id": "E3",
+      "item_id": "E3",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "E3_handwriting.png",
+      "ground_truth": "A machine learning model learns patterns from data and uses them to make predictions on new unseen data."
+    },
+    {
+      "id": "E3_photo",
+      "doc_id": "E3",
+      "item_id": "E3",
+      "style": "photo",
+      "kind": "item",
+      "image": "E3_photo.jpg",
+      "ground_truth": "A machine learning model learns patterns from data and uses them to make predictions on new unseen data."
+    },
+    {
+      "id": "M4_clean",
+      "doc_id": "M4",
+      "item_id": "M4",
+      "style": "clean",
+      "kind": "item",
+      "image": "M4_clean.png",
+      "ground_truth": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
+    },
+    {
+      "id": "M4_handwriting",
+      "doc_id": "M4",
+      "item_id": "M4",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M4_handwriting.png",
+      "ground_truth": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
+    },
+    {
+      "id": "M4_photo",
+      "doc_id": "M4",
+      "item_id": "M4",
+      "style": "photo",
+      "kind": "item",
+      "image": "M4_photo.jpg",
+      "ground_truth": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
+    },
+    {
+      "id": "P6_clean",
+      "doc_id": "P6",
+      "item_id": "P6",
+      "style": "clean",
+      "kind": "item",
+      "image": "P6_clean.png",
+      "ground_truth": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
+    },
+    {
+      "id": "P6_handwriting",
+      "doc_id": "P6",
+      "item_id": "P6",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P6_handwriting.png",
+      "ground_truth": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
+    },
+    {
+      "id": "P6_photo",
+      "doc_id": "P6",
+      "item_id": "P6",
+      "style": "photo",
+      "kind": "item",
+      "image": "P6_photo.jpg",
+      "ground_truth": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
+    },
+    {
+      "id": "P7_clean",
+      "doc_id": "P7",
+      "item_id": "P7",
+      "style": "clean",
+      "kind": "item",
+      "image": "P7_clean.png",
+      "ground_truth": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time to reach the top is 6 s, because the ball takes 6 s for the whole journey."
+    },
+    {
+      "id": "P7_handwriting",
+      "doc_id": "P7",
+      "item_id": "P7",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P7_handwriting.png",
+      "ground_truth": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time to reach the top is 6 s, because the ball takes 6 s for the whole journey."
+    },
+    {
+      "id": "P7_photo",
+      "doc_id": "P7",
+      "item_id": "P7",
+      "style": "photo",
+      "kind": "item",
+      "image": "P7_photo.jpg",
+      "ground_truth": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time to reach the top is 6 s, because the ball takes 6 s for the whole journey."
+    },
+    {
+      "id": "M5_clean",
+      "doc_id": "M5",
+      "item_id": "M5",
+      "style": "clean",
+      "kind": "item",
+      "image": "M5_clean.png",
+      "ground_truth": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
+    },
+    {
+      "id": "M5_handwriting",
+      "doc_id": "M5",
+      "item_id": "M5",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M5_handwriting.png",
+      "ground_truth": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
+    },
+    {
+      "id": "M5_photo",
+      "doc_id": "M5",
+      "item_id": "M5",
+      "style": "photo",
+      "kind": "item",
+      "image": "M5_photo.jpg",
+      "ground_truth": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
+    },
+    {
+      "id": "M6_clean",
+      "doc_id": "M6",
+      "item_id": "M6",
+      "style": "clean",
+      "kind": "item",
+      "image": "M6_clean.png",
+      "ground_truth": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4. So the answer is x^4."
+    },
+    {
+      "id": "M6_handwriting",
+      "doc_id": "M6",
+      "item_id": "M6",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M6_handwriting.png",
+      "ground_truth": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4. So the answer is x^4."
+    },
+    {
+      "id": "M6_photo",
+      "doc_id": "M6",
+      "item_id": "M6",
+      "style": "photo",
+      "kind": "item",
+      "image": "M6_photo.jpg",
+      "ground_truth": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4. So the answer is x^4."
+    },
+    {
+      "id": "M7_clean",
+      "doc_id": "M7",
+      "item_id": "M7",
+      "style": "clean",
+      "kind": "item",
+      "image": "M7_clean.png",
+      "ground_truth": "x = (6 \u00b1 sqrt(36 + 32)) / 2 = (6 \u00b1 sqrt(68)) / 2, so x \u2248 7.1 or x \u2248 -1.1."
+    },
+    {
+      "id": "M7_handwriting",
+      "doc_id": "M7",
+      "item_id": "M7",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "M7_handwriting.png",
+      "ground_truth": "x = (6 \u00b1 sqrt(36 + 32)) / 2 = (6 \u00b1 sqrt(68)) / 2, so x \u2248 7.1 or x \u2248 -1.1."
+    },
+    {
+      "id": "M7_photo",
+      "doc_id": "M7",
+      "item_id": "M7",
+      "style": "photo",
+      "kind": "item",
+      "image": "M7_photo.jpg",
+      "ground_truth": "x = (6 \u00b1 sqrt(36 + 32)) / 2 = (6 \u00b1 sqrt(68)) / 2, so x \u2248 7.1 or x \u2248 -1.1."
+    },
+    {
+      "id": "P8_clean",
+      "doc_id": "P8",
+      "item_id": "P8",
+      "style": "clean",
+      "kind": "item",
+      "image": "P8_clean.png",
+      "ground_truth": "Speed = distance / time = 100 / 2 = 50 m/s."
+    },
+    {
+      "id": "P8_handwriting",
+      "doc_id": "P8",
+      "item_id": "P8",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "P8_handwriting.png",
+      "ground_truth": "Speed = distance / time = 100 / 2 = 50 m/s."
+    },
+    {
+      "id": "P8_photo",
+      "doc_id": "P8",
+      "item_id": "P8",
+      "style": "photo",
+      "kind": "item",
+      "image": "P8_photo.jpg",
+      "ground_truth": "Speed = distance / time = 100 / 2 = 50 m/s."
+    },
+    {
+      "id": "C5_clean",
+      "doc_id": "C5",
+      "item_id": "C5",
+      "style": "clean",
+      "kind": "item",
+      "image": "C5_clean.png",
+      "ground_truth": "A hash table keeps its keys in sorted order so you can search quickly, like a dictionary. Average search is O(log n)."
+    },
+    {
+      "id": "C5_handwriting",
+      "doc_id": "C5",
+      "item_id": "C5",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "C5_handwriting.png",
+      "ground_truth": "A hash table keeps its keys in sorted order so you can search quickly, like a dictionary. Average search is O(log n)."
+    },
+    {
+      "id": "C5_photo",
+      "doc_id": "C5",
+      "item_id": "C5",
+      "style": "photo",
+      "kind": "item",
+      "image": "C5_photo.jpg",
+      "ground_truth": "A hash table keeps its keys in sorted order so you can search quickly, like a dictionary. Average search is O(log n)."
+    },
+    {
+      "id": "C6_clean",
+      "doc_id": "C6",
+      "item_id": "C6",
+      "style": "clean",
+      "kind": "item",
+      "image": "C6_clean.png",
+      "ground_truth": "Search compares from the root and goes left or right, average O(log n). Insert works by comparing and attaching a new node. Deletion works basically the same as insertion."
+    },
+    {
+      "id": "C6_handwriting",
+      "doc_id": "C6",
+      "item_id": "C6",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "C6_handwriting.png",
+      "ground_truth": "Search compares from the root and goes left or right, average O(log n). Insert works by comparing and attaching a new node. Deletion works basically the same as insertion."
+    },
+    {
+      "id": "C6_photo",
+      "doc_id": "C6",
+      "item_id": "C6",
+      "style": "photo",
+      "kind": "item",
+      "image": "C6_photo.jpg",
+      "ground_truth": "Search compares from the root and goes left or right, average O(log n). Insert works by comparing and attaching a new node. Deletion works basically the same as insertion."
+    },
+    {
+      "id": "E4_clean",
+      "doc_id": "E4",
+      "item_id": "E4",
+      "style": "clean",
+      "kind": "item",
+      "image": "E4_clean.png",
+      "ground_truth": "Photosynthesis is how plants make glucose using water and sunlight, and the glucose stores chemical energy for the plant."
+    },
+    {
+      "id": "E4_handwriting",
+      "doc_id": "E4",
+      "item_id": "E4",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "E4_handwriting.png",
+      "ground_truth": "Photosynthesis is how plants make glucose using water and sunlight, and the glucose stores chemical energy for the plant."
+    },
+    {
+      "id": "E4_photo",
+      "doc_id": "E4",
+      "item_id": "E4",
+      "style": "photo",
+      "kind": "item",
+      "image": "E4_photo.jpg",
+      "ground_truth": "Photosynthesis is how plants make glucose using water and sunlight, and the glucose stores chemical energy for the plant."
+    },
+    {
+      "id": "E5_clean",
+      "doc_id": "E5",
+      "item_id": "E5",
+      "style": "clean",
+      "kind": "item",
+      "image": "E5_clean.png",
+      "ground_truth": "It is basically a function that maps inputs to outputs, and it is used to make predictions."
+    },
+    {
+      "id": "E5_handwriting",
+      "doc_id": "E5",
+      "item_id": "E5",
+      "style": "handwriting",
+      "kind": "item",
+      "image": "E5_handwriting.png",
+      "ground_truth": "It is basically a function that maps inputs to outputs, and it is used to make predictions."
+    },
+    {
+      "id": "E5_photo",
+      "doc_id": "E5",
+      "item_id": "E5",
+      "style": "photo",
+      "kind": "item",
+      "image": "E5_photo.jpg",
+      "ground_truth": "It is basically a function that maps inputs to outputs, and it is used to make predictions."
+    },
+    {
+      "id": "sheet_good_clean",
+      "doc_id": "sheet_good",
+      "item_id": null,
+      "style": "clean",
+      "kind": "sheet",
+      "image": "sheet_good_clean.png",
+      "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
+    },
+    {
+      "id": "sheet_good_handwriting",
+      "doc_id": "sheet_good",
+      "item_id": null,
+      "style": "handwriting",
+      "kind": "sheet",
+      "image": "sheet_good_handwriting.png",
+      "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
+    },
+    {
+      "id": "sheet_good_photo",
+      "doc_id": "sheet_good",
+      "item_id": null,
+      "style": "photo",
+      "kind": "sheet",
+      "image": "sheet_good_photo.jpg",
+      "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
+    },
+    {
+      "id": "sheet_poor_clean",
+      "doc_id": "sheet_poor",
+      "item_id": null,
+      "style": "clean",
+      "kind": "sheet",
+      "image": "sheet_poor_clean.png",
+      "ground_truth": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m.\n"
+    },
+    {
+      "id": "sheet_poor_handwriting",
+      "doc_id": "sheet_poor",
+      "item_id": null,
+      "style": "handwriting",
+      "kind": "sheet",
+      "image": "sheet_poor_handwriting.png",
+      "ground_truth": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m.\n"
+    },
+    {
+      "id": "sheet_poor_photo",
+      "doc_id": "sheet_poor",
+      "item_id": null,
+      "style": "photo",
+      "kind": "sheet",
+      "image": "sheet_poor_photo.jpg",
+      "ground_truth": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m.\n"
+    },
+    {
+      "id": "scanned_pdf",
+      "doc_id": "scanned_pdf",
+      "item_id": null,
+      "style": "pdf",
+      "kind": "pdf",
+      "image": "scanned_answersheet.pdf",
+      "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
+    }
+  ]
+}
