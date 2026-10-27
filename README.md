@@ -380,8 +380,10 @@ look at the result:
    cross-model confidence component.
 3. **Referee on disagreement** — when the two totals differ by `0.25 × max_marks`
    or more (and `ADJUDICATE=true`), the referee (`REFEREE_*`, default: the primary
-   model) is called once (temperature 0) with both gradings and decides the final mark
-   per criterion; that result replaces the representative. Confidence is *not* raised
+   model) is called once (temperature 0) with both gradings, shown anonymously as
+   Grader A / Grader B in random order. It judges each rubric criterion independently
+   against the rubric and model answer (partial credit allowed) before totalling; that
+   result replaces the representative. Confidence is *not* raised
    by adjudication.
 4. **Flag** — questions whose combined confidence is below `CONFIDENCE_THRESHOLD`, or
    that carry any integrity flag, are flagged for human review.
