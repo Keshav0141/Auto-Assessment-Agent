@@ -3,94 +3,105 @@
   "summary": {
     "repeats": 3,
     "mae": {
-      "mean": 0.1794871794871795,
-      "std": 0.018130943107347374
+      "mean": 0.23076923076923075,
+      "std": 0.05439282932204212
     },
     "mae_before_adjudication": {
-      "mean": 0.20512820512820515,
-      "std": 0.018130943107347374
+      "mean": 0.2435897435897436,
+      "std": 0.047969966497101814
     },
     "agreement_rate": {
-      "mean": 0.8076923076923078,
-      "std": 1.1102230246251565e-16
+      "mean": 0.7692307692307692,
+      "std": 0.05439282932204213
     },
     "agreement_rate_before_adjudication": {
-      "mean": 0.794871794871795,
-      "std": 0.01813094310734736
+      "mean": 0.7564102564102564,
+      "std": 0.04796996649710183
     },
     "auroc": {
-      "mean": 0.7698412698412698,
-      "std": 0.03527954090617914
+      "mean": 0.7279761904761904,
+      "std": 0.09807650267994342
     },
     "auroc_pre_adjudication": {
-      "mean": 0.7890873015873016,
-      "std": 0.027631417135209956
+      "mean": 0.7589285714285715,
+      "std": 0.054983592000403335
     },
     "n_adjudicated": {
-      "mean": 1.3333333333333333,
+      "mean": 2.0,
+      "std": 0.0
+    },
+    "n_referee_changed": {
+      "mean": 0.3333333333333333,
       "std": 0.4714045207910317
     },
+    "n_integrity_flagged": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "referee_models": [
+      "mistralai/mistral-large-4-0"
+    ],
     "ablation": {
       "agree": {
-        "mean": 0.673015873015873,
-        "std": 0.08195765487889257
+        "mean": 0.5992063492063492,
+        "std": 0.11004591451107801
       },
       "variance": {
-        "mean": 0.6746031746031745,
-        "std": 0.092772312356841
+        "mean": 0.5896825396825397,
+        "std": 0.11658295236466168
       },
       "semantic": {
-        "mean": 0.46507936507936504,
-        "std": 0.07441719472845107
+        "mean": 0.4920634920634921,
+        "std": 0.011223917161691244
       },
       "cross": {
-        "mean": 0.7809523809523808,
-        "std": 0.020573779994945602
+        "mean": 0.7613095238095239,
+        "std": 0.06375997543224264
       },
       "combined": {
-        "mean": 0.7698412698412698,
-        "std": 0.03527954090617914
+        "mean": 0.7279761904761904,
+        "std": 0.09807650267994342
       }
     },
     "ablation_pre_adjudication": {
       "agree": {
-        "mean": 0.6535714285714286,
-        "std": 0.07160692019915506
+        "mean": 0.6301587301587303,
+        "std": 0.08541246095134289
       },
       "variance": {
-        "mean": 0.6561507936507937,
-        "std": 0.08943682098749771
+        "mean": 0.6226190476190476,
+        "std": 0.09102278501721563
       },
       "semantic": {
-        "mean": 0.4583333333333333,
-        "std": 0.06574619653087654
+        "mean": 0.4920634920634921,
+        "std": 0.011223917161691244
       },
       "cross": {
-        "mean": 0.8037698412698413,
-        "std": 0.012676692734097841
+        "mean": 0.7875,
+        "std": 0.02700308624336609
       },
       "combined": {
-        "mean": 0.7890873015873016,
-        "std": 0.027631417135209956
+        "mean": 0.7589285714285715,
+        "std": 0.054983592000403335
       }
     },
     "flagged_at_threshold": {
       "threshold": 0.85,
       "error_rate_flagged_post": {
-        "mean": 0.41071428571428575,
-        "std": 0.02525381361380526
+        "mean": 0.6666666666666666,
+        "std": 0.31180478223116176
       },
       "error_rate_unflagged_post": {
-        "mean": 0.10721247563352826,
-        "std": 0.0027567515835732847
+        "mean": 0.13852813852813853,
+        "std": 0.03723950332053085
       },
       "error_rate_flagged_pre": {
-        "mean": 0.4583333333333333,
-        "std": 0.08290707307847689
+        "mean": 0.75,
+        "std": 0.2041241452319315
       },
       "error_rate_unflagged_pre": {
-        "mean": 0.10721247563352826,
-        "std": 0.0027567515835732847
+        "mean": 0.13852813852813853,
+        "std": 0.03723950332053085
       }
     }
   },
@@ -98,56 +109,61 @@
     {
       "metrics": {
         "n_items": 26,
-        "mae": 0.19230769230769232,
-        "pearson_r": 0.9633057476150018,
-        "agreement_rate": 0.8076923076923077,
-        "auroc": 0.819047619047619,
-        "error_count": 5,
-        "mean_confidence": 0.9145032867064347,
-        "mean_confidence_errors": 0.7607407407407406,
-        "mean_confidence_correct": 0.9511134166982668,
+        "mae": 0.3076923076923077,
+        "pearson_r": 0.9491775263552102,
+        "agreement_rate": 0.6923076923076923,
+        "auroc": 0.8125,
+        "error_count": 8,
+        "mean_confidence": 0.9204175190411559,
+        "mean_confidence_errors": 0.7413569368837563,
+        "mean_confidence_correct": 1.0,
         "margin": 0.5,
-        "mae_before_adjudication": 0.19230769230769232,
-        "agreement_rate_before_adjudication": 0.8076923076923077,
-        "n_adjudicated": 1,
-        "auroc_pre_adjudication": 0.819047619047619,
+        "mae_before_adjudication": 0.3076923076923077,
+        "agreement_rate_before_adjudication": 0.6923076923076923,
+        "n_adjudicated": 2,
+        "n_referee_changed": 0,
+        "referee_models": [
+          "mistralai/mistral-large-4-0"
+        ],
+        "n_integrity_flagged": 0,
+        "auroc_pre_adjudication": 0.8125,
         "ablation": {
-          "agree": 0.7285714285714285,
-          "variance": 0.7666666666666667,
-          "semantic": 0.4523809523809524,
-          "cross": 0.7904761904761904,
-          "combined": 0.819047619047619
+          "agree": 0.75,
+          "variance": 0.75,
+          "semantic": 0.5,
+          "cross": 0.8125,
+          "combined": 0.8125
         },
         "ablation_pre_adjudication": {
-          "agree": 0.7285714285714285,
-          "variance": 0.7666666666666667,
-          "semantic": 0.4523809523809524,
-          "cross": 0.7904761904761904,
-          "combined": 0.819047619047619
+          "agree": 0.75,
+          "variance": 0.75,
+          "semantic": 0.5,
+          "cross": 0.8125,
+          "combined": 0.8125
         },
         "low_conf_20pct": {
           "fraction": 0.2,
-          "threshold": 0.7950056695246311,
-          "n_flagged": 6,
-          "n_unflagged": 20,
-          "error_rate_flagged": 0.5,
-          "error_rate_unflagged": 0.1
+          "threshold": 1.0,
+          "n_flagged": 26,
+          "n_unflagged": 0,
+          "error_rate_flagged": 0.3076923076923077,
+          "error_rate_unflagged": null
         },
         "flagged_at_threshold": {
           "threshold": 0.85,
           "post": {
             "threshold": 0.85,
-            "n_flagged": 7,
-            "n_unflagged": 19,
-            "error_rate_flagged": 0.42857142857142855,
-            "error_rate_unflagged": 0.10526315789473684
+            "n_flagged": 5,
+            "n_unflagged": 21,
+            "error_rate_flagged": 1.0,
+            "error_rate_unflagged": 0.14285714285714285
           },
           "pre": {
             "threshold": 0.85,
-            "n_flagged": 7,
-            "n_unflagged": 19,
-            "error_rate_flagged": 0.42857142857142855,
-            "error_rate_unflagged": 0.10526315789473684
+            "n_flagged": 5,
+            "n_unflagged": 21,
+            "error_rate_flagged": 1.0,
+            "error_rate_unflagged": 0.14285714285714285
           }
         }
       },
@@ -164,6 +180,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             5.0,
@@ -175,22 +194,25 @@
         },
         {
           "id": "P2",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
+          "predicted": 3.5,
+          "pre_adjudication_total": 3.5,
           "adjudicated": false,
           "referee_reason": null,
           "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 0.795,
-          "agreement": 0.6,
-          "cross_model": 1.0,
+          "error": 0.5,
+          "confidence": 0.546,
+          "agreement": 0.4,
+          "cross_model": 0.5,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
-            3.0,
+            3.5,
             4.0,
             4.0,
-            4.0,
+            3.5,
             3.0
           ]
         },
@@ -206,6 +228,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 6.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             6.0,
@@ -227,6 +252,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 6.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             6.0,
@@ -248,6 +276,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             2.0,
@@ -265,16 +296,19 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 0.0,
-          "confidence": 0.795,
-          "agreement": 0.6,
+          "confidence": 1.0,
+          "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
-          "flagged": true,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             4.0,
             4.0,
-            3.0,
-            3.0,
+            4.0,
+            4.0,
             4.0
           ]
         },
@@ -290,6 +324,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -311,6 +348,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -332,6 +372,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             5.0,
@@ -349,16 +392,19 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 0.0,
-          "confidence": 0.8,
-          "agreement": 0.6,
+          "confidence": 1.0,
+          "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
-          "flagged": true,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             4.0,
-            3.5,
             4.0,
-            3.0,
+            4.0,
+            4.0,
             4.0
           ]
         },
@@ -374,6 +420,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             5.0,
@@ -391,17 +440,20 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 1.0,
-          "confidence": 0.636,
-          "agreement": 0.8,
-          "cross_model": 0.2,
-          "judge2_total": 4.0,
-          "flagged": true,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             3.0,
             3.0,
             3.0,
             3.0,
-            3.5
+            3.0
           ]
         },
         {
@@ -416,6 +468,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             3.0,
@@ -437,6 +492,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 1.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             1.0,
@@ -458,6 +516,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             3.0,
@@ -479,6 +540,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             0.0,
@@ -496,10 +560,13 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 0.0,
-          "confidence": 0.867,
+          "confidence": 1.0,
           "agreement": 1.0,
-          "cross_model": 0.6,
-          "judge2_total": 4.5,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -521,6 +588,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -542,6 +612,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             2.0,
@@ -563,6 +636,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             3.0,
@@ -577,618 +653,16 @@
           "predicted": 0.0,
           "pre_adjudication_total": 0.0,
           "adjudicated": true,
-          "referee_reason": "Adjudicated 0/5: the student never correctly identifies the coefficients (c is treated as -8), computes the discriminant as 68 instead of 4, and gives wrong solutions; to improve, explicitly write a=1, b=-6, c=8, compute b^2-4ac=4, then x=(6\u00b12)/2=4,2.",
+          "referee_reason": "No criteria are met: coefficients a, b, c are not identified, the discriminant is computed as 68 instead of 4 (sign error on 4ac), and the resulting roots are wrong. To improve, explicitly state a=1, b=-6, c=8, compute disc = b\u00b2-4ac = (-6)\u00b2-4(1)(8) = 4, then x = (6\u00b12)/2 = 4, 2.",
           "ground_truth": 2.0,
           "error": 2.0,
-          "confidence": 0.542,
-          "agreement": 0.8,
-          "cross_model": 0.0,
-          "judge2_total": 2.0,
-          "flagged": true,
-          "sampled_totals": [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            2.0
-          ]
-        },
-        {
-          "id": "P8",
-          "predicted": 2.0,
-          "pre_adjudication_total": 2.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 2.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 2.0,
-          "flagged": false,
-          "sampled_totals": [
-            2.0,
-            2.0,
-            2.0,
-            2.0,
-            2.0
-          ]
-        },
-        {
-          "id": "C5",
-          "predicted": 0.0,
-          "pre_adjudication_total": 0.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 1.0,
-          "error": 1.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 0.0,
-          "flagged": false,
-          "sampled_totals": [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        {
-          "id": "C6",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 3.0,
-          "error": 0.0,
-          "confidence": 0.717,
-          "agreement": 0.4,
-          "cross_model": 1.0,
-          "judge2_total": 3.0,
-          "flagged": true,
-          "sampled_totals": [
-            3.0,
-            3.0,
-            2.5,
-            2.5,
-            3.5
-          ]
-        },
-        {
-          "id": "E4",
-          "predicted": 2.5,
-          "pre_adjudication_total": 2.5,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 2.0,
-          "error": 0.5,
-          "confidence": 0.896,
-          "agreement": 0.8,
-          "cross_model": 1.0,
-          "judge2_total": 2.5,
-          "flagged": false,
-          "sampled_totals": [
-            2.5,
-            2.5,
-            2.0,
-            2.5,
-            2.5
-          ]
-        },
-        {
-          "id": "E5",
-          "predicted": 0.5,
-          "pre_adjudication_total": 0.5,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 1.0,
-          "error": 0.5,
-          "confidence": 0.73,
-          "agreement": 0.8,
-          "cross_model": 0.5,
-          "judge2_total": 1.0,
-          "flagged": true,
-          "sampled_totals": [
-            0.5,
-            0.5,
-            0.5,
-            1.0,
-            0.5
-          ]
-        }
-      ]
-    },
-    {
-      "metrics": {
-        "n_items": 26,
-        "mae": 0.15384615384615385,
-        "pearson_r": 0.9767587872474853,
-        "agreement_rate": 0.8076923076923077,
-        "auroc": 0.7380952380952381,
-        "error_count": 5,
-        "mean_confidence": 0.9045404239178639,
-        "mean_confidence_errors": 0.7364160243134028,
-        "mean_confidence_correct": 0.944570042871307,
-        "margin": 0.5,
-        "mae_before_adjudication": 0.23076923076923078,
-        "agreement_rate_before_adjudication": 0.7692307692307693,
-        "n_adjudicated": 2,
-        "auroc_pre_adjudication": 0.7958333333333333,
-        "ablation": {
-          "agree": 0.7333333333333333,
-          "variance": 0.7095238095238096,
-          "semantic": 0.5619047619047619,
-          "cross": 0.7523809523809524,
-          "combined": 0.7380952380952381
-        },
-        "ablation_pre_adjudication": {
-          "agree": 0.675,
-          "variance": 0.6541666666666667,
-          "semantic": 0.5416666666666666,
-          "cross": 0.8208333333333333,
-          "combined": 0.7958333333333333
-        },
-        "low_conf_20pct": {
-          "fraction": 0.2,
-          "threshold": 0.7950056695246311,
-          "n_flagged": 6,
-          "n_unflagged": 20,
-          "error_rate_flagged": 0.5,
-          "error_rate_unflagged": 0.1
-        },
-        "flagged_at_threshold": {
-          "threshold": 0.85,
-          "post": {
-            "threshold": 0.85,
-            "n_flagged": 7,
-            "n_unflagged": 19,
-            "error_rate_flagged": 0.42857142857142855,
-            "error_rate_unflagged": 0.10526315789473684
-          },
-          "pre": {
-            "threshold": 0.85,
-            "n_flagged": 7,
-            "n_unflagged": 19,
-            "error_rate_flagged": 0.5714285714285714,
-            "error_rate_unflagged": 0.10526315789473684
-          }
-        }
-      },
-      "details": [
-        {
-          "id": "P1",
-          "predicted": 5.0,
-          "pre_adjudication_total": 5.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 5.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 5.0,
-          "flagged": false,
-          "sampled_totals": [
-            5.0,
-            5.0,
-            5.0,
-            5.0,
-            5.0
-          ]
-        },
-        {
-          "id": "P2",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": true,
-          "referee_reason": "The statement criterion is fully met, but the example criterion is only partially met because the explanation lacks the key idea that the forces act on different bodies; add that detail to make the example fully clear.",
-          "ground_truth": 4.0,
-          "error": 1.0,
-          "confidence": 0.367,
-          "agreement": 0.4,
-          "cross_model": 0.0,
-          "judge2_total": 4.0,
-          "flagged": true,
-          "sampled_totals": [
-            4.0,
-            2.5,
-            3.0,
-            4.0,
-            3.0
-          ]
-        },
-        {
-          "id": "P3",
-          "predicted": 6.0,
-          "pre_adjudication_total": 6.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 6.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 6.0,
-          "flagged": false,
-          "sampled_totals": [
-            6.0,
-            6.0,
-            6.0,
-            6.0,
-            6.0
-          ]
-        },
-        {
-          "id": "P4",
-          "predicted": 6.0,
-          "pre_adjudication_total": 6.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 6.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 6.0,
-          "flagged": false,
-          "sampled_totals": [
-            6.0,
-            6.0,
-            6.0,
-            6.0,
-            6.0
-          ]
-        },
-        {
-          "id": "P5",
-          "predicted": 2.0,
-          "pre_adjudication_total": 2.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 2.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 2.0,
-          "flagged": false,
-          "sampled_totals": [
-            2.0,
-            2.0,
-            2.0,
-            2.0,
-            2.0
-          ]
-        },
-        {
-          "id": "M1",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 0.8,
-          "agreement": 0.6,
-          "cross_model": 1.0,
-          "judge2_total": 4.0,
-          "flagged": true,
-          "sampled_totals": [
-            4.0,
-            3.0,
-            4.0,
-            4.0,
-            3.5
-          ]
-        },
-        {
-          "id": "M2",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 4.0,
-          "flagged": false,
-          "sampled_totals": [
-            4.0,
-            4.0,
-            4.0,
-            4.0,
-            4.0
-          ]
-        },
-        {
-          "id": "M3",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 4.0,
-          "flagged": false,
-          "sampled_totals": [
-            4.0,
-            4.0,
-            4.0,
-            4.0,
-            4.0
-          ]
-        },
-        {
-          "id": "C1",
-          "predicted": 5.0,
-          "pre_adjudication_total": 5.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 5.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 5.0,
-          "flagged": false,
-          "sampled_totals": [
-            5.0,
-            5.0,
-            5.0,
-            5.0,
-            5.0
-          ]
-        },
-        {
-          "id": "C2",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 0.795,
-          "agreement": 0.6,
-          "cross_model": 1.0,
-          "judge2_total": 4.0,
-          "flagged": true,
-          "sampled_totals": [
-            4.0,
-            3.0,
-            4.0,
-            3.0,
-            4.0
-          ]
-        },
-        {
-          "id": "C3",
-          "predicted": 5.0,
-          "pre_adjudication_total": 5.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 5.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 5.0,
-          "flagged": false,
-          "sampled_totals": [
-            5.0,
-            5.0,
-            5.0,
-            5.0,
-            5.0
-          ]
-        },
-        {
-          "id": "C4",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 1.0,
-          "confidence": 0.678,
-          "agreement": 0.6,
-          "cross_model": 0.6,
-          "judge2_total": 3.5,
-          "flagged": true,
-          "sampled_totals": [
-            3.0,
-            3.0,
-            3.5,
-            3.5,
-            3.0
-          ]
-        },
-        {
-          "id": "E1",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 3.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 3.0,
-          "flagged": false,
-          "sampled_totals": [
-            3.0,
-            3.0,
-            3.0,
-            3.0,
-            3.0
-          ]
-        },
-        {
-          "id": "E2",
-          "predicted": 1.0,
-          "pre_adjudication_total": 1.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 1.0,
-          "error": 0.0,
-          "confidence": 0.896,
-          "agreement": 0.8,
-          "cross_model": 1.0,
-          "judge2_total": 1.0,
-          "flagged": false,
-          "sampled_totals": [
-            1.5,
-            1.0,
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        {
-          "id": "E3",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 3.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 3.0,
-          "flagged": false,
-          "sampled_totals": [
-            3.0,
-            3.0,
-            3.0,
-            3.0,
-            3.0
-          ]
-        },
-        {
-          "id": "M4",
-          "predicted": 0.0,
-          "pre_adjudication_total": 0.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 0.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 0.0,
-          "flagged": false,
-          "sampled_totals": [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        {
-          "id": "P6",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 4.0,
-          "flagged": false,
-          "sampled_totals": [
-            4.0,
-            4.0,
-            4.0,
-            4.0,
-            4.0
-          ]
-        },
-        {
-          "id": "P7",
-          "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 4.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 4.0,
-          "flagged": false,
-          "sampled_totals": [
-            4.0,
-            4.0,
-            4.0,
-            4.0,
-            4.0
-          ]
-        },
-        {
-          "id": "M5",
-          "predicted": 2.0,
-          "pre_adjudication_total": 2.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 2.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 2.0,
-          "flagged": false,
-          "sampled_totals": [
-            2.0,
-            2.0,
-            2.0,
-            2.0,
-            2.0
-          ]
-        },
-        {
-          "id": "M6",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": false,
-          "referee_reason": null,
-          "ground_truth": 3.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
-          "judge2_total": 3.0,
-          "flagged": false,
-          "sampled_totals": [
-            3.0,
-            3.0,
-            3.0,
-            3.0,
-            3.0
-          ]
-        },
-        {
-          "id": "M7",
-          "predicted": 2.0,
-          "pre_adjudication_total": 0.0,
-          "adjudicated": true,
-          "referee_reason": "The student correctly identified a=1 and b=-6 by substituting into the quadratic formula, earning the identification mark, but made a sign error in the discriminant (36+32 instead of 36-32), leading to incorrect solutions; to improve, compute b^2 - 4ac carefully and verify the final roots.",
-          "ground_truth": 2.0,
-          "error": 0.0,
           "confidence": 0.667,
           "agreement": 1.0,
           "cross_model": 0.0,
           "judge2_total": 2.0,
+          "referee_model": "mistralai/mistral-large-4-0",
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
             0.0,
@@ -1200,23 +674,26 @@
         },
         {
           "id": "P8",
-          "predicted": 2.0,
-          "pre_adjudication_total": 2.0,
-          "adjudicated": false,
-          "referee_reason": null,
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": true,
+          "referee_reason": "You divided distance by time correctly to get 50, but you attached the wrong unit: 100 km / 2 h = 50 km/h, not 50 m/s (criterion 'correct speed in km/h' not met). You also did not show the km/h to m/s conversion factor (criterion not met) and therefore did not reach the correct value of about 13.9 m/s (criterion not met). Improve by stating 50 km/h, then multiplying by 1000/3600 (or 5/18) to convert: 50 \u00d7 1000/3600 \u2248 13.9 m/s.",
           "ground_truth": 2.0,
-          "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
-          "cross_model": 1.0,
+          "error": 2.0,
+          "confidence": 0.445,
+          "agreement": 0.6,
+          "cross_model": 0.0,
           "judge2_total": 2.0,
-          "flagged": false,
+          "referee_model": "mistralai/mistral-large-4-0",
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": true,
           "sampled_totals": [
             2.0,
+            0.0,
             2.0,
-            2.0,
-            2.0,
-            2.0
+            0.0,
+            0.0
           ]
         },
         {
@@ -1231,6 +708,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             0.0,
@@ -1242,22 +722,25 @@
         },
         {
           "id": "C6",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
           "adjudicated": false,
           "referee_reason": null,
           "ground_truth": 3.0,
-          "error": 0.0,
-          "confidence": 0.678,
-          "agreement": 0.6,
-          "cross_model": 0.6,
+          "error": 0.5,
+          "confidence": 0.636,
+          "agreement": 0.8,
+          "cross_model": 0.2,
           "judge2_total": 3.5,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
             2.5,
             3.0,
-            3.0,
-            3.0,
+            2.5,
+            2.5,
             2.5
           ]
         },
@@ -1273,6 +756,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 2.5,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             2.5,
@@ -1294,13 +780,16 @@
           "agreement": 0.6,
           "cross_model": 0.5,
           "judge2_total": 1.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
             1.0,
             0.5,
-            1.0,
             0.5,
-            0.5
+            0.5,
+            1.0
           ]
         }
       ]
@@ -1309,55 +798,60 @@
       "metrics": {
         "n_items": 26,
         "mae": 0.19230769230769232,
-        "pearson_r": 0.957563202715845,
+        "pearson_r": 0.9614481694293086,
         "agreement_rate": 0.8076923076923077,
-        "auroc": 0.7523809523809524,
+        "auroc": 0.5904761904761905,
         "error_count": 5,
-        "mean_confidence": 0.9207294123726724,
-        "mean_confidence_errors": 0.7879266818625433,
-        "mean_confidence_correct": 0.9523491101131792,
+        "mean_confidence": 0.9300928106512322,
+        "mean_confidence_errors": 0.8675555555555554,
+        "mean_confidence_correct": 0.94498263329306,
         "margin": 0.5,
-        "mae_before_adjudication": 0.19230769230769232,
-        "agreement_rate_before_adjudication": 0.8076923076923077,
-        "n_adjudicated": 1,
-        "auroc_pre_adjudication": 0.7523809523809524,
+        "mae_before_adjudication": 0.23076923076923078,
+        "agreement_rate_before_adjudication": 0.7692307692307693,
+        "n_adjudicated": 2,
+        "n_referee_changed": 1,
+        "referee_models": [
+          "mistralai/mistral-large-4-0"
+        ],
+        "n_integrity_flagged": 0,
+        "auroc_pre_adjudication": 0.6833333333333333,
         "ablation": {
-          "agree": 0.5571428571428572,
-          "variance": 0.5476190476190477,
-          "semantic": 0.38095238095238093,
-          "cross": 0.8,
-          "combined": 0.7523809523809524
+          "agree": 0.49047619047619045,
+          "variance": 0.47619047619047616,
+          "semantic": 0.5,
+          "cross": 0.6714285714285714,
+          "combined": 0.5904761904761905
         },
         "ablation_pre_adjudication": {
-          "agree": 0.5571428571428572,
-          "variance": 0.5476190476190477,
-          "semantic": 0.38095238095238093,
-          "cross": 0.8,
-          "combined": 0.7523809523809524
+          "agree": 0.5833333333333334,
+          "variance": 0.575,
+          "semantic": 0.5,
+          "cross": 0.75,
+          "combined": 0.6833333333333333
         },
         "low_conf_20pct": {
           "fraction": 0.2,
-          "threshold": 0.7999999999999998,
+          "threshold": 0.8962962962962961,
           "n_flagged": 6,
           "n_unflagged": 20,
-          "error_rate_flagged": 0.5,
-          "error_rate_unflagged": 0.1
+          "error_rate_flagged": 0.3333333333333333,
+          "error_rate_unflagged": 0.15
         },
         "flagged_at_threshold": {
           "threshold": 0.85,
           "post": {
             "threshold": 0.85,
-            "n_flagged": 8,
-            "n_unflagged": 18,
-            "error_rate_flagged": 0.375,
-            "error_rate_unflagged": 0.1111111111111111
+            "n_flagged": 4,
+            "n_unflagged": 22,
+            "error_rate_flagged": 0.25,
+            "error_rate_unflagged": 0.18181818181818182
           },
           "pre": {
             "threshold": 0.85,
-            "n_flagged": 8,
-            "n_unflagged": 18,
-            "error_rate_flagged": 0.375,
-            "error_rate_unflagged": 0.1111111111111111
+            "n_flagged": 4,
+            "n_unflagged": 22,
+            "error_rate_flagged": 0.5,
+            "error_rate_unflagged": 0.18181818181818182
           }
         }
       },
@@ -1374,6 +868,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             5.0,
@@ -1391,17 +888,20 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 0.0,
-          "confidence": 0.787,
+          "confidence": 0.8,
           "agreement": 0.6,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
             4.0,
+            4.0,
             3.0,
-            4.0,
-            4.0,
-            2.5
+            3.5,
+            4.0
           ]
         },
         {
@@ -1416,6 +916,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 6.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             6.0,
@@ -1437,6 +940,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 6.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             6.0,
@@ -1458,6 +964,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             2.0,
@@ -1470,22 +979,25 @@
         {
           "id": "M1",
           "predicted": 4.0,
-          "pre_adjudication_total": 4.0,
-          "adjudicated": false,
-          "referee_reason": null,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": true,
+          "referee_reason": "Adjudication: Grader B is correct. The student demonstrates the power rule for the variable terms and the final answer 6x+2 implicitly confirms the constant term differentiates to 0, so all criteria are fully met. No improvement needed.",
           "ground_truth": 4.0,
           "error": 0.0,
-          "confidence": 0.8,
+          "confidence": 0.462,
           "agreement": 0.6,
-          "cross_model": 1.0,
+          "cross_model": 0.0,
           "judge2_total": 4.0,
+          "referee_model": "mistralai/mistral-large-4-0",
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
-            4.0,
-            4.0,
+            3.0,
+            3.0,
             3.0,
             4.0,
-            3.5
+            4.0
           ]
         },
         {
@@ -1500,6 +1012,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -1521,6 +1036,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -1542,6 +1060,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             5.0,
@@ -1559,17 +1080,20 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 0.0,
-          "confidence": 0.8,
-          "agreement": 0.6,
+          "confidence": 0.9,
+          "agreement": 0.8,
           "cross_model": 1.0,
           "judge2_total": 4.0,
-          "flagged": true,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             4.0,
             4.0,
             4.0,
-            3.0,
-            3.5
+            3.5,
+            4.0
           ]
         },
         {
@@ -1584,6 +1108,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             5.0,
@@ -1601,11 +1128,14 @@
           "referee_reason": null,
           "ground_truth": 4.0,
           "error": 1.0,
-          "confidence": 0.733,
+          "confidence": 0.867,
           "agreement": 1.0,
-          "cross_model": 0.2,
-          "judge2_total": 4.0,
-          "flagged": true,
+          "cross_model": 0.6,
+          "judge2_total": 3.5,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             3.0,
             3.0,
@@ -1626,6 +1156,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             3.0,
@@ -1637,22 +1170,25 @@
         },
         {
           "id": "E2",
-          "predicted": 1.5,
-          "pre_adjudication_total": 1.5,
+          "predicted": 1.0,
+          "pre_adjudication_total": 1.0,
           "adjudicated": false,
           "referee_reason": null,
           "ground_truth": 1.0,
-          "error": 0.5,
-          "confidence": 0.637,
-          "agreement": 0.6,
-          "cross_model": 0.5,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
           "judge2_total": 1.0,
-          "flagged": true,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             1.0,
-            1.5,
-            1.5,
-            1.5,
+            1.0,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -1668,6 +1204,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             3.0,
@@ -1689,6 +1228,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             0.0,
@@ -1710,6 +1252,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -1731,6 +1276,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             4.0,
@@ -1752,6 +1300,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             2.0,
@@ -1773,6 +1324,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             3.0,
@@ -1786,17 +1340,20 @@
           "id": "M7",
           "predicted": 0.0,
           "pre_adjudication_total": 0.0,
-          "adjudicated": true,
-          "referee_reason": "Adjudicated 0/5: the student did not explicitly identify a, b, c, used an incorrect discriminant (68 instead of 4), and produced wrong solutions; to improve, write a=1, b=-6, c=8, compute b^2-4ac=36-32=4, then x=(6\u00b12)/2=4,2.",
+          "adjudicated": false,
+          "referee_reason": null,
           "ground_truth": 2.0,
           "error": 2.0,
-          "confidence": 0.569,
-          "agreement": 0.8,
-          "cross_model": 0.0,
-          "judge2_total": 2.0,
-          "flagged": true,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
-            0.5,
+            0.0,
             0.0,
             0.0,
             0.0,
@@ -1811,17 +1368,20 @@
           "referee_reason": null,
           "ground_truth": 2.0,
           "error": 0.0,
-          "confidence": 1.0,
-          "agreement": 1.0,
+          "confidence": 0.787,
+          "agreement": 0.6,
           "cross_model": 1.0,
           "judge2_total": 2.0,
-          "flagged": false,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": true,
           "sampled_totals": [
             2.0,
             2.0,
+            0.0,
             2.0,
-            2.0,
-            2.0
+            1.0
           ]
         },
         {
@@ -1836,6 +1396,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             0.0,
@@ -1847,23 +1410,26 @@
         },
         {
           "id": "C6",
-          "predicted": 3.0,
-          "pre_adjudication_total": 3.0,
-          "adjudicated": false,
-          "referee_reason": null,
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
+          "adjudicated": true,
+          "referee_reason": "Adjudicating between graders: Grader A's 2.5/5.0 is correct. The student gets partial credit for search mechanism but misses the BST ordering property; insert is minimally acceptable but deletion is essentially absent and incorrectly equated to insertion; O(log n) is correct. To improve: state the BST ordering invariant (left < root < right), describe insertion as following the search path to a null position, and explain deletion's three cases (no child, one child, two children with successor/predecessor replacement).",
           "ground_truth": 3.0,
-          "error": 0.0,
-          "confidence": 0.808,
+          "error": 0.5,
+          "confidence": 0.471,
           "agreement": 0.6,
-          "cross_model": 1.0,
-          "judge2_total": 3.0,
+          "cross_model": 0.0,
+          "judge2_total": 4.0,
+          "referee_model": "mistralai/mistral-large-4-0",
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": true,
           "sampled_totals": [
-            3.0,
-            3.0,
+            2.5,
             3.0,
             2.5,
-            3.5
+            3.5,
+            2.5
           ]
         },
         {
@@ -1878,6 +1444,9 @@
           "agreement": 1.0,
           "cross_model": 1.0,
           "judge2_total": 2.5,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
           "flagged": false,
           "sampled_totals": [
             2.5,
@@ -1895,16 +1464,707 @@
           "referee_reason": null,
           "ground_truth": 1.0,
           "error": 0.0,
-          "confidence": 0.804,
-          "agreement": 0.6,
+          "confidence": 0.896,
+          "agreement": 0.8,
           "cross_model": 1.0,
           "judge2_total": 1.0,
-          "flagged": true,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
           "sampled_totals": [
             1.0,
-            0.5,
+            1.0,
             1.0,
             0.5,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "n_items": 26,
+        "mae": 0.19230769230769232,
+        "pearson_r": 0.9614481694293086,
+        "agreement_rate": 0.8076923076923077,
+        "auroc": 0.780952380952381,
+        "error_count": 5,
+        "mean_confidence": 0.9440602651771084,
+        "mean_confidence_errors": 0.7756004535619705,
+        "mean_confidence_correct": 0.9841697441330937,
+        "margin": 0.5,
+        "mae_before_adjudication": 0.19230769230769232,
+        "agreement_rate_before_adjudication": 0.8076923076923077,
+        "n_adjudicated": 2,
+        "n_referee_changed": 0,
+        "referee_models": [
+          "mistralai/mistral-large-4-0"
+        ],
+        "n_integrity_flagged": 0,
+        "auroc_pre_adjudication": 0.780952380952381,
+        "ablation": {
+          "agree": 0.5571428571428572,
+          "variance": 0.5428571428571428,
+          "semantic": 0.47619047619047616,
+          "cross": 0.8,
+          "combined": 0.780952380952381
+        },
+        "ablation_pre_adjudication": {
+          "agree": 0.5571428571428572,
+          "variance": 0.5428571428571428,
+          "semantic": 0.47619047619047616,
+          "cross": 0.8,
+          "combined": 0.780952380952381
+        },
+        "low_conf_20pct": {
+          "fraction": 0.2,
+          "threshold": 1.0,
+          "n_flagged": 26,
+          "n_unflagged": 0,
+          "error_rate_flagged": 0.19230769230769232,
+          "error_rate_unflagged": null
+        },
+        "flagged_at_threshold": {
+          "threshold": 0.85,
+          "post": {
+            "threshold": 0.85,
+            "n_flagged": 4,
+            "n_unflagged": 22,
+            "error_rate_flagged": 0.75,
+            "error_rate_unflagged": 0.09090909090909091
+          },
+          "pre": {
+            "threshold": 0.85,
+            "n_flagged": 4,
+            "n_unflagged": 22,
+            "error_rate_flagged": 0.75,
+            "error_rate_unflagged": 0.09090909090909091
+          }
+        }
+      },
+      "details": [
+        {
+          "id": "P1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "P2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 0.889,
+          "agreement": 0.8,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "P3",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P4",
+          "predicted": 6.0,
+          "pre_adjudication_total": 6.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 6.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 6.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            6.0
+          ]
+        },
+        {
+          "id": "P5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M1",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M3",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C1",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C2",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "C3",
+          "predicted": 5.0,
+          "pre_adjudication_total": 5.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 5.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 5.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ]
+        },
+        {
+          "id": "C4",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 1.0,
+          "confidence": 0.545,
+          "agreement": 0.6,
+          "cross_model": 0.2,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": true,
+          "sampled_totals": [
+            3.5,
+            3.0,
+            3.5,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "E1",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted": 1.0,
+          "pre_adjudication_total": 1.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 1.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M4",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 0.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P6",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "P7",
+          "predicted": 4.0,
+          "pre_adjudication_total": 4.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 4.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 4.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        },
+        {
+          "id": "M5",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        {
+          "id": "M6",
+          "predicted": 3.0,
+          "pre_adjudication_total": 3.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 3.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 3.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            3.0,
+            3.0,
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        {
+          "id": "M7",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": true,
+          "referee_reason": "You did not meet any rubric criteria: a, b, c were not explicitly identified, the discriminant was computed as 36 + 32 = 68 instead of 36 - 32 = 4 (sign error in -4ac), and the resulting solutions 7.1 and -1.1 are wrong. Write out a=1, b=-6, c=8 explicitly, then compute b\u00b2 - 4ac = 36 - 32 = 4, and substitute into x = (6 \u00b1 2)/2 to get 4 and 2.",
+          "ground_truth": 2.0,
+          "error": 2.0,
+          "confidence": 0.667,
+          "agreement": 1.0,
+          "cross_model": 0.0,
+          "judge2_total": 2.0,
+          "referee_model": "mistralai/mistral-large-4-0",
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": true,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "P8",
+          "predicted": 2.0,
+          "pre_adjudication_total": 2.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.0,
+          "confidence": 0.779,
+          "agreement": 0.6,
+          "cross_model": 1.0,
+          "judge2_total": 2.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": true,
+          "sampled_totals": [
+            2.0,
+            2.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        },
+        {
+          "id": "C5",
+          "predicted": 0.0,
+          "pre_adjudication_total": 0.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 1.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 0.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "C6",
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
+          "adjudicated": true,
+          "referee_reason": "Adjudicating between Grader A (2.5) and Grader B (4.0): Grader B over-awarded the structure criterion by ignoring the missing BST ordering property. The student correctly described search mechanism and O(log n) complexity, and minimally described insert, but failed to state the BST structure property and gave an incorrect, vague deletion description. Final: 2.5/5.0. To improve: state the BST ordering property (left < node < right), and describe deletion's three cases (leaf, one child, two children with in-order successor).",
+          "ground_truth": 3.0,
+          "error": 0.5,
+          "confidence": 0.667,
+          "agreement": 1.0,
+          "cross_model": 0.0,
+          "judge2_total": 4.0,
+          "referee_model": "mistralai/mistral-large-4-0",
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": true,
+          "sampled_totals": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ]
+        },
+        {
+          "id": "E4",
+          "predicted": 2.5,
+          "pre_adjudication_total": 2.5,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 2.0,
+          "error": 0.5,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 2.5,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ]
+        },
+        {
+          "id": "E5",
+          "predicted": 1.0,
+          "pre_adjudication_total": 1.0,
+          "adjudicated": false,
+          "referee_reason": null,
+          "ground_truth": 1.0,
+          "error": 0.0,
+          "confidence": 1.0,
+          "agreement": 1.0,
+          "cross_model": 1.0,
+          "judge2_total": 1.0,
+          "referee_model": null,
+          "graded_by": "deepseek/deepseek-v4.1-flash",
+          "integrity_flags": [],
+          "flagged": false,
+          "sampled_totals": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
             1.0
           ]
         }
@@ -1913,62 +2173,67 @@
   ],
   "metrics": {
     "n_items": 26,
-    "mae": 0.19230769230769232,
-    "pearson_r": 0.9633057476150018,
-    "agreement_rate": 0.8076923076923077,
-    "auroc": 0.819047619047619,
-    "error_count": 5,
-    "mean_confidence": 0.9145032867064347,
-    "mean_confidence_errors": 0.7607407407407406,
-    "mean_confidence_correct": 0.9511134166982668,
+    "mae": 0.3076923076923077,
+    "pearson_r": 0.9491775263552102,
+    "agreement_rate": 0.6923076923076923,
+    "auroc": 0.8125,
+    "error_count": 8,
+    "mean_confidence": 0.9204175190411559,
+    "mean_confidence_errors": 0.7413569368837563,
+    "mean_confidence_correct": 1.0,
     "margin": 0.5,
-    "mae_before_adjudication": 0.19230769230769232,
-    "agreement_rate_before_adjudication": 0.8076923076923077,
-    "n_adjudicated": 1,
-    "auroc_pre_adjudication": 0.819047619047619,
+    "mae_before_adjudication": 0.3076923076923077,
+    "agreement_rate_before_adjudication": 0.6923076923076923,
+    "n_adjudicated": 2,
+    "n_referee_changed": 0,
+    "referee_models": [
+      "mistralai/mistral-large-4-0"
+    ],
+    "n_integrity_flagged": 0,
+    "auroc_pre_adjudication": 0.8125,
     "ablation": {
-      "agree": 0.7285714285714285,
-      "variance": 0.7666666666666667,
-      "semantic": 0.4523809523809524,
-      "cross": 0.7904761904761904,
-      "combined": 0.819047619047619
+      "agree": 0.75,
+      "variance": 0.75,
+      "semantic": 0.5,
+      "cross": 0.8125,
+      "combined": 0.8125
     },
     "ablation_pre_adjudication": {
-      "agree": 0.7285714285714285,
-      "variance": 0.7666666666666667,
-      "semantic": 0.4523809523809524,
-      "cross": 0.7904761904761904,
-      "combined": 0.819047619047619
+      "agree": 0.75,
+      "variance": 0.75,
+      "semantic": 0.5,
+      "cross": 0.8125,
+      "combined": 0.8125
     },
     "low_conf_20pct": {
       "fraction": 0.2,
-      "threshold": 0.7950056695246311,
-      "n_flagged": 6,
-      "n_unflagged": 20,
-      "error_rate_flagged": 0.5,
-      "error_rate_unflagged": 0.1
+      "threshold": 1.0,
+      "n_flagged": 26,
+      "n_unflagged": 0,
+      "error_rate_flagged": 0.3076923076923077,
+      "error_rate_unflagged": null
     },
     "flagged_at_threshold": {
       "threshold": 0.85,
       "post": {
         "threshold": 0.85,
-        "n_flagged": 7,
-        "n_unflagged": 19,
-        "error_rate_flagged": 0.42857142857142855,
-        "error_rate_unflagged": 0.10526315789473684
+        "n_flagged": 5,
+        "n_unflagged": 21,
+        "error_rate_flagged": 1.0,
+        "error_rate_unflagged": 0.14285714285714285
       },
       "pre": {
         "threshold": 0.85,
-        "n_flagged": 7,
-        "n_unflagged": 19,
-        "error_rate_flagged": 0.42857142857142855,
-        "error_rate_unflagged": 0.10526315789473684
+        "n_flagged": 5,
+        "n_unflagged": 21,
+        "error_rate_flagged": 1.0,
+        "error_rate_unflagged": 0.14285714285714285
       }
     }
   },
   "calibration": {
     "bin_centers": [
-      0.35000000000000003,
+      0.45,
       0.55,
       0.6500000000000001,
       0.75,
@@ -1976,20 +2241,20 @@
       0.95
     ],
     "error_rates": [
-      1.0,
-      1.0,
       0.6666666666666666,
-      0.2857142857142857,
-      0.1111111111111111,
-      0.09433962264150944
+      1.0,
+      1.0,
+      0.0,
+      0.25,
+      0.12903225806451613
     ],
     "counts": [
-      1,
+      3,
       2,
-      6,
-      7,
-      9,
-      53
+      5,
+      2,
+      4,
+      62
     ],
     "bins": [
       0.0,
@@ -2018,6 +2283,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 5.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         5.0,
@@ -2029,22 +2297,25 @@
     },
     {
       "id": "P2",
-      "predicted": 4.0,
-      "pre_adjudication_total": 4.0,
+      "predicted": 3.5,
+      "pre_adjudication_total": 3.5,
       "adjudicated": false,
       "referee_reason": null,
       "ground_truth": 4.0,
-      "error": 0.0,
-      "confidence": 0.795,
-      "agreement": 0.6,
-      "cross_model": 1.0,
+      "error": 0.5,
+      "confidence": 0.546,
+      "agreement": 0.4,
+      "cross_model": 0.5,
       "judge2_total": 4.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": true,
       "sampled_totals": [
-        3.0,
+        3.5,
         4.0,
         4.0,
-        4.0,
+        3.5,
         3.0
       ]
     },
@@ -2060,6 +2331,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 6.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         6.0,
@@ -2081,6 +2355,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 6.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         6.0,
@@ -2102,6 +2379,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 2.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         2.0,
@@ -2119,16 +2399,19 @@
       "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 0.795,
-      "agreement": 0.6,
+      "confidence": 1.0,
+      "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 4.0,
-      "flagged": true,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
+      "flagged": false,
       "sampled_totals": [
         4.0,
         4.0,
-        3.0,
-        3.0,
+        4.0,
+        4.0,
         4.0
       ]
     },
@@ -2144,6 +2427,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 4.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         4.0,
@@ -2165,6 +2451,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 4.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         4.0,
@@ -2186,6 +2475,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 5.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         5.0,
@@ -2203,16 +2495,19 @@
       "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 0.8,
-      "agreement": 0.6,
+      "confidence": 1.0,
+      "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 4.0,
-      "flagged": true,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
+      "flagged": false,
       "sampled_totals": [
         4.0,
-        3.5,
         4.0,
-        3.0,
+        4.0,
+        4.0,
         4.0
       ]
     },
@@ -2228,6 +2523,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 5.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         5.0,
@@ -2245,17 +2543,20 @@
       "referee_reason": null,
       "ground_truth": 4.0,
       "error": 1.0,
-      "confidence": 0.636,
-      "agreement": 0.8,
-      "cross_model": 0.2,
-      "judge2_total": 4.0,
-      "flagged": true,
+      "confidence": 1.0,
+      "agreement": 1.0,
+      "cross_model": 1.0,
+      "judge2_total": 3.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
+      "flagged": false,
       "sampled_totals": [
         3.0,
         3.0,
         3.0,
         3.0,
-        3.5
+        3.0
       ]
     },
     {
@@ -2270,6 +2571,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 3.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         3.0,
@@ -2291,6 +2595,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 1.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         1.0,
@@ -2312,6 +2619,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 3.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         3.0,
@@ -2333,6 +2643,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 0.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         0.0,
@@ -2350,10 +2663,13 @@
       "referee_reason": null,
       "ground_truth": 4.0,
       "error": 0.0,
-      "confidence": 0.867,
+      "confidence": 1.0,
       "agreement": 1.0,
-      "cross_model": 0.6,
-      "judge2_total": 4.5,
+      "cross_model": 1.0,
+      "judge2_total": 4.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         4.0,
@@ -2375,6 +2691,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 4.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         4.0,
@@ -2396,6 +2715,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 2.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         2.0,
@@ -2417,6 +2739,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 3.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         3.0,
@@ -2431,41 +2756,47 @@
       "predicted": 0.0,
       "pre_adjudication_total": 0.0,
       "adjudicated": true,
-      "referee_reason": "Adjudicated 0/5: the student never correctly identifies the coefficients (c is treated as -8), computes the discriminant as 68 instead of 4, and gives wrong solutions; to improve, explicitly write a=1, b=-6, c=8, compute b^2-4ac=4, then x=(6\u00b12)/2=4,2.",
+      "referee_reason": "No criteria are met: coefficients a, b, c are not identified, the discriminant is computed as 68 instead of 4 (sign error on 4ac), and the resulting roots are wrong. To improve, explicitly state a=1, b=-6, c=8, compute disc = b\u00b2-4ac = (-6)\u00b2-4(1)(8) = 4, then x = (6\u00b12)/2 = 4, 2.",
       "ground_truth": 2.0,
       "error": 2.0,
-      "confidence": 0.542,
-      "agreement": 0.8,
+      "confidence": 0.667,
+      "agreement": 1.0,
       "cross_model": 0.0,
       "judge2_total": 2.0,
+      "referee_model": "mistralai/mistral-large-4-0",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": true,
       "sampled_totals": [
         0.0,
         0.0,
         0.0,
         0.0,
-        2.0
+        0.0
       ]
     },
     {
       "id": "P8",
-      "predicted": 2.0,
-      "pre_adjudication_total": 2.0,
-      "adjudicated": false,
-      "referee_reason": null,
+      "predicted": 0.0,
+      "pre_adjudication_total": 0.0,
+      "adjudicated": true,
+      "referee_reason": "You divided distance by time correctly to get 50, but you attached the wrong unit: 100 km / 2 h = 50 km/h, not 50 m/s (criterion 'correct speed in km/h' not met). You also did not show the km/h to m/s conversion factor (criterion not met) and therefore did not reach the correct value of about 13.9 m/s (criterion not met). Improve by stating 50 km/h, then multiplying by 1000/3600 (or 5/18) to convert: 50 \u00d7 1000/3600 \u2248 13.9 m/s.",
       "ground_truth": 2.0,
-      "error": 0.0,
-      "confidence": 1.0,
-      "agreement": 1.0,
-      "cross_model": 1.0,
+      "error": 2.0,
+      "confidence": 0.445,
+      "agreement": 0.6,
+      "cross_model": 0.0,
       "judge2_total": 2.0,
-      "flagged": false,
+      "referee_model": "mistralai/mistral-large-4-0",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
+      "flagged": true,
       "sampled_totals": [
         2.0,
+        0.0,
         2.0,
-        2.0,
-        2.0,
-        2.0
+        0.0,
+        0.0
       ]
     },
     {
@@ -2480,6 +2811,9 @@
       "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 0.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         0.0,
@@ -2491,23 +2825,26 @@
     },
     {
       "id": "C6",
-      "predicted": 3.0,
-      "pre_adjudication_total": 3.0,
+      "predicted": 2.5,
+      "pre_adjudication_total": 2.5,
       "adjudicated": false,
       "referee_reason": null,
       "ground_truth": 3.0,
-      "error": 0.0,
-      "confidence": 0.717,
-      "agreement": 0.4,
-      "cross_model": 1.0,
-      "judge2_total": 3.0,
+      "error": 0.5,
+      "confidence": 0.636,
+      "agreement": 0.8,
+      "cross_model": 0.2,
+      "judge2_total": 3.5,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": true,
       "sampled_totals": [
-        3.0,
+        2.5,
         3.0,
         2.5,
         2.5,
-        3.5
+        2.5
       ]
     },
     {
@@ -2518,15 +2855,18 @@
       "referee_reason": null,
       "ground_truth": 2.0,
       "error": 0.5,
-      "confidence": 0.896,
-      "agreement": 0.8,
+      "confidence": 1.0,
+      "agreement": 1.0,
       "cross_model": 1.0,
       "judge2_total": 2.5,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": false,
       "sampled_totals": [
         2.5,
         2.5,
-        2.0,
+        2.5,
         2.5,
         2.5
       ]
@@ -2539,17 +2879,20 @@
       "referee_reason": null,
       "ground_truth": 1.0,
       "error": 0.5,
-      "confidence": 0.73,
-      "agreement": 0.8,
+      "confidence": 0.637,
+      "agreement": 0.6,
       "cross_model": 0.5,
       "judge2_total": 1.0,
+      "referee_model": null,
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "integrity_flags": [],
       "flagged": true,
       "sampled_totals": [
-        0.5,
-        0.5,
-        0.5,
         1.0,
-        0.5
+        0.5,
+        0.5,
+        0.5,
+        1.0
       ]
     }
   ]

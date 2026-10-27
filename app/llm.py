@@ -19,6 +19,22 @@ class RateLimitError(LLMError):
     pass
 
 
+class OutputBudgetError(LLMError):
+    """The reply was cut off at max_tokens before any content was written (a reasoning
+    model spent the whole budget thinking). Retrying the same request cannot help."""
+    pass
+
+
+def check_output_budget(choice, model):
+    """Raise OutputBudgetError when a choice is empty and finish_reason is "length"."""
+    content = (choice.message.content or "") if getattr(choice, "message", None) else ""
+    if not content.strip() and getattr(choice, "finish_reason", None) == "length":
+        raise OutputBudgetError(
+            f"reasoning used the whole output budget for {model} (empty reply, "
+            "finish_reason=length); disable reasoning via its *_EXTRA_BODY or raise max_tokens"
+        )
+
+
 def extract_json(content: str):
     """Best-effort extraction of a JSON object from an LLM response."""
     content = (content or "").strip()
@@ -72,82 +88,65 @@ def _is_auth_error(exc):
 class LLMClient:
     """Minimal OpenAI-compatible client with retry/backoff and forced-JSON parsing.
 
-    For rate-limited APIs (especially Gemini free tier at 15 RPM), uses aggressive
-    exponential backoff: 5s → 15s → 45s on 429 errors.
+    Bound to one `Provider` (endpoint + key + model + provider-specific extra body);
+    defaults to the primary grading LLM. For rate-limited APIs (especially Gemini
+    free tier at 15 RPM), uses aggressive exponential backoff: 5s -> 15s -> 45s on 429s.
     """
 
-    def __init__(self):
+    def __init__(self, provider=None):
+        self._provider = provider
         self._client = None
+        self._client_key = None
+
+    @property
+    def provider(self):
+        return self._provider or settings.primary_provider()
 
     def _get_client(self):
-        if self._client is None:
+        p = self.provider
+        key = (p.base_url, p.api_key)
+        if self._client is None or self._client_key != key:
             from openai import OpenAI
-            self._client = OpenAI(
-                base_url=settings.openai_base_url,
-                api_key=settings.openai_api_key,
-            )
+            self._client = OpenAI(base_url=p.base_url, api_key=p.api_key)
+            self._client_key = key
         return self._client
 
-    @staticmethod
-    def _extra_body():
-        """Disable reasoning/thinking tokens when the provider supports it
-        (e.g. DeepSeek V4.1 via Goedel Machines)."""
-        if settings.llm_disable_thinking:
-            return {"chat_template_kwargs": {"thinking": False}}
-        return None
+    def _request(self, **kwargs):
+        p = self.provider
+        kwargs["model"] = p.model
+        if p.extra_body:
+            kwargs["extra_body"] = dict(p.extra_body)
+        return self._get_client().chat.completions.create(**kwargs)
+
+    def _auth_error(self, exc):
+        return LLMError(f"invalid API key for {self.provider.base_url}")
 
     def warmup(self):
         """Fire a tiny request to keep the provider instance warm (free tiers have
-        slow cold starts). Best-effort; never raises."""
+        slow cold starts). Best-effort; only raises on an invalid key."""
         if settings.using_mock:
             return
         try:
-            client = self._get_client()
-            kwargs = dict(
-                model=settings.llm_model,
+            self._request(
                 messages=[{"role": "user", "content": "Reply with exactly: OK"}],
                 temperature=0.0,
                 max_tokens=10,
             )
-            extra_body = self._extra_body()
-            if extra_body is not None:
-                kwargs["extra_body"] = extra_body
-            client.chat.completions.create(**kwargs)
         except Exception as exc:
             if _is_auth_error(exc):
-                raise LLMError(f"invalid API key for {settings.openai_base_url}") from exc
-            pass
+                raise self._auth_error(exc) from exc
 
-    def chat_json(self, system, user, temperature=None, max_tokens=1500):
-        temperature = settings.grading_temperature if temperature is None else temperature
-        max_attempts = settings.max_retries + 3  # extra retries for rate limits
+    def _with_retries(self, call, max_attempts=None):
+        max_attempts = max_attempts or settings.max_retries + 3  # extra retries for rate limits
         last_error = None
         for attempt in range(max_attempts):
             try:
-                client = self._get_client()
-                kwargs = dict(
-                    model=settings.llm_model,
-                    messages=[
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": user},
-                    ],
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    response_format={"type": "json_object"},
-                )
-                extra_body = self._extra_body()
-                if extra_body is not None:
-                    kwargs["extra_body"] = extra_body
-                resp = client.chat.completions.create(**kwargs)
-                content = resp.choices[0].message.content or ""
-                if not content.strip():
-                    # Free-tier gateways sometimes return 200 with empty content
-                    # right before a rate limit. Treat as retryable.
-                    raise LLMError("Empty response from model")
-                return extract_json(content)
+                return call()
             except Exception as exc:
                 if _is_auth_error(exc):
-                    raise LLMError(f"invalid API key for {settings.openai_base_url}") from exc
+                    raise self._auth_error(exc) from exc
+                if isinstance(exc, OutputBudgetError):
+                    raise  # deterministic for this config: retrying cannot help
                 last_error = exc
                 if attempt == max_attempts - 1:
                     break
@@ -156,60 +155,66 @@ class LLMClient:
                     time.sleep(1.5 * (attempt + 1))
                 elif _is_rate_limit(exc):
                     # Exponential backoff for rate limits: 5s, 15s, 45s, ...
-                    wait = min(5 * (3 ** attempt), 120)
-                    time.sleep(wait)
+                    time.sleep(min(5 * (3 ** attempt), 120))
                 else:
                     # Shorter backoff for other transient errors
                     time.sleep(2.0 * (attempt + 1))
-        raise LLMError(f"LLM call failed after {max_attempts} attempts: {last_error}")
+        raise LLMError(
+            f"{self.provider.model} call failed after {max_attempts} attempts: {last_error}"
+        )
+
+    def chat_json(self, system, user, temperature=None, max_tokens=1500, max_attempts=None):
+        temperature = settings.grading_temperature if temperature is None else temperature
+
+        def call():
+            resp = self._request(
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                temperature=temperature,
+                max_tokens=max_tokens,
+                response_format={"type": "json_object"},
+            )
+            check_output_budget(resp.choices[0], self.provider.model)
+            content = resp.choices[0].message.content or ""
+            if not content.strip():
+                # Free-tier gateways sometimes return 200 with empty content
+                # right before a rate limit. Treat as retryable.
+                raise LLMError("Empty response from model")
+            return extract_json(content)
+
+        return self._with_retries(call, max_attempts)
 
     def chat_json_n(self, system, user, n, temperature=None, max_tokens=1500):
         """One request asking for `n` choices; returns a list of parsed JSON dicts
         (unparseable choices are skipped). Raises LLMError if none parse."""
         temperature = settings.grading_temperature if temperature is None else temperature
-        max_attempts = settings.max_retries + 3  # extra retries for rate limits
-        last_error = None
-        for attempt in range(max_attempts):
-            try:
-                client = self._get_client()
-                kwargs = dict(
-                    model=settings.llm_model,
-                    messages=[
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": user},
-                    ],
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    n=n,
-                    response_format={"type": "json_object"},
-                )
-                extra_body = self._extra_body()
-                if extra_body is not None:
-                    kwargs["extra_body"] = extra_body
-                resp = client.chat.completions.create(**kwargs)
-                parsed = []
+
+        def call():
+            resp = self._request(
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                temperature=temperature,
+                max_tokens=max_tokens,
+                n=n,
+                response_format={"type": "json_object"},
+            )
+            parsed = []
+            for choice in resp.choices:
+                content = (choice.message.content or "") if choice.message else ""
+                if not content.strip():
+                    continue
+                try:
+                    parsed.append(extract_json(content))
+                except LLMError:
+                    continue
+            if not parsed:
                 for choice in resp.choices:
-                    content = (choice.message.content or "") if choice.message else ""
-                    if not content.strip():
-                        continue
-                    try:
-                        parsed.append(extract_json(content))
-                    except LLMError:
-                        continue
-                if not parsed:
-                    raise LLMError("No parseable JSON choices in response")
-                return parsed
-            except Exception as exc:
-                if _is_auth_error(exc):
-                    raise LLMError(f"invalid API key for {settings.openai_base_url}") from exc
-                last_error = exc
-                if attempt == max_attempts - 1:
-                    break
-                if isinstance(exc, LLMError):
-                    time.sleep(1.5 * (attempt + 1))
-                elif _is_rate_limit(exc):
-                    wait = min(5 * (3 ** attempt), 120)
-                    time.sleep(wait)
-                else:
-                    time.sleep(2.0 * (attempt + 1))
-        raise LLMError(f"LLM call failed after {max_attempts} attempts: {last_error}")
+                    check_output_budget(choice, self.provider.model)
+                raise LLMError("No parseable JSON choices in response")
+            return parsed
+
+        return self._with_retries(call)

@@ -15,6 +15,9 @@ class QuestionSpec(BaseModel):
     max_marks: float
     rubric_criteria: List[RubricCriterion] = []
     model_answer: str = ""
+    # False when the question paper gave no marks for this question (max_marks is
+    # then derived from the rubric, or defaults to 1).
+    marks_specified: bool = True
 
 
 class StudentAnswer(BaseModel):
@@ -35,6 +38,7 @@ class GradingResult(BaseModel):
     total_awarded: float
     max_marks: float
     feedback: str
+    integrity_flags: List[str] = []
 
 
 class ConfidenceScore(BaseModel):
@@ -47,6 +51,14 @@ class ConfidenceScore(BaseModel):
     adjudicated: bool = False
     pre_adjudication_total: Optional[float] = None
     referee_reason: Optional[str] = None
+    referee_model: Optional[str] = None
+    graded_by: Optional[str] = None      # model that produced the final samples
+    grader_role: Optional[str] = None    # primary | fallback | judge2 | mock | none (no LLM call)
+    integrity_flags: List[str] = []
+    integrity_reasons: List[str] = []
+    # Detected language of the answer (e.g. "English", "Hindi", "Hinglish"). Informational:
+    # never a flag unless the rubric explicitly requires a language.
+    answer_language: Optional[str] = None
     eigv_confidence: Optional[float] = None
     warnings: List[str] = []
     combined_confidence: float

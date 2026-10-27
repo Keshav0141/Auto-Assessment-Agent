@@ -34,8 +34,11 @@ async function init() {
     } else {
       pill.className = "pill ok";
       const judge2 = h.judge2 ? ` · second grader ${h.judge2_model}` : " · no second grader";
-      const adj = h.adjudicate ? " · adjudication on" : "";
-      pill.innerHTML = `<i class='ph ph-check-circle'></i> ${h.model} · ${h.samples_per_question} samples/question · threshold ${h.confidence_threshold}${judge2}${adj}`;
+      const adj = h.adjudicate
+        ? ` · referee ${h.referee_model && h.referee_model !== h.model ? h.referee_model : "primary model"}`
+        : "";
+      const fallback = h.fallback_model ? ` · fallback ${h.fallback_model}` : "";
+      pill.innerHTML = `<i class='ph ph-check-circle'></i> ${esc(h.model)} · ${h.samples_per_question} samples/question · threshold ${h.confidence_threshold}${esc(judge2)}${esc(adj)}${esc(fallback)}`;
     }
   } catch {
     $("n_samples").value = $("n_samples").value || "5";
@@ -97,7 +100,12 @@ function qCard(r, idx) {
   let badge = '<span class="badge ok"><i class="ph ph-check"></i> OK</span>';
   let ariaExpanded = "false";
   
-  if (c.flagged) {
+  const flags = c.integrity_flags || [];
+  if (flags.length) {
+    qClass += " flagged open";
+    ariaExpanded = "true";
+    badge = '<span class="badge flag"><i class="ph ph-shield-warning"></i> INTEGRITY</span>';
+  } else if (c.flagged) {
     if (pct >= 40) {
       qClass += " medium-flagged flagged";
       badge = '<span class="badge flag medium"><i class="ph ph-eye"></i> REVIEW</span>';
@@ -127,6 +135,21 @@ function qCard(r, idx) {
        </div>`
     : "";
 
+  const integrity = flags.length
+    ? `<div class="q-integrity">
+         <div class="q-block-label"><i class="ph ph-shield-warning"></i> Needs review: ${flags.map((f) => esc(f.replace(/_/g, " "))).join(", ")}</div>
+         <ul>${(c.integrity_reasons || []).map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
+         <div class="q-integrity-note">Integrity flags never change the mark; they cap confidence at 50% and send the question for human review.</div>
+       </div>`
+    : "";
+
+  const roleLabel = { fallback: "fallback model", judge2: "second grader (primary failed)" };
+  const provenance = [];
+  if (c.graded_by && c.grader_role !== "primary" && c.grader_role !== "mock")
+    provenance.push(`graded by ${esc(c.graded_by)} (${esc(roleLabel[c.grader_role] || c.grader_role)})`);
+  if (c.grader_role === "none") provenance.push("no LLM call (blank answer)");
+  if (c.adjudicated && c.referee_model) provenance.push(`refereed by ${esc(c.referee_model)}`);
+
   const pctStr = (v) => `${(v * 100).toFixed(0)}%`;
   const breakdown = [];
   if (_weights.agreement !== 0 && c.agreement_confidence != null)
@@ -155,6 +178,7 @@ function qCard(r, idx) {
         </div>
       </button>
       <div class="q-body">
+        ${integrity}
         ${qText}
         ${ansText}
         <div class="q-feedback"><strong><i class="ph ph-chat-teardrop-text"></i> Feedback:</strong><br/> ${esc(g.feedback)}</div>
@@ -165,7 +189,7 @@ function qCard(r, idx) {
         </table>
         <div class="samples" style="color: #a0aec0; font-size: 0.9rem;">
           <b><i class="ph ph-chart-bar"></i> Confidence breakdown:</b> ${breakdown.join(" · ")} ·
-          sampled totals: ${r.sampled_totals.map((t) => t.toFixed(1)).join(", ")}${c.judge2_total != null ? ` · second grader: ${c.judge2_total.toFixed(1)}/${g.max_marks}` : ""}
+          sampled totals: ${r.sampled_totals.length ? r.sampled_totals.map((t) => t.toFixed(1)).join(", ") : "none"}${c.judge2_total != null ? ` · second grader: ${c.judge2_total.toFixed(1)}/${g.max_marks}` : ""}${provenance.length ? ` · ${provenance.join(" · ")}` : ""}
         </div>
       </div>
     </div>`;
@@ -266,7 +290,7 @@ function render(data) {
     </div>`;
 
   $("legend").innerHTML = `
-    <div style="background: rgba(0,240,255,0.05); border-left: 4px solid #00f0ff; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;"><strong>How to read this:</strong> each question is graded ${esc(_nSamples)} times by the primary model and once by a second model. The confidence score combines sample agreement, score spread and cross-model agreement. If the two models disagree materially, a referee decides the final mark. Questions below the ${esc(_threshold)} threshold are flagged for human review — click any question to review the question, student answer, criterion breakdown and feedback.</div>`;
+    <div style="background: rgba(0,240,255,0.05); border-left: 4px solid #00f0ff; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;"><strong>How to read this:</strong> each question is graded ${esc(_nSamples)} times by the primary model and once by a second model. The confidence score combines sample agreement, score spread and cross-model agreement. If the two models disagree materially, a referee decides the final mark. Questions below the ${esc(_threshold)} threshold are flagged for human review, as is any answer with an integrity flag (blank, off-topic, gibberish, a restated question, illegible OCR, text that tries to instruct the grader, or a language other than one the rubric requires) — click any question to review the question, student answer, criterion breakdown and feedback.</div>`;
 
   $("warnings").innerHTML = data.warnings.map((w) => `<p style="color: #ffaa00; margin-bottom: 1rem;">⚠ ${esc(w)}</p>`).join("");
 

@@ -11,8 +11,9 @@ from fastapi.staticfiles import StaticFiles
 from app.config import settings
 from app.grading.engine import GradingEngine
 from app.ingestion.parser import (
+    NoTextError,
     ParseError,
-    default_criterion,
+    apply_rubric,
     extract_text_meta,
     parse_answer_sheet,
     parse_model_answers,
@@ -54,6 +55,7 @@ _SAMPLE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "sample_d
 
 @app.get("/api/health")
 def health():
+    fallback = settings.fallback_provider()
     return {
         "status": "ok",
         "mock": settings.using_mock,
@@ -66,6 +68,8 @@ def health():
         "judge2": bool(settings.judge2_api_key),
         "judge2_model": settings.judge2_model if settings.judge2_api_key else None,
         "adjudicate": settings.adjudicate,
+        "referee_model": settings.referee_provider().model,
+        "fallback_model": fallback.model if fallback else None,
         "weights": {
             "agreement": settings.w_agree,
             "variance": settings.w_variance,
@@ -94,8 +98,15 @@ def sample():
     return out
 
 
-def _read(upload: Optional[UploadFile], text: Optional[str], warnings: Optional[List[str]] = None):
-    """Return (content, source_name) from either an uploaded file or raw text."""
+def _read(upload: Optional[UploadFile], text: Optional[str], warnings: List[str], label: str,
+          required: bool = False):
+    """Return (content, source_name) from either an uploaded file or raw text.
+
+    Unreadable or unsupported files are a 400 for the required inputs (question
+    paper, answer sheet) and a warning for optional ones (rubric, model answers),
+    which are then ignored. A readable file with no text yields "" plus a warning,
+    except for the question paper, which must contain questions.
+    """
     if upload is not None and upload.filename:
         data = upload.file.read()
         if len(data) > _MAX_UPLOAD_BYTES:
@@ -107,9 +118,17 @@ def _read(upload: Optional[UploadFile], text: Optional[str], warnings: Optional[
             )
         try:
             content, ocr = extract_text_meta(upload.filename, data)
+        except NoTextError as exc:
+            if label == "question paper":
+                raise HTTPException(400, f"{exc} The question paper must contain the questions.")
+            warnings.append(f"{exc} The {label} was treated as empty.")
+            return "", f"file:{upload.filename}"
         except ParseError as exc:
-            raise HTTPException(400, str(exc))
-        if ocr and warnings is not None:
+            if required:
+                raise HTTPException(400, str(exc))
+            warnings.append(f"{exc} The {label} was ignored.")
+            return None, None
+        if ocr:
             warnings.append(f"'{upload.filename}' was read via OCR ({ocr}); check the extracted text below.")
         return content, f"file:{upload.filename}"
     return text, ("text" if text else None)
@@ -137,32 +156,44 @@ def grade(
         )
 
     # 1. Ingestion
-    q_text, q_src = _read(question_paper, question_paper_text or structured_json, warnings)
-    a_text, _ = _read(answer_sheet, answer_sheet_text, warnings)
-    r_text, _ = _read(rubric, rubric_text, warnings)
-    m_text, _ = _read(model_answers, model_answers_text, warnings)
+    q_text, q_src = _read(question_paper, question_paper_text or structured_json, warnings,
+                          "question paper", required=True)
+    a_text, a_src = _read(answer_sheet, answer_sheet_text, warnings, "answer sheet", required=True)
+    r_text, _ = _read(rubric, rubric_text, warnings, "rubric")
+    m_text, _ = _read(model_answers, model_answers_text, warnings, "model answers")
 
-    if not q_text:
+    if not q_text or not q_text.strip():
         raise HTTPException(400, "A question paper is required (file or pasted text).")
     try:
-        questions = parse_question_paper(q_text)
+        questions = parse_question_paper(q_text, warnings)
     except ParseError as exc:
         raise HTTPException(400, str(exc))
     if not questions:
         raise HTTPException(400, "No questions could be parsed from the question paper.")
 
-    rubric_map = parse_rubric(r_text) if r_text else {}
-    model_map = parse_model_answers(m_text) if m_text else {}
+    rubric_map = parse_rubric(r_text, warnings) if r_text else {}
+    model_map = parse_model_answers(m_text, warnings) if m_text else {}
+    question_ids = [q.question_id for q in questions]
+    for name, mapping in (("rubric", rubric_map), ("model answers", model_map)):
+        extra = [qid for qid in mapping if qid not in question_ids]
+        if extra and len(mapping) > 1:
+            warnings.append(
+                f"The {name} include {', '.join('Q' + x for x in extra)}, which are not "
+                "in the question paper; they were ignored."
+            )
     for q in questions:
-        q.rubric_criteria = rubric_map.get(q.question_id) or [default_criterion(q.max_marks)]
+        # A structured-JSON paper may carry its own rubric; an uploaded rubric wins.
+        warnings.extend(apply_rubric(q, rubric_map.get(q.question_id) or q.rubric_criteria))
         q.model_answer = model_map.get(q.question_id, q.model_answer or "")
 
-    question_ids = [q.question_id for q in questions]
+    if not a_text or not a_text.strip():
+        if a_src is None:
+            warnings.append("No answer sheet was provided; every question is graded as blank.")
+        a_text = ""
     answer_map = None
     if a_text:
-        answer_map, warn = parse_answer_sheet(a_text, question_ids)
-        if warn:
-            warnings.append(warn)
+        answer_map, sheet_warnings = parse_answer_sheet(a_text, question_ids)
+        warnings.extend(sheet_warnings)
     if answer_map is None:
         answer_map = {
             question_ids[0]: StudentAnswer(question_id=question_ids[0], student_answer_text=a_text or "")

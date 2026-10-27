@@ -45,6 +45,9 @@ def _summarize(runs):
         "auroc": col("auroc"),
         "auroc_pre_adjudication": col("auroc_pre_adjudication"),
         "n_adjudicated": col("n_adjudicated"),
+        "n_referee_changed": col("n_referee_changed"),
+        "n_integrity_flagged": col("n_integrity_flagged"),
+        "referee_models": sorted({m for x in ms for m in x.get("referee_models", [])}),
         "ablation": ablation("ablation"),
         "ablation_pre_adjudication": ablation("ablation_pre_adjudication"),
         "flagged_at_threshold": {
@@ -107,7 +110,8 @@ def main():
         print(
             f"[run {r + 1}/{repeats}] MAE(post)={metrics['mae']:.4f} "
             f"agreement(post)={metrics['agreement_rate']:.3f} "
-            f"AUROC(post)={metrics['auroc']:.3f} n_adj={metrics['n_adjudicated']}"
+            f"AUROC(post)={metrics['auroc']:.3f} n_adj={metrics['n_adjudicated']} "
+            f"referee_changed={metrics['n_referee_changed']} integrity_flagged={metrics['n_integrity_flagged']}"
         )
 
     summary = _summarize(runs)

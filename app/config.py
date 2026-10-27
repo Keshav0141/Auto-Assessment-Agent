@@ -1,6 +1,8 @@
 """Application configuration, loaded from environment variables (.env supported)."""
 import json
 import os
+from dataclasses import dataclass
+from typing import Optional
 
 from dotenv import load_dotenv
 
@@ -38,6 +40,17 @@ def _env_json(name, default):
         return default
 
 
+@dataclass(frozen=True)
+class Provider:
+    """One OpenAI-compatible endpoint + model. `extra_body` is merged into every
+    request and is provider-specific (never copied across providers)."""
+    role: str
+    base_url: str
+    api_key: str
+    model: str
+    extra_body: Optional[dict] = None
+
+
 class Settings:
     def __init__(self):
         # True on Vercel/serverless: background threads and idle warm-ups are useless
@@ -55,6 +68,19 @@ class Settings:
         self.judge2_base_url = os.getenv("JUDGE2_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/").rstrip("/")
         self.judge2_api_key = os.getenv("JUDGE2_API_KEY", "").strip()
         self.judge2_model = os.getenv("JUDGE2_MODEL", "gemini-3.5-flash-lite")
+
+        # Optional referee for adjudication; every field defaults to the primary LLM.
+        self.referee_base_url = os.getenv("REFEREE_BASE_URL", "").strip().rstrip("/")
+        self.referee_api_key = os.getenv("REFEREE_API_KEY", "").strip()
+        self.referee_model = os.getenv("REFEREE_MODEL", "").strip()
+        self.referee_extra_body = _env_json("REFEREE_EXTRA_BODY", None)
+
+        # Optional fallback grader used when the primary fails (non-auth, after
+        # retries). Enabled by FALLBACK_MODEL; endpoint/key default to the primary's.
+        self.fallback_base_url = os.getenv("FALLBACK_BASE_URL", "").strip().rstrip("/")
+        self.fallback_api_key = os.getenv("FALLBACK_API_KEY", "").strip()
+        self.fallback_model = os.getenv("FALLBACK_MODEL", "").strip()
+        self.fallback_extra_body = _env_json("FALLBACK_EXTRA_BODY", None)
 
         self.grading_temperature = _env_float("GRADING_TEMPERATURE", 0.7)
         self.max_retries = _env_int("LLM_MAX_RETRIES", 3)
@@ -87,6 +113,37 @@ class Settings:
     @property
     def using_mock(self) -> bool:
         return self.llm_provider == "mock" or not self.openai_api_key
+
+    def primary_extra_body(self):
+        """Primary-only request flags (Goedel/DeepSeek chat_template_kwargs)."""
+        if self.llm_disable_thinking:
+            return {"chat_template_kwargs": {"thinking": False}}
+        return None
+
+    def primary_provider(self) -> Provider:
+        return Provider("primary", self.openai_base_url, self.openai_api_key, self.llm_model,
+                        self.primary_extra_body())
+
+    def referee_provider(self) -> Provider:
+        base_url = self.referee_base_url or self.openai_base_url
+        model = self.referee_model or self.llm_model
+        extra = self.referee_extra_body
+        if extra is None and base_url == self.openai_base_url and model == self.llm_model:
+            # Same endpoint + model as the primary: its flags apply unchanged.
+            extra = self.primary_extra_body()
+        return Provider("referee", base_url, self.referee_api_key or self.openai_api_key, model, extra)
+
+    def fallback_provider(self) -> Optional[Provider]:
+        if not self.fallback_model:
+            return None
+        return Provider("fallback", self.fallback_base_url or self.openai_base_url,
+                        self.fallback_api_key or self.openai_api_key, self.fallback_model,
+                        self.fallback_extra_body)
+
+    def judge2_provider(self) -> Optional[Provider]:
+        if not self.judge2_api_key:
+            return None
+        return Provider("judge2", self.judge2_base_url, self.judge2_api_key, self.judge2_model, None)
 
 
 def _hf_model_cached(model_name: str) -> bool:

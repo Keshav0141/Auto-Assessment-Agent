@@ -11,10 +11,11 @@ binary, so they also work on serverless/container deployments.
 """
 import base64
 import io
+import re
 import time
 
 from app.config import settings
-from app.llm import _is_auth_error
+from app.llm import OutputBudgetError, _is_auth_error, check_output_budget
 
 OCR_PROMPT = (
     "Transcribe ALL text in this image of an exam document exactly as written. "
@@ -22,7 +23,8 @@ OCR_PROMPT = (
     "do NOT correct, solve or summarise anything; keep question labels such as "
     "'Question 1', 'Q2', '3)' on their own lines exactly as they appear; write "
     "math in plain text (e.g. x^2, sqrt(x), a/b); mark unreadable parts as "
-    "[illegible]. Output only the transcription, no commentary."
+    "[illegible]. If the image contains no text at all, output exactly [no text]. "
+    "Output only the transcription, no commentary."
 )
 
 _MAX_SIDE = 2000
@@ -31,6 +33,10 @@ _MAX_PAGES = 10  # max PDF pages rendered for OCR (cost + latency guard)
 
 class OCRError(RuntimeError):
     pass
+
+
+class NoTextError(OCRError):
+    """The image was read but contains no text (blank page, photo without writing)."""
 
 
 def _provider():
@@ -82,10 +88,13 @@ def _gemini_page(img_or_bytes):
             elif settings.ocr_disable_thinking:
                 kwargs["extra_body"] = {"chat_template_kwargs": {"thinking": False}}
             resp = client.chat.completions.create(**kwargs)
+            check_output_budget(resp.choices[0], settings.ocr_model)
             text = (resp.choices[0].message.content or "").strip()
             if text:
                 return text
             last = "empty response"
+        except OutputBudgetError as exc:
+            raise OCRError(str(exc)) from exc  # retrying the same request cannot help
         except Exception as exc:  # rate limits / transient errors
             if _is_auth_error(exc):
                 raise OCRError(f"invalid API key for {settings.ocr_base_url}") from exc
@@ -124,8 +133,9 @@ def ocr_pages(pages):
         if provider == "gemini" and settings.request_pacing and i < len(pages) - 1:
             time.sleep(settings.request_pacing)
     text = "\n".join(out)
+    text = re.sub(r"(?im)^\s*\[no text\]\s*$", "", text)
     if not text.strip():
-        raise OCRError("OCR produced no text")
+        raise NoTextError("OCR found no text")
     return text, provider
 
 

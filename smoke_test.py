@@ -1,9 +1,16 @@
 import json
 import os
+import sys
 
 from fastapi.testclient import TestClient
 
-from app.main import app
+from app.config import settings
+
+if "--mock" in sys.argv:
+    # .env is loaded with override=True, so force mock mode here rather than via env.
+    settings.llm_provider = "mock"
+
+from app.main import app  # noqa: E402
 
 client = TestClient(app)
 

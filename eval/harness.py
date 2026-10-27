@@ -185,6 +185,9 @@ def run_eval(engine, items: List[Dict], n_samples: int = None, threshold: float 
                 "agreement": None if conf.agreement_confidence is None else round(conf.agreement_confidence, 3),
                 "cross_model": None if conf.cross_model_confidence is None else round(conf.cross_model_confidence, 3),
                 "judge2_total": conf.judge2_total,
+                "referee_model": conf.referee_model,
+                "graded_by": conf.graded_by,
+                "integrity_flags": conf.integrity_flags,
                 "flagged": conf.flagged,
                 "sampled_totals": [round(s.total_awarded, 1) for s in samples],
             }
@@ -196,6 +199,11 @@ def run_eval(engine, items: List[Dict], n_samples: int = None, threshold: float 
     metrics["mae_before_adjudication"] = float(np.mean(pre_errors))
     metrics["agreement_rate_before_adjudication"] = float(np.mean(np.asarray(pre_errors) < margin))
     metrics["n_adjudicated"] = int(sum(1 for d in details if d["adjudicated"]))
+    metrics["n_referee_changed"] = int(sum(
+        1 for d in details if d["adjudicated"] and abs(d["predicted"] - d["pre_adjudication_total"]) > 1e-9
+    ))
+    metrics["referee_models"] = sorted({d["referee_model"] for d in details if d.get("referee_model")})
+    metrics["n_integrity_flagged"] = int(sum(1 for d in details if d.get("integrity_flags")))
     post_flags = (np.asarray(errors, dtype=float) >= margin)
     pre_flags = (np.asarray(pre_errors, dtype=float) >= margin)
     metrics["auroc_pre_adjudication"] = auroc(confidences, pre_flags == 0)
