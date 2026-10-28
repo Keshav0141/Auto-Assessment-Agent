@@ -86,6 +86,33 @@ def _plot(curve, auroc, path):
         print(f"[warn] could not render plot: {exc}")
 
 
+def run_config(samples: int, repeats: int) -> dict:
+    """Record the models, sampling and confidence settings of a run (never keys).
+
+    Args:
+        samples: Gradings per item.
+        repeats: Eval repetitions.
+
+    Returns:
+        A JSON-serialisable dict.
+    """
+    from datetime import date
+
+    judge2 = settings.judge2_provider()
+    return {
+        "date": date.today().isoformat(),
+        "mock": settings.using_mock,
+        "primary_model": settings.llm_model,
+        "second_grader": judge2.model if judge2 else None,
+        "referee_model": settings.referee_provider().model,
+        "samples": samples,
+        "repeats": repeats,
+        "weights": {"agree": settings.w_agree, "variance": settings.w_variance,
+                    "semantic": settings.w_semantic, "cross": settings.w_cross},
+        "threshold": settings.confidence_threshold,
+    }
+
+
 def main() -> None:
     """Run the grading eval from the command line and write metrics + calibration curve."""
     parser = argparse.ArgumentParser()
@@ -119,6 +146,7 @@ def main() -> None:
     summary = _summarize(runs)
     pooled_curve = calibration_curve(pooled_conf, pooled_err, settings.error_margin)
     payload = {
+        "config": run_config(args.samples or settings.n_samples, repeats),
         "repeats": repeats,
         "summary": summary,
         "runs": runs,

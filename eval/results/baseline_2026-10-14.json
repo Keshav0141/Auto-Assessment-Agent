@@ -1,0 +1,108 @@
+{
+  "source": "eval/results/metrics.json at commit f47f0c7 (2026-10-14)",
+  "note": "Oct 14 baseline: same 26 items, 5 samples, 3 repeats; before the guards and the configurable referee (the referee was the primary model).",
+  "summary": {
+    "repeats": 3,
+    "mae": {
+      "mean": 0.1794871794871795,
+      "std": 0.018130943107347374
+    },
+    "mae_before_adjudication": {
+      "mean": 0.20512820512820515,
+      "std": 0.018130943107347374
+    },
+    "agreement_rate": {
+      "mean": 0.8076923076923078,
+      "std": 1.1102230246251565e-16
+    },
+    "agreement_rate_before_adjudication": {
+      "mean": 0.794871794871795,
+      "std": 0.01813094310734736
+    },
+    "auroc": {
+      "mean": 0.7698412698412698,
+      "std": 0.03527954090617914
+    },
+    "auroc_pre_adjudication": {
+      "mean": 0.7890873015873016,
+      "std": 0.027631417135209956
+    },
+    "n_adjudicated": {
+      "mean": 1.3333333333333333,
+      "std": 0.4714045207910317
+    },
+    "ablation": {
+      "agree": {
+        "mean": 0.673015873015873,
+        "std": 0.08195765487889257
+      },
+      "variance": {
+        "mean": 0.6746031746031745,
+        "std": 0.092772312356841
+      },
+      "semantic": {
+        "mean": 0.46507936507936504,
+        "std": 0.07441719472845107
+      },
+      "cross": {
+        "mean": 0.7809523809523808,
+        "std": 0.020573779994945602
+      },
+      "combined": {
+        "mean": 0.7698412698412698,
+        "std": 0.03527954090617914
+      }
+    },
+    "ablation_pre_adjudication": {
+      "agree": {
+        "mean": 0.6535714285714286,
+        "std": 0.07160692019915506
+      },
+      "variance": {
+        "mean": 0.6561507936507937,
+        "std": 0.08943682098749771
+      },
+      "semantic": {
+        "mean": 0.4583333333333333,
+        "std": 0.06574619653087654
+      },
+      "cross": {
+        "mean": 0.8037698412698413,
+        "std": 0.012676692734097841
+      },
+      "combined": {
+        "mean": 0.7890873015873016,
+        "std": 0.027631417135209956
+      }
+    },
+    "flagged_at_threshold": {
+      "threshold": 0.85,
+      "error_rate_flagged_post": {
+        "mean": 0.41071428571428575,
+        "std": 0.02525381361380526
+      },
+      "error_rate_unflagged_post": {
+        "mean": 0.10721247563352826,
+        "std": 0.0027567515835732847
+      },
+      "error_rate_flagged_pre": {
+        "mean": 0.4583333333333333,
+        "std": 0.08290707307847689
+      },
+      "error_rate_unflagged_pre": {
+        "mean": 0.10721247563352826,
+        "std": 0.0027567515835732847
+      }
+    }
+  },
+  "pearson_r": {
+    "mean": 0.9658759125261107,
+    "std": 0.008044539644195874
+  },
+  "n_flagged_per_run": [
+    7,
+    7,
+    8
+  ],
+  "n_items": 26
+}

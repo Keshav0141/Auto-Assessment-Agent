@@ -1,7 +1,7 @@
 """Pydantic schemas shared by the parser, grading engine, scorer and API."""
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, PrivateAttr
 
 
 class RubricCriterion(BaseModel):
@@ -49,6 +49,8 @@ class GradingResult(BaseModel):
     max_marks: float
     feedback: str
     integrity_flags: List[str] = []
+    # Scripts that stayed in the feedback after a retry (not serialised).
+    _foreign_scripts: List[str] = PrivateAttr(default_factory=list)
 
 
 class ConfidenceScore(BaseModel):

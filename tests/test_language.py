@@ -116,3 +116,24 @@ def test_multilingual_eval_runs_in_mock_mode():
     assert result["summary"]["en_rerun"]["mean_abs_diff_vs_en"] == 0.0  # the mock grader is deterministic
     langs = {(r["id"], r["lang"]): r["feedback_language"] for r in result["rows"]}
     assert langs[("E1", "ta")] == "Tamil" and langs[("E1", "en")] == "English"
+
+
+def test_indic_ocr_page_html():
+    import random
+
+    from eval.make_ocr_images import INDIC_FONTS, _indic_html
+
+    random.seed(0)
+    clean = _indic_html("त्वरण <5> m/s", INDIC_FONTS["hi"][0], "clean")
+    assert '"Noto Sans Devanagari"' in clean and "&lt;5&gt;" in clean and "<span" not in clean
+    hand = _indic_html("ஒளி மற்றும்", INDIC_FONTS["ta"][0], "handwriting")
+    assert hand.count("<span") == 2 and "rotate(" in hand
+
+
+def test_ocr_cer_normalises_unicode():
+    import unicodedata
+
+    from eval.ocr_run import cer
+
+    word = "क़लम"  # precomposed vs decomposed nukta form
+    assert cer(unicodedata.normalize("NFC", word), unicodedata.normalize("NFD", word)) == 0.0

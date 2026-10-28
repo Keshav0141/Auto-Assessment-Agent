@@ -44,7 +44,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 53.2,
+      "seconds": 19.0,
       "passed": true
     },
     {
@@ -74,7 +74,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 53.2,
+      "seconds": 19.2,
       "passed": true
     },
     {
@@ -104,7 +104,7 @@
       "answer_language": null,
       "warnings": [],
       "error": null,
-      "seconds": 8.7,
+      "seconds": 7.4,
       "passed": true
     },
     {
@@ -138,7 +138,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 9.6,
+      "seconds": 7.4,
       "passed": true
     },
     {
@@ -172,7 +172,7 @@
       "answer_language": "English + Hindi",
       "warnings": [],
       "error": null,
-      "seconds": 9.9,
+      "seconds": 8.4,
       "passed": true
     },
     {
@@ -206,7 +206,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 9.0,
+      "seconds": 8.8,
       "passed": true
     },
     {
@@ -218,7 +218,7 @@
       "max": 5.0,
       "sampled_totals": [
         0.0,
-        0.5,
+        0.0,
         0.0,
         0.0,
         0.0
@@ -240,7 +240,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 9.8,
+      "seconds": 8.1,
       "passed": true
     },
     {
@@ -274,7 +274,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 9.5,
+      "seconds": 7.6,
       "passed": true
     },
     {
@@ -308,7 +308,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 10.2,
+      "seconds": 8.1,
       "passed": true
     },
     {
@@ -342,7 +342,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 9.2,
+      "seconds": 8.2,
       "passed": true
     },
     {
@@ -432,7 +432,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 8.6,
+      "seconds": 6.7,
       "passed": true
     },
     {
@@ -466,7 +466,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 7.2,
+      "seconds": 6.7,
       "passed": true
     },
     {
@@ -500,7 +500,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 8.0,
+      "seconds": 6.9,
       "passed": true
     },
     {
@@ -532,7 +532,7 @@
         "QA2: the answer is 8177 characters long; only the first 6000 were graded."
       ],
       "error": null,
-      "seconds": 19.1,
+      "seconds": 7.2,
       "passed": true
     },
     {
@@ -562,7 +562,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 5.8,
+      "seconds": 5.5,
       "passed": true
     },
     {
@@ -592,7 +592,7 @@
       "answer_language": "Hindi",
       "warnings": [],
       "error": null,
-      "seconds": 6.3,
+      "seconds": 7.0,
       "passed": true
     },
     {
@@ -624,9 +624,11 @@
         "The rubric requires an answer in English, but it is written in Hindi."
       ],
       "answer_language": "Hindi",
-      "warnings": [],
+      "warnings": [
+        "QA4: 1 marking(s) wrote feedback containing Arabic text instead of Hindi even after a retry; it was kept as is."
+      ],
       "error": null,
-      "seconds": 8.2,
+      "seconds": 16.2,
       "passed": true
     },
     {
@@ -638,15 +640,15 @@
       "max": 5.0,
       "sampled_totals": [
         1.0,
-        1.5,
+        1.0,
         1.0,
         1.0,
         1.0
       ],
-      "judge2_total": 2.5,
-      "adjudicated": true,
+      "judge2_total": 1.5,
+      "adjudicated": false,
       "pre_adjudication_total": 1.0,
-      "referee_model": "mistralai/mistral-large-4-0",
+      "referee_model": null,
       "graded_by": "deepseek/deepseek-v4.1-flash",
       "grader_role": "primary",
       "confidence": 0.5,
@@ -660,7 +662,7 @@
       "answer_language": "English",
       "warnings": [],
       "error": null,
-      "seconds": 17.7,
+      "seconds": 7.1,
       "passed": true
     }
   ]

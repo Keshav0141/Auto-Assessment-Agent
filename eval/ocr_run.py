@@ -21,6 +21,7 @@ import re
 import statistics
 import sys
 import time
+import unicodedata
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -71,12 +72,14 @@ from app.models import QuestionSpec, StudentAnswer  # noqa: E402
 from eval.dataset import ITEMS  # noqa: E402
 from eval.ocr_dataset import STYLE_LABELS, STYLES, all_entries  # noqa: E402
 
+LANG_LABELS = {"en": "English", "hi": "Hindi", "ta": "Tamil"}
 ANCHOR_RE = re.compile(r"\b(?:question|q\.?)\s*(\d+)", re.IGNORECASE)
 
 
 # --------------------------------------------------------------------------- metrics
 def _normalize(text):
-    return re.sub(r"\s+", " ", (text or "")).strip()
+    text = unicodedata.normalize("NFC", text or "")
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _levenshtein(a, b):
@@ -195,8 +198,8 @@ def _end_to_end(results, samples):
     gt_cache = {}
     rows = []
     for rec in results:
-        if rec["kind"] != "item":
-            continue
+        if rec["kind"] != "item" or rec.get("lang", "en") != "en":
+            continue  # translated items have no English ground-truth answer to compare
         item = by_id.get(rec.get("item_id"))
         ocr_text = next((o["text"] for o in rec["reacts"] if o["ok"]), None)
         if item is None or ocr_text is None:
@@ -245,14 +248,14 @@ def _fmt(block, key, digits=3):
 
 def _print_table(by_style, overall):
     header = (
-        f"{'style':<12}{'n':>4}{'fail':>6}  {'CER':<18}{'WER':<18}"
+        f"{'style':<28}{'n':>4}{'fail':>6}  {'CER':<18}{'WER':<18}"
         f"{'label-recall':<16}{'latency(s)':<16}"
     )
     print(header)
     print("-" * len(header))
     for style, block in list(by_style.items()) + [("overall", overall)]:
         print(
-            f"{style:<12}{block['n_images']:>4}{block['n_failures']:>6}  "
+            f"{style:<28}{block['n_images']:>4}{block['n_failures']:>6}  "
             f"{_fmt(block, 'cer'):<18}{_fmt(block, 'wer'):<18}"
             f"{_fmt(block, 'label_recall'):<16}{_fmt(block, 'latency_s', 2):<16}"
         )
@@ -302,6 +305,7 @@ def main() -> None:
             "item_id": entry.get("item_id"),
             "style": entry["style"],
             "kind": entry.get("kind"),
+            "lang": entry.get("lang", "en"),
             "image": os.path.basename(entry["image"]),
             "reacts": [],
         }
@@ -344,6 +348,12 @@ def main() -> None:
         if obs:
             by_style[STYLE_LABELS.get(style, style)] = _block(obs)
     overall = _block(observations)
+    by_language = {}
+    for lang in sorted({rec["lang"] for rec in results}, key=lambda x: (x != "en", x)):
+        for style in STYLES:
+            obs = [o for rec in results if rec["lang"] == lang and rec["style"] == style for o in rec["reacts"]]
+            if obs:
+                by_language[f"{LANG_LABELS.get(lang, lang)} / {STYLE_LABELS.get(style, style)}"] = _block(obs)
 
     total_latency = sum(o["latency_s"] for o in observations)
     print()
@@ -357,6 +367,8 @@ def main() -> None:
     )
     print()
     _print_table(by_style, overall)
+    print()
+    _print_table(by_language, overall)
 
     end_to_end = None
     if not args.no_grade:
@@ -387,13 +399,14 @@ def main() -> None:
         "n_ocr_calls": len(observations),
         "total_latency_s": total_latency,
         "per_style": by_style,
+        "per_language_style": by_language,
         "overall": overall,
         "end_to_end": end_to_end,
         "entries": results,
     }
     out_path = os.path.join(args.out, "ocr_metrics.json")
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
     print(f"\nSaved results -> {out_path}")
 
 

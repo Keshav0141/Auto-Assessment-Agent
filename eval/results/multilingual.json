@@ -18,52 +18,57 @@
     ],
     "translations": "machine-translated from the English answers, not reviewed by native speakers"
   },
-  "seconds": 264.8,
+  "seconds": 224.8,
   "summary": {
     "en": {
       "n": 8,
       "n_errors": 0,
-      "mae": 0.0,
+      "mae": 0.062,
       "mean_abs_diff_vs_en": null,
       "max_abs_diff_vs_en": null,
-      "mean_confidence": 0.94,
-      "n_flagged": 2
+      "mean_confidence": 0.885,
+      "n_flagged": 2,
+      "n_script_warnings": 0
     },
     "hi": {
       "n": 8,
       "n_errors": 0,
       "mae": 0.25,
-      "mean_abs_diff_vs_en": 0.25,
+      "mean_abs_diff_vs_en": 0.312,
       "max_abs_diff_vs_en": 2.0,
-      "mean_confidence": 0.915,
-      "n_flagged": 1
+      "mean_confidence": 0.917,
+      "n_flagged": 2,
+      "n_script_warnings": 0
     },
     "ta": {
       "n": 8,
       "n_errors": 0,
       "mae": 0.25,
-      "mean_abs_diff_vs_en": 0.25,
+      "mean_abs_diff_vs_en": 0.312,
       "max_abs_diff_vs_en": 2.0,
-      "mean_confidence": 0.919,
-      "n_flagged": 2
+      "mean_confidence": 0.892,
+      "n_flagged": 2,
+      "n_script_warnings": 0
     },
     "te": {
       "n": 8,
       "n_errors": 0,
-      "mae": 0.312,
-      "mean_abs_diff_vs_en": 0.312,
-      "max_abs_diff_vs_en": 2.0,
-      "mean_confidence": 0.849,
-      "n_flagged": 2
+      "mae": 0.125,
+      "mean_abs_diff_vs_en": 0.188,
+      "max_abs_diff_vs_en": 1.0,
+      "mean_confidence": 0.901,
+      "n_flagged": 1,
+      "n_script_warnings": 1
     },
     "en_rerun": {
       "n": 8,
       "n_errors": 0,
-      "mae": 0.062,
-      "mean_abs_diff_vs_en": 0.062,
-      "max_abs_diff_vs_en": 0.5,
-      "mean_confidence": 0.918,
-      "n_flagged": 2
+      "mae": 0.312,
+      "mean_abs_diff_vs_en": 0.25,
+      "max_abs_diff_vs_en": 2.0,
+      "mean_confidence": 0.836,
+      "n_flagged": 3,
+      "n_script_warnings": 0
     }
   },
   "rows": [
@@ -72,79 +77,30 @@
       "lang": "en",
       "ground_truth": 4.0,
       "max": 4.0,
-      "mark": 4.0,
+      "mark": 3.5,
       "error": null,
       "sampled_totals": [
         3.5,
         4.0,
-        4.0,
-        4.0,
+        3.5,
+        3.5,
         3.5
       ],
       "judge2_total": 4.0,
       "adjudicated": false,
-      "confidence": 0.809,
+      "confidence": 0.733,
       "flagged": true,
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "Both criteria are fully met: the statement of the law is correct, and the wall-pushing example correctly and clearly illustrates the action-reaction pair. To strengthen the answer further, you could add that the two forces act on different bodies, which is the key feature of the third law.",
+      "feedback": "The statement criterion is fully met with a correct statement of the law. The example criterion is largely met: pushing a wall with the wall pushing back is a valid everyday action-reaction pair, but the explanation is thin. To secure full marks, explicitly note that the two forces are equal, opposite, and act on different bodies (you and the wall).",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 30.2
+      "warnings": [],
+      "seconds": 12.1
     },
     {
       "id": "P2",
       "lang": "hi",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 4.0,
-      "error": null,
-      "sampled_totals": [
-        4.0,
-        4.0,
-        3.0,
-        4.0,
-        4.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 0.889,
-      "flagged": false,
-      "integrity_flags": [],
-      "answer_language": "Hindi",
-      "feedback_language": "Hindi",
-      "feedback": "दोनों मानदंड पूरे हुए हैं: नियम का कथन सही है और उदाहरण सही तथा स्पष्ट है। पूरे अंक दिए गए हैं। सुधार की आवश्यकता नहीं है।",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 34.7
-    },
-    {
-      "id": "P2",
-      "lang": "ta",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 4.0,
-      "error": null,
-      "sampled_totals": [
-        3.0,
-        4.0,
-        3.0,
-        4.0,
-        4.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 0.795,
-      "flagged": true,
-      "integrity_flags": [],
-      "answer_language": "Tamil",
-      "feedback_language": "Tamil",
-      "feedback": "'சரியான கூற்று' என்ற அளவுகோல் முழுமையாக நிறைவேற்றப்பட்டுள்ளது; விதி துல்லியமாகக் கூறப்பட்டுள்ளது. 'சரியாக விளக்கப்பட்ட உதாரணம்' என்ற அளவுகோலும் நிறைவேற்றப்பட்டுள்ளது; சுவரைத் தள்ளும் உதாரணம் விசைகளின் இணை இயல்பைத் தெளிவாகக் காட்டுகிறது. மேலும் மேம்படுத்த, விசைகள் வெவ்வேறு பொருட்களின் மீது செயல்படுகின்றன என்பதைச் சுட்டிக்காட்டலாம்.",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 13.8
-    },
-    {
-      "id": "P2",
-      "lang": "te",
       "ground_truth": 4.0,
       "max": 4.0,
       "mark": 4.0,
@@ -161,36 +117,90 @@
       "confidence": 1.0,
       "flagged": false,
       "integrity_flags": [],
-      "answer_language": "Telugu",
-      "feedback_language": "Telugu",
-      "feedback": "మీరు న్యూటన్ మూడవ నియమాన్ని సరిగ్గా పేర్కొన్నారు మరియు గోడను నెట్టడం అనే సరైన, స్పష్టమైన ఉదాహరణ ఇచ్చారు; రెండు ప్రమాణాలకూ పూర్తి మార్కులు లభించాయి. మెరుగుపరచుకోవడానికి, ఈ రెండు బలాలు వేర్వేరు వస్తువులపై పనిచేస్తాయని (మీరు గోడపై, గోడ మీపై) ఉదాహరణలో స్పష్టంగా చెప్పవచ్చు.",
+      "answer_language": "Hindi",
+      "feedback_language": "Hindi",
+      "feedback": "आपने 'a correct statement' मानदंड पूरा किया है क्योंकि क्रिया-प्रतिक्रिया का कथन सही है। 'a correct and clearly explained example' मानदंड भी पूरा हुआ है क्योंकि दीवार वाला उदाहरण सही और स्पष्ट है। बेहतरी के लिए आप यह जोड़ सकते हैं कि ये बल दो भिन्न वस्तुओं पर लगते हैं।",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 17.6
+      "warnings": [],
+      "seconds": 12.8
     },
     {
       "id": "P2",
-      "lang": "en_rerun",
+      "lang": "ta",
       "ground_truth": 4.0,
       "max": 4.0,
       "mark": 4.0,
       "error": null,
       "sampled_totals": [
         4.0,
-        3.5,
-        3.0,
         4.0,
+        4.0,
+        3.5,
         4.0
       ],
       "judge2_total": 4.0,
       "adjudicated": false,
-      "confidence": 0.8,
+      "confidence": 0.9,
+      "flagged": false,
+      "integrity_flags": [],
+      "answer_language": "Tamil",
+      "feedback_language": "Tamil",
+      "feedback": "இரண்டு அளவுகோல்களும் முழுமையாகப் பூர்த்தி செய்யப்பட்டுள்ளன: நியூட்டனின் மூன்றாம் விதியின் சரியான கூற்று (2/2) மற்றும் சுவரைத் தள்ளும் தெளிவான அன்றாட உதாரணம் (2/2). மேலும் மேம்படுத்த, விசைகள் வெவ்வேறு பொருட்களின் மீது செயல்படும் இணைகள் என்பதை வெளிப்படையாகக் குறிப்பிடலாம்.",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 11.7
+    },
+    {
+      "id": "P2",
+      "lang": "te",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 4.0,
+      "error": null,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0,
+        4.0,
+        3.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 0.889,
+      "flagged": false,
+      "integrity_flags": [],
+      "answer_language": "Telugu",
+      "feedback_language": "Telugu",
+      "feedback": "మీరు న్యూటన్ మూడవ నియమాన్ని సరిగ్గా పేర్కొన్నారు (ప్రతి చర్యకు సమానమైన, వ్యతిరేక ప్రతిచర్య) మరియు గోడను నెట్టడం అనే ఉదాహరణను స్పష్టంగా వివరించారు; రెండు ప్రమాణాలకూ పూర్తి మార్కులు లభించాయి. మెరుగుపరచడానికి, బలాలు వేర్వేరు వస్తువులపై పనిచేస్తాయని మరియు జతలుగా ఉంటాయని ఉదాహరణలో స్పష్టంగా చెప్పవచ్చు.",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 11.5
+    },
+    {
+      "id": "P2",
+      "lang": "en_rerun",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 3.5,
+      "error": null,
+      "sampled_totals": [
+        3.0,
+        3.0,
+        3.5,
+        3.5,
+        4.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 0.546,
       "flagged": true,
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "Both criteria are fully met: the statement of Newton's third law is correct, and the wall-pushing example correctly and clearly illustrates the equal and opposite reaction. To strengthen the answer, you could add that the forces act on different bodies (you and the wall) and are equal in magnitude and opposite in direction, which is the precise formulation.",
+      "feedback": "You correctly stated the law and gave a valid everyday example (wall push). To gain the full example marks, explain that the two forces act on different bodies (you push the wall, the wall pushes you) and are equal in magnitude and opposite in direction. The statement criterion is fully met.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 8.0
+      "warnings": [],
+      "seconds": 9.5
     },
     {
       "id": "P5",
@@ -213,9 +223,10 @@
       "integrity_flags": [],
       "answer_language": null,
       "feedback_language": "English",
-      "feedback": "You correctly found the acceleration (2/2 marks) with a = F/m = 4 m/s^2. However, you did not use a distance formula (0/2) or compute the distance (0/2). To earn full marks, apply s = ut + 0.5at^2 with u = 0, a = 4, t = 4, giving s = 0.5*4*16 = 32 m.",
+      "feedback": "You correctly met the 'correct acceleration' criterion with a = 20/5 = 4 m/s^2. However, you did not address the second part of the question: the 'correct distance formula' criterion (s = ut + 0.5at^2) is missing and the 'correct distance (32 m)' criterion is not met. To improve, apply s = ut + 0.5at^2 with u = 0, a = 4, t = 4 to get s = 0.5*4*16 = 32 m.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 8.9
+      "warnings": [],
+      "seconds": 9.5
     },
     {
       "id": "P5",
@@ -238,9 +249,10 @@
       "integrity_flags": [],
       "answer_language": "Hindi + English",
       "feedback_language": "Hindi",
-      "feedback": "त्वरण की गणना सही है (a = 4 m/s^2), इसलिए 'correct acceleration' मानदंड के पूरे 2 अंक मिले। लेकिन दूरी का सूत्र s = ut + 0.5at^2 नहीं लिखा गया और न ही दूरी 32 m निकाली गई, इसलिए 'correct distance formula' और 'correct distance (32 m)' के अंक नहीं मिले। सुधार के लिए u = 0 लेकर s = 0 + 0.5×4×4^2 = 32 m की गणना भी उत्तर में जोड़ें।",
+      "feedback": "त्वरण वाला मानदंड पूरा हुआ: a = 4 m/s^2 सही है। परंतु दूरी का सूत्र (s = ut + 0.5at^2) नहीं लिखा गया और दूरी की गणना भी नहीं की गई, इसलिए दोनों दूरी-मानदंड छूट गए। सुधार के लिए u = 0, a = 4 m/s^2, t = 4 s रखकर s = 0 + 0.5×4×16 = 32 m तक हल पूरा करें।",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 9.2
+      "warnings": [],
+      "seconds": 8.3
     },
     {
       "id": "P5",
@@ -263,9 +275,10 @@
       "integrity_flags": [],
       "answer_language": "Tamil + English",
       "feedback_language": "Tamil",
-      "feedback": "முடுக்கம் a = 4 m/s^2 சரியாகக் கணக்கிடப்பட்டுள்ளது (correct acceleration criterion நிறைவேறியது). ஆனால் தூரத்திற்கான சூத்திரம் s = ut + 0.5at^2 எழுதப்படவில்லை (correct distance formula தவறியது), மேலும் s = 0 + 0.5×4×16 = 32 m என்ற தூரமும் கணக்கிடப்படவில்லை (correct distance (32 m) தவறியது). எனவே u = 0 எனக் கொண்டு சூத்திரத்தைப் பயன்படுத்தி 32 m என்ற விடையைக் கணக்கிட்டு எழுதுவதன் மூலம் முழு மதிப்பெண்களைப் பெறலாம்.",
+      "feedback": "முடுக்கம் a = F/m = 4 m/s^2 என்பதைச் சரியாகக் கண்டுபிடித்ததற்கான முழு மதிப்பெண் வழங்கப்பட்டுள்ளது. ஆனால் தூரத்திற்கான சூத்திரம் s = ut + 0.5at^2 எழுதப்படவில்லை, 32 m என்ற தூரமும் கணக்கிடப்படவில்லை; எனவே அந்த இரண்டு அளவுகோல்களுக்கும் மதிப்பெண் இல்லை. ஓய்வு நிலையிலிருந்து தொடங்குவதால் u = 0 எனக் கொண்டு, s = 0 + 0.5 × 4 × 4^2 = 32 m எனக் கணக்கிட்டு இரண்டாம் பகுதியையும் சேர்க்க வேண்டும்.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 14.1
+      "warnings": [],
+      "seconds": 14.0
     },
     {
       "id": "P5",
@@ -288,9 +301,10 @@
       "integrity_flags": [],
       "answer_language": "Telugu + English",
       "feedback_language": "Telugu",
-      "feedback": "త్వరణం a = 4 m/s^2 సరిగ్గా కనుగొన్నందుకు పూర్తి మార్కులు లభించాయి. కానీ రెండవ భాగంలో s = ut + 0.5at^2 సూత్రాన్ని (u = 0, t = 4 s) వాడి దూరాన్ని లెక్కించాలి; s = 0 + 0.5 × 4 × 16 = 32 m అని రాసి ఉంటే మిగిలిన 4 మార్కులు వచ్చేవి. దయచేసి దూరం సూత్రం మరియు తుది విలువ రెండింటినీ జవాబులో చేర్చండి.",
+      "feedback": "త్వరణం సూత్రం a = F/m సరిగ్గా ఉపయోగించి 4 m/s^2 సమాధానం రాశారు, దీనికి పూర్తి మార్కులు లభించాయి. కానీ దూరానికి s = ut + 0.5at^2 సూత్రాన్ని రాయలేదు, 32 m అనే దూరాన్ని కూడా లెక్కించలేదు. u = 0, t = 4 s ప్రతిక్షేపించి s = 0.5 × 4 × 16 = 32 m అని చూపితే మిగిలిన మార్కులు వచ్చేవి.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 12.9
+      "warnings": [],
+      "seconds": 9.1
     },
     {
       "id": "P5",
@@ -313,9 +327,10 @@
       "integrity_flags": [],
       "answer_language": null,
       "feedback_language": "English",
-      "feedback": "You correctly found the acceleration (a = F/m = 4 m/s^2), earning full marks for that criterion. However, you did not use the distance formula s = ut + 0.5at^2, so the 'correct distance formula' and 'correct distance' criteria were not met. To improve, apply s = ut + 0.5at^2 with u = 0, a = 4, t = 4 to get s = 0.5*4*16 = 32 m.",
+      "feedback": "You correctly found the acceleration (4 m/s^2), earning full marks there. However, you did not address the second part: you needed to state the distance formula s = ut + 0.5at^2 (with u = 0) and compute s = 0.5*4*16 = 32 m. Add that step to gain the remaining 4 marks.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 6.8
+      "warnings": [],
+      "seconds": 5.2
     },
     {
       "id": "M1",
@@ -325,9 +340,9 @@
       "mark": 4.0,
       "error": null,
       "sampled_totals": [
-        4.0,
-        4.0,
         3.5,
+        4.0,
+        4.0,
         4.0,
         4.0
       ],
@@ -338,9 +353,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "All three criteria are fully met: the power rule is applied to each term, coefficients are handled correctly (3x^2 -> 6x), and the final expression 6x + 2 is correct. To improve clarity, you could briefly note that the constant term -1 differentiates to 0, but this is not required for full marks.",
+      "feedback": "All criteria are met: the power rule is applied to each term, coefficients are handled correctly (3x^2 -> 6x), and the final expression 6x + 2 is correct. To improve clarity, you could explicitly mention that the derivative of the constant -1 is 0, but this is not required for full marks.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 8.3
+      "warnings": [],
+      "seconds": 7.2
     },
     {
       "id": "M1",
@@ -363,9 +379,10 @@
       "integrity_flags": [],
       "answer_language": "Hindi",
       "feedback_language": "Hindi",
-      "feedback": "आपने सभी मानदंड पूरे किए: घात नियम का प्रयोग, गुणांक प्रबंधन (3x^2 -> 6x) और सही अंतिम व्यंजक 6x + 2। अंक पूर्ण हैं। सुधार के लिए, उत्तर में अवकलज के चिह्न f'(x) और अचर पद (-1) का अवकलज शून्य होने का स्पष्ट उल्लेख कर सकते हैं।",
+      "feedback": "आपका उत्तर पूर्णतः सही है: घात नियम प्रत्येक पद पर लागू किया गया, 3x^2 का गुणांक 6x के रूप में सही संभाला गया, और अंतिम व्यंजक 6x + 2 प्राप्त हुआ। तीनों मानदंड पूरे होने से पूरे 4 अंक दिए गए हैं। सुधार की कोई आवश्यकता नहीं; आगे भी प्रत्येक पद का अवकलन अलग-अलग दर्शाते रहें।",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 10.8
+      "warnings": [],
+      "seconds": 8.3
     },
     {
       "id": "M1",
@@ -388,9 +405,10 @@
       "integrity_flags": [],
       "answer_language": "Tamil",
       "feedback_language": "Tamil",
-      "feedback": "ஆற்றல் விதி ஒவ்வொரு பதத்திற்கும் சரியாகப் பயன்படுத்தப்பட்டுள்ளது (2 மதிப்பெண்கள்), 3x^2 -> 6x குணகக் கையாளுதல் சரியானது (1 மதிப்பெண்), இறுதி வெளிப்பாடு 6x + 2 சரியானது (1 மதிப்பெண்). முழு மதிப்பெண்கள் வழங்கப்பட்டுள்ளன; மேலும் முழுமைக்காக மாறிலிப் பதத்தின் வகைக்கெழு 0 என்பதை வெளிப்படையாகக் குறிப்பிடலாம்.",
+      "feedback": "அடுக்கு விதி ஒவ்வொரு பதத்திற்கும் சரியாகப் பயன்படுத்தப்பட்டுள்ளது (2/2), 3x^2 இன் குணகக் கையாளுதல் 6x எனச் சரியானது (1/1), இறுதி வெளிப்பாடு 6x + 2 சரியானது (1/1). முழு மதிப்பெண்கள் வழங்கப்படுகின்றன; மேலும் மேம்பாட்டிற்கு, மாறிலிப் பதத்தின் (-1) வகைக்கெழு பூஜ்யம் என்பதை வெளிப்படையாகக் குறிப்பிடலாம்.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 12.1
+      "warnings": [],
+      "seconds": 10.1
     },
     {
       "id": "M1",
@@ -402,8 +420,34 @@
       "sampled_totals": [
         4.0,
         4.0,
-        3.0,
         4.0,
+        4.0,
+        4.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 1.0,
+      "flagged": false,
+      "integrity_flags": [],
+      "answer_language": "Telugu",
+      "feedback_language": "Telugu",
+      "feedback": "మీరు పవర్ రూల్‌ను ప్రతి పదానికి సరిగ్గా అన్వయించారు (2 మార్కులు), 3x^2 -> 6x గుణక నిర్వహణ సరైనది (1 మార్కు), మరియు తుది వ్యక్తీకరణ 6x + 2 సరిగ్గా ఇచ్చారు (1 మార్కు). మొత్తం 4 మార్కులు పూర్తిగా వచ్చాయి; మెరుగుపరచడానికి ఏమీ లేదు, ఇలాగే కొనసాగించండి.",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 13.7
+    },
+    {
+      "id": "M1",
+      "lang": "en_rerun",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 4.0,
+      "error": null,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        4.0,
+        3.0,
         4.0
       ],
       "judge2_total": 4.0,
@@ -411,36 +455,12 @@
       "confidence": 0.889,
       "flagged": false,
       "integrity_flags": [],
-      "answer_language": "Telugu",
-      "feedback_language": "Telugu",
-      "feedback": "మీ సమాధానం పవర్ రూల్‌ను ప్రతి పదానికి సరిగ్గా అన్వయించింది, 3x^2 -> 6x గుణక నిర్వహణను సరిగ్గా చేసింది మరియు తుది వ్యక్తీకరణ 6x + 2ని ఇచ్చింది; మూడు ప్రమాణాలూ పూర్తిగా నెరవేరాయి. స్థిర పదం -1 యొక్క అవకలజం 0 అని స్పష్టంగా రాస్తే సమాధానం మరింత పూర్తిగా ఉంటుంది.",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 11.6
-    },
-    {
-      "id": "M1",
-      "lang": "en_rerun",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 4.0,
-      "error": null,
-      "sampled_totals": [
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        4.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 1.0,
-      "flagged": false,
-      "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "All criteria are fully met: the power rule is applied to each term, coefficients are handled correctly (3x^2 -> 6x, 2x -> 2), and the final expression 6x + 2 is correct. To improve clarity, you could explicitly note that the derivative of the constant -1 is 0, but this is not required for full marks.",
+      "feedback": "All criteria are fully met: the power rule is applied to each term, the coefficient 3 is correctly handled (3x^2 -> 6x), and the final expression 6x + 2 is correct. To make the working fully explicit, the student could show the constant term -1 differentiating to 0, but no marks are lost here.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 8.6
+      "warnings": [],
+      "seconds": 6.0
     },
     {
       "id": "M4",
@@ -463,9 +483,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "Neither criterion was met: there is no correct factorization of x^2 - 5x + 6, and the reported solutions x = 6 and x = -1 are wrong (correct roots are x = 2 and x = 3). To improve, find two numbers that multiply to +6 and add to -5, namely -2 and -3, write (x - 2)(x - 3) = 0, then set each factor to zero to get x = 2 and x = 3. Also verify the product and sum signs against the original equation before finalizing the answer.",
+      "feedback": "Neither criterion is met: there is no valid factorization of x^2-5x+6, and the stated solutions x=6, x=-1 are incorrect (the correct roots are x=2 and x=3). You appear to have used numbers multiplying to -6 and adding to 5, but factorization requires numbers multiplying to +6 and adding to -5. Practice splitting the middle term: find two numbers with product 6 and sum -5, then write (x-2)(x-3)=0 and solve each factor.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 7.5
+      "warnings": [],
+      "seconds": 6.5
     },
     {
       "id": "M4",
@@ -488,9 +509,10 @@
       "integrity_flags": [],
       "answer_language": "Hindi",
       "feedback_language": "Hindi",
-      "feedback": "आपने गुणनखंडन की कसौटी पूरी नहीं की: आपने (x-2)(x-3) जैसा गुणनखंड नहीं लिखा और चुनी गई संख्याएँ 6 और -1 गलत हैं क्योंकि इनका गुणनफल -6 और योग 5 है, जबकि आवश्यक गुणनफल +6 और योग -5 है। सही हल की कसौटी भी पूरी नहीं हुई क्योंकि सही मूल x=2 और x=3 हैं, न कि x=6 और x=-1। सुधार के लिए ऐसी दो संख्याएँ खोजें जिनका गुणनफल +6 और योग -5 हो, फिर उनसे (x-2)(x-3)=0 लिखकर x=2,3 प्राप्त करें।",
+      "feedback": "गुणनखंडन की कसौटी पूरी नहीं हुई: सही गुणनखंड (x-2)(x-3)=0 है, क्योंकि 2 और 3 का गुणनफल 6 तथा योग 5 होता है। हल की कसौटी भी पूरी नहीं हुई: सही उत्तर x=2, 3 हैं, जबकि आपने 6 और -1 लिखा, जो समीकरण में रखने पर सत्य नहीं होता। सुधार के लिए ऐसी दो संख्याएँ खोजें जिनका गुणनफल अचर पद (+6) और योग x का गुणांक (-5 का ऋणात्मक, अर्थात 5) हो, फिर प्रत्येक को शून्य के बराबर रखकर हल निकालें।",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 15.8
+      "warnings": [],
+      "seconds": 11.2
     },
     {
       "id": "M4",
@@ -513,9 +535,10 @@
       "integrity_flags": [],
       "answer_language": "Tamil",
       "feedback_language": "Tamil",
-      "feedback": "சரியான காரணிப்படுத்தல் அளவுகோல் தவறிவிட்டது: பெருக்கல் -6 அல்ல, +6 ஆகவும், கூட்டுத்தொகை -5 ஆகவும் இருக்க வேண்டும், அதாவது (x-2)(x-3)=0. அதனால் சரியான தீர்வுகள் அளவுகோலும் தவறிவிட்டது; x=2, x=3 என்பதே சரியான விடை. பெருக்கல் மற்றும் கூட்டுத்தொகையின் குறிகளைச் சரிபார்த்து, காரணிகளை மீண்டும் பெருக்கி சரிபார்க்கவும்.",
+      "feedback": "சரியான காரணிப்படுத்தல் அளவுகோலைப் பூர்த்தி செய்யவில்லை: (x-2)(x-3)=0 எனக் காரணிப்படுத்த வேண்டும்; நீங்கள் தந்த பெருக்கற்பலன் -6, கூட்டுத்தொகை 5 என்ற இணை x^2-5x+6 க்குப் பொருந்தாது (பெருக்கற்பலன் +6 ஆக இருக்க வேண்டும்). சரியான தீர்வுகள் அளவுகோலையும் பூர்த்தி செய்யவில்லை: x=2, x=3 என்பதே சரியான தீர்வுகள், x=6, x=-1 அல்ல. மேலும் சரிபார்ப்பு செய்யுங்கள்: காரணிகளின் கூட்டுத்தொகை -5, பெருக்கற்பலன் 6 என அமைய வேண்டும்; அப்படி அமைந்தால் மட்டுமே தீர்வுகள் சரியென ஏற்கப்படும்.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 12.5
+      "warnings": [],
+      "seconds": 11.4
     },
     {
       "id": "M4",
@@ -538,9 +561,10 @@
       "integrity_flags": [],
       "answer_language": "Telugu",
       "feedback_language": "Telugu",
-      "feedback": "మీరు 'correct factorization' మరియు 'correct solutions' అనే రెండు ప్రమాణాలను చేరుకోలేదు. x^2 - 5x + 6 = 0 ను కారకీకరించాలంటే గుణకారం 6 మరియు మొత్తం -5 ఉండే రెండు సంఖ్యలు కావాలి; అవి -2 మరియు -3. అందువల్ల (x-2)(x-3)=0 అని రాసి, x=2 మరియు x=3 అని సాధనలు ఇవ్వాలి. మీరు తీసుకున్న 6 మరియు -1 ల గుణకారం -6, మొత్తం 5; ఇది సమీకరణంలోని -5 మరియు +6 కి సరిపోదు.",
+      "feedback": "మీరు ఇచ్చిన సాధనలు x = 6 మరియు x = -1 తప్పు, ఎందుకంటే x^2 - 5x + 6 = 0 ను (x-2)(x-3) = 0 గా కారణాంకాలుగా విభజించాలి, దీని నుండి x = 2, x = 3 వస్తాయి. మొత్తం -5 మరియు గుణకారం 6 అయ్యే రెండు సంఖ్యలను (-2 మరియు -3) ఎంచుకోవాలి; మీరు తీసుకున్న 6 మరియు -1 మొత్తం 5 అవుతుంది, గుర్తు తప్పు. కారణాంక విభజన మరియు సాధనలు రెండూ తప్పుగా ఉన్నందున ఈ ప్రశ్నకు మార్కులు రాలేదు; పై పద్ధతిని సాధన చేయండి.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 16.0
+      "warnings": [],
+      "seconds": 13.6
     },
     {
       "id": "M4",
@@ -563,9 +587,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "The correct factorization criterion is not met: the equation should factor as (x-2)(x-3)=0, not with 6 and -1, which multiply to -6 rather than +6. The correct solutions criterion is also not met: x=2 and x=3 are the roots, since they make the equation zero. To improve, find two numbers that multiply to the constant term (+6) and add to the negative of the x-coefficient (+5), namely 2 and 3, then set each factor to zero.",
+      "feedback": "Neither criterion is met: your factorization is wrong because you need two numbers multiplying to +6 and adding to -5, and your solutions x=6, x=-1 do not satisfy the equation. To improve, find factors of +6 that sum to -5, giving (x-2)(x-3)=0, then set each factor to zero to get x=2 and x=3. Always check by substituting your answers back into the original equation.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 8.0
+      "warnings": [],
+      "seconds": 6.6
     },
     {
       "id": "E1",
@@ -588,9 +613,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "All three criteria are fully met: the answer identifies photosynthesis as a plant process, states the conversion of light into chemical energy, and lists the correct inputs (water, carbon dioxide) and outputs (glucose, oxygen). No improvement needed; the answer is concise and complete.",
+      "feedback": "All three criteria are met: the answer identifies photosynthesis as a plant process, describes conversion of sunlight into chemical energy, and correctly lists inputs (water, carbon dioxide) and outputs (glucose, oxygen). No improvements needed; the definition is accurate and complete.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 4.7
+      "warnings": [],
+      "seconds": 5.3
     },
     {
       "id": "E1",
@@ -613,9 +639,10 @@
       "integrity_flags": [],
       "answer_language": "Hindi",
       "feedback_language": "Hindi",
-      "feedback": "आपके उत्तर में तीनों मानदंड पूरे हुए हैं: पौधों की प्रक्रिया की पहचान, प्रकाश को रासायनिक ऊर्जा में बदलना, तथा CO2 और पानी से ग्लूकोज और ऑक्सीजन बनने का उल्लेख। कोई सुधार आवश्यक नहीं; उत्तर संक्षिप्त और स्पष्ट है।",
+      "feedback": "आपका उत्तर तीनों मानदंडों को पूरा करता है: पौधों की प्रक्रिया के रूप में पहचान, प्रकाश से रासायनिक ऊर्जा में रूपांतरण, तथा CO2+पानी से ग्लूकोज+ऑक्सीजन के इनपुट/आउटपुट का सही उल्लेख। पूरे अंक दिए गए हैं; सुधार की कोई आवश्यकता नहीं। भविष्य में भी इसी तरह संक्षिप्त और पूर्ण परिभाषा दें।",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 9.2
+      "warnings": [],
+      "seconds": 8.3
     },
     {
       "id": "E1",
@@ -638,9 +665,10 @@
       "integrity_flags": [],
       "answer_language": "Tamil",
       "feedback_language": "Tamil",
-      "feedback": "மூன்று அளவுகோல்களும் முழுமையாகப் பூர்த்தி செய்யப்பட்டுள்ளன: தாவரச் செயல்முறை என அடையாளம் காட்டப்பட்டது, ஒளி வேதி ஆற்றலாக மாற்றப்படுவது கூறப்பட்டது, மேலும் உள்ளீடு/வெளியீடுகள் (நீர் + கார்பன் டை ஆக்சைடு → குளுக்கோஸ் + ஆக்சிஜன்) சரியாகக் குறிப்பிடப்பட்டுள்ளன. மேம்பாட்டிற்கு கூடுதல் தேவையில்லை; தெளிவான, முழுமையான விடை.",
+      "feedback": "மூன்று அளவுகோல்களும் முழுமையாகப் பூர்த்தி செய்யப்பட்டுள்ளன: தாவரச் செயல்முறை என்பதைக் குறிப்பிடுதல், ஒளி ஆற்றலை வேதி ஆற்றலாக மாற்றுதல், மற்றும் CO2+நீர் → குளுக்கோஸ்+ஆக்சிஜன் உள்ளீடு/வெளியீடுகளைக் கூறுதல். மேலும் மேம்படுத்த எதுவும் தேவையில்லை; சொந்த வார்த்தைகளில் தெளிவாக எழுதியுள்ளீர்கள்.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 12.0
+      "warnings": [],
+      "seconds": 10.2
     },
     {
       "id": "E1",
@@ -663,9 +691,10 @@
       "integrity_flags": [],
       "answer_language": "Telugu",
       "feedback_language": "Telugu",
-      "feedback": "మీ సమాధానం మూడు ప్రమాణాలను పూర్తిగా సమకూరుస్తుంది: మొక్కల ప్రక్రియగా గుర్తించారు, సూర్యరశ్మి నుండి రసాయన శక్తి మార్పును తెలిపారు, మరియు నీరు + కార్బన్ డయాక్సైడ్ → గ్లూకోజ్ + ఆక్సిజన్ ఇన్‌పుట్/అవుట్‌పుట్‌లను పేర్కొన్నారు. ఇది పూర్తి మార్కులకు అర్హం; మెరుగుపరచడానికి ఏమీ లేదు.",
+      "feedback": "మీ సమాధానం మూడు ప్రమాణాలను పూర్తిగా సంతృప్తిపరిచింది: మొక్కల ప్రక్రియగా గుర్తింపు, కాంతి నుండి రసాయన శక్తి మార్పు, మరియు CO2+నీరు -> గ్లూకోజ్+ఆక్సిజన్ ఇన్‌పుట్/అవుట్‌పుట్‌లు స్పష్టంగా ఉన్నాయి. మెరుగుపరచడానికి ఏమీ అవసరం లేదు; ఇదే స్థాయిలో క్లుప్తతను కొనసాగించండి.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 11.8
+      "warnings": [],
+      "seconds": 11.4
     },
     {
       "id": "E1",
@@ -688,9 +717,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "Full marks: the answer identifies photosynthesis as a plant process, describes the conversion of light into chemical energy, and correctly lists all inputs (water, carbon dioxide) and outputs (glucose, oxygen). No improvements needed.",
+      "feedback": "All three criteria are fully met: the answer identifies photosynthesis as a plant process, describes conversion of light into chemical energy, and correctly lists inputs (water, carbon dioxide) and outputs (glucose, oxygen). No improvement needed; the answer is complete and accurate.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 7.1
+      "warnings": [],
+      "seconds": 6.4
     },
     {
       "id": "E2",
@@ -713,9 +743,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "You met the first criterion by identifying photosynthesis as a plant process ('what plants do to make food'). However, you did not mention light energy being converted to chemical energy, nor the inputs and outputs. To improve, specify that plants use light energy to convert CO2 and water into glucose and oxygen.",
+      "feedback": "You correctly identified photosynthesis as a plant process (1 mark). However, you did not mention the conversion of light energy into chemical energy, nor the inputs and outputs. To improve, state that plants use light energy to convert CO2 and water into glucose and oxygen.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 7.8
+      "warnings": [],
+      "seconds": 6.8
     },
     {
       "id": "E2",
@@ -738,9 +769,10 @@
       "integrity_flags": [],
       "answer_language": "Hindi",
       "feedback_language": "Hindi",
-      "feedback": "आपने यह स्पष्ट किया कि यह पौधों की भोजन बनाने की प्रक्रिया है, इसलिए 'पौध प्रक्रिया' का अंक मिला। परंतु प्रकाश ऊर्जा को रासायनिक ऊर्जा में बदलने का उल्लेख नहीं है और न ही इनपुट/आउटपुट (CO2 + जल → ग्लूकोज + ऑक्सीजन) बताए गए हैं। सुधार के लिए उत्तर में प्रकाश ऊर्जा के रूपांतरण तथा CO2, जल, ग्लूकोज और ऑक्सीजन को स्पष्ट रूप से शामिल करें।",
+      "feedback": "आपने पौधों द्वारा भोजन बनाने की प्रक्रिया का सही संकेत दिया, जिससे 'पादप प्रक्रिया' वाला मानदंड पूरा हुआ। परंतु प्रकाश ऊर्जा को रासायनिक ऊर्जा में बदलने का उल्लेख नहीं किया और न ही इनपुट/आउटपुट (CO2 + जल → ग्लूकोज + ऑक्सीजन) बताए। इन दोनों बिंदुओं को स्पष्ट रूप से जोड़कर उत्तर पूर्ण करें।",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 10.7
+      "warnings": [],
+      "seconds": 8.2
     },
     {
       "id": "E2",
@@ -763,9 +795,10 @@
       "integrity_flags": [],
       "answer_language": "Tamil",
       "feedback_language": "Tamil",
-      "feedback": "தாவரச் செயல்முறை என்பதைக் குறிப்பிட்டதற்கு 1 மதிப்பெண் கிடைத்துள்ளது. ஆனால் ஒளிச்சக்தியை வேதிச்சக்தியாக மாற்றுவது பற்றியும், CO2 + நீர் → குளுக்கோஸ் + ஆக்சிஜன் என்ற உள்ளீடு/வெளியீடுகள் பற்றியும் கூறவில்லை. இவற்றைச் சேர்த்து எழுதினால் முழு மதிப்பெண் பெறலாம்.",
+      "feedback": "தாவரங்கள் உணவு தயாரிக்கும் செயல் என்று கூறியதற்காக 'தாவர செயல்முறை' என்பதற்கான மதிப்பெண் வழங்கப்பட்டுள்ளது. ஆனால் ஒளிச்சக்தியை வேதிச்சக்தியாக மாற்றுவது பற்றியும், CO2 மற்றும் நீர் உள்ளீடாகி குளுக்கோஸ் மற்றும் ஆக்சிஜன் வெளியீடாகும் செயல்முறை பற்றியும் குறிப்பிடவில்லை; எனவே அந்த இரண்டு அளவுகோல்களுக்கு மதிப்பெண் இல்லை. இவற்றைச் சேர்த்து ஒரு முழுமையான வரையறையை எழுதினால் முழு மதிப்பெண் பெறலாம்.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 10.5
+      "warnings": [],
+      "seconds": 12.3
     },
     {
       "id": "E2",
@@ -788,9 +821,10 @@
       "integrity_flags": [],
       "answer_language": "Telugu",
       "feedback_language": "Telugu",
-      "feedback": "మొక్కలు ఆహారం తయారు చేసుకునే ప్రక్రియగా గుర్తించినందుకు 1 మార్కు లభించింది. కానీ కాంతి శక్తిని రసాయన శక్తిగా మార్చడం, మరియు CO2 + నీరు → గ్లూకోజ్ + ఆక్సిజన్ అనే ఇన్‌పుట్‌లు/అవుట్‌పుట్‌లు రాయలేదు. ఈ రెండు అంశాలను చేర్చి సమాధానాన్ని పూర్తి చేయండి.",
+      "feedback": "మొక్కలు ఆహారం తయారు చేసుకునే ప్రక్రియగా గుర్తించినందుకు 1 మార్కు లభించింది. కానీ కాంతి శక్తిని రసాయన శక్తిగా మార్చడం, మరియు CO2 + నీరు → గ్లూకోజ్ + ఆక్సిజన్ అనే ఇన్‌పుట్‌లు/అవుట్‌పుట్‌లు రాయలేదు. సమాధానంలో కాంతి శక్తి పాత్రను, ఇన్‌పుట్‌లు-అవుట్‌పుట్‌లను స్పష్టంగా చేర్చడం ద్వారా మిగిలిన మార్కులు పొందవచ్చు.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 12.2
+      "warnings": [],
+      "seconds": 11.9
     },
     {
       "id": "E2",
@@ -813,9 +847,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "You correctly identified photosynthesis as a plant process (1 mark). However, you did not explain that light energy is converted into chemical energy, and you did not name the inputs and outputs (CO2 + water → glucose + oxygen). To improve, state the energy conversion and list the raw materials and products.",
+      "feedback": "You correctly identified photosynthesis as a plant process ('what plants do to make food'), earning the first criterion. However, you did not mention that light energy is converted into chemical energy, nor did you list the inputs and outputs (CO2 + water -> glucose + oxygen). To improve, include the role of light energy and state the reactants and products explicitly.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 6.7
+      "warnings": [],
+      "seconds": 5.9
     },
     {
       "id": "C2",
@@ -825,10 +860,113 @@
       "mark": 4.0,
       "error": null,
       "sampled_totals": [
-        3.5,
-        3.5,
         4.0,
         4.0,
+        4.0,
+        4.0,
+        4.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 1.0,
+      "flagged": false,
+      "integrity_flags": [],
+      "answer_language": "English",
+      "feedback_language": "English",
+      "feedback": "Both rubric criteria are fully met: memory layout/access (contiguous vs nodes/pointers, O(1) vs O(n) access) and insertion/deletion trade-offs (O(1) linked-list insert/delete vs fixed-size array). To strengthen, you could explicitly note array insertion/deletion is O(n) and clarify that linked-list O(1) insert/delete applies at ends/known position, but this is not required for full marks.",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 5.9
+    },
+    {
+      "id": "C2",
+      "lang": "hi",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 4.0,
+      "error": null,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        3.0,
+        3.0,
+        4.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 0.795,
+      "flagged": true,
+      "integrity_flags": [],
+      "answer_language": "Hindi",
+      "feedback_language": "Hindi",
+      "feedback": "आपने दोनों मानदंड पूरे किए: ऐरे की लगातार मेमोरी और O(1) एक्सेस बनाम लिंक्ड लिस्ट की O(n) एक्सेस सही बताई, तथा इंसर्शन/डिलीशन का ट्रेड-ऑफ भी सही दिया। सुधार के लिए ऐरे में इंसर्शन/डिलीशन की O(n) लागत स्पष्ट रूप से लिख सकते हैं।",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 11.5
+    },
+    {
+      "id": "C2",
+      "lang": "ta",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 4.0,
+      "error": null,
+      "sampled_totals": [
+        3.0,
+        4.0,
+        4.0,
+        4.0,
+        3.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 0.795,
+      "flagged": true,
+      "integrity_flags": [],
+      "answer_language": "Tamil",
+      "feedback_language": "Tamil",
+      "feedback": "நினைவக அமைப்பு/அணுகல் வேறுபாடு (தொடர்ச்சியான நினைவகம், O(1) சீரற்ற அணுகல், O(n) அணுகல்) மற்றும் செருகல்/நீக்கல் சமநிலை (O(1) செருகல்/நீக்கம், நிலையான அளவு) ஆகிய இரு அளவுகோல்களும் பூர்த்தி செய்யப்பட்டுள்ளன. மேலும் முழுமைக்கு, அணிகளில் செருகல்/நீக்கம் O(n) என்பதை வெளிப்படையாகக் குறிப்பிடலாம்.",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 20.8
+    },
+    {
+      "id": "C2",
+      "lang": "te",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 4.0,
+      "error": null,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        3.0,
+        4.0
+      ],
+      "judge2_total": 4.0,
+      "adjudicated": false,
+      "confidence": 0.865,
+      "flagged": false,
+      "integrity_flags": [],
+      "answer_language": "Telugu",
+      "feedback_language": "Telugu",
+      "feedback": "మెమరీ లేఅవుట్ మరియు యాక్సెస్ వ్యత్యాసాలను (వరుస మెమరీ, O(1) యాక్సెస్ వర్సెస్ నోడ్‌లు, O(n) యాక్సెస్) స్పష్టంగా వివరించారు, ఇది మొదటి ప్రమాణాన్ని పూర్తిగా సమకూరుస్తుంది. చొప్పింపు/తొలగింపు trade-off కూడా (లింక్డ్ లిస్ట్‌లో O(1), అరే స్థిర పరిమాణం) సరిగ్గా తెలియజేశారు. మెరుగుపరచడానికి, అరేలలో చొప్పింపు/తొలగింపు O(n) అని కూడా విడిగా పేర్కొంటే మరింత పూర్తిగా ఉంటుంది.",
+      "graded_by": "deepseek/deepseek-v4.1-flash",
+      "warnings": [],
+      "seconds": 12.4
+    },
+    {
+      "id": "C2",
+      "lang": "en_rerun",
+      "ground_truth": 4.0,
+      "max": 4.0,
+      "mark": 4.0,
+      "error": null,
+      "sampled_totals": [
+        4.0,
+        4.0,
+        3.5,
+        3.5,
         4.0
       ],
       "judge2_total": 4.0,
@@ -838,109 +976,10 @@
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "Both criteria are fully met: the answer correctly explains contiguous vs. pointer-based memory layout with O(1) vs O(n) access, and the insertion/deletion trade-off (O(1) linked-list ops vs fixed-size arrays). To be maximally precise, you could add that array insert/delete is O(n) due to shifting, but the core trade-off is present.",
+      "feedback": "Both criteria are fully met: memory layout/access (contiguous vs. pointer-based nodes, O(1) vs O(n) access) and insertion/deletion trade-offs (O(1) for linked lists, fixed size for arrays). To strengthen the second criterion, explicitly note that array insertion/deletion is O(n) due to shifting elements; this would make the trade-off fully complete.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 14.2
-    },
-    {
-      "id": "C2",
-      "lang": "hi",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 4.0,
-      "error": null,
-      "sampled_totals": [
-        4.0,
-        4.0,
-        3.0,
-        4.0,
-        4.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 0.889,
-      "flagged": false,
-      "integrity_flags": [],
-      "answer_language": "Hindi",
-      "feedback_language": "Hindi",
-      "feedback": "दोनों मानदंड पूरी तरह पूरे हुए हैं: मेमोरी लेआउट/एक्सेस अंतर (लगातार मेमोरी, O(1) रैंडम एक्सेस बनाम पॉइंटर नोड्स, O(n) एक्सेस) और इंसर्शन/डिलीशन ट्रेड-ऑफ (लिंक्ड लिस्ट में O(1) बनाम ऐरे का निश्चित आकार)। सुधार के लिए छात्र ऐरे में इंसर्शन/डिलीशन की O(n) लागत स्पष्ट रूप से लिख सकता है और यह बता सकता है कि O(1) इंसर्शन/डिलीशन लिंक्ड लिस्ट में सिरों पर या ज्ञात नोड के पास होता है।",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 17.4
-    },
-    {
-      "id": "C2",
-      "lang": "ta",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 4.0,
-      "error": null,
-      "sampled_totals": [
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        3.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 0.889,
-      "flagged": false,
-      "integrity_flags": [],
-      "answer_language": "Tamil",
-      "feedback_language": "Tamil",
-      "feedback": "நினைவக அமைப்பு/அணுகல் வேறுபாடு (தொடர்ச்சியான நினைவகம், O(1) அணுகல் vs. சுட்டி கணுக்கள், O(n) அணுகல்) மற்றும் செருகல்/நீக்கல் சமநிலை (இணைக்கப்பட்ட பட்டியலில் O(1) செருகல்/நீக்கம், அணியின் நிலையான அளவு) ஆகிய இரு அளவுகோல்களும் முழுமையாகப் பூர்த்தி செய்யப்பட்டுள்ளன. மேலும் முழுமைக்கு, அணியில் செருகல்/நீக்கம் O(n) என்பதையும், இணைக்கப்பட்ட பட்டியலில் முனை/இறுதியில் O(1) என்பதையும் வெளிப்படையாகக் குறிப்பிடலாம்.",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 16.6
-    },
-    {
-      "id": "C2",
-      "lang": "te",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 3.5,
-      "error": null,
-      "sampled_totals": [
-        3.5,
-        3.0,
-        4.0,
-        3.0,
-        4.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 0.453,
-      "flagged": true,
-      "integrity_flags": [],
-      "answer_language": "Telugu",
-      "feedback_language": "Telugu",
-      "feedback": "మెమరీ లేఅవుట్ మరియు యాక్సెస్ తేడాలను (వరుస మెమరీ, O(1) యాక్సెస్ వర్సెస్ నోడ్‌లు, O(n) యాక్సెస్) స్పష్టంగా వివరించినందుకు పూర్తి మార్కులు లభించాయి. చొప్పింపు/తొలగింపు ట్రేడ్-ఆఫ్‌లో లింక్డ్ లిస్ట్ O(1) సరిగ్గా చెప్పారు, కానీ అరేలలో చొప్పింపు/తొలగింపు O(n) అని పేర్కొనలేదు; దాన్ని జోడిస్తే పూర్తి మార్కులు వచ్చేవి.",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 17.0
-    },
-    {
-      "id": "C2",
-      "lang": "en_rerun",
-      "ground_truth": 4.0,
-      "max": 4.0,
-      "mark": 3.5,
-      "error": null,
-      "sampled_totals": [
-        4.0,
-        3.0,
-        3.5,
-        3.5,
-        4.0
-      ],
-      "judge2_total": 4.0,
-      "adjudicated": false,
-      "confidence": 0.546,
-      "flagged": true,
-      "integrity_flags": [],
-      "answer_language": "English",
-      "feedback_language": "English",
-      "feedback": "You correctly covered memory layout and access complexity (contiguous O(1) access vs. pointer-based O(n) access), earning full marks there. For insertion/deletion, you gave the linked-list O(1) advantage but omitted the array's O(n) insert/delete cost (and the O(1) insert/delete at ends nuance); add that to fully capture the trade-off.",
-      "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 7.9
+      "warnings": [],
+      "seconds": 6.5
     },
     {
       "id": "P8",
@@ -950,22 +989,23 @@
       "mark": 2.0,
       "error": null,
       "sampled_totals": [
+        0.0,
         2.0,
-        2.0,
-        2.0,
-        2.0,
+        0.0,
+        0.0,
         2.0
       ],
       "judge2_total": 2.0,
-      "adjudicated": false,
-      "confidence": 1.0,
-      "flagged": false,
+      "adjudicated": true,
+      "confidence": 0.445,
+      "flagged": true,
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "You correctly found the speed as 50 km/h, which earns the first criterion. However, you did not perform the km/h to m/s conversion: you must multiply by 1000/3600 (or divide by 3.6), giving 50 × 1000 / 3600 ≈ 13.9 m/s. Showing this conversion step would earn the remaining marks.",
+      "feedback": "You correctly computed the speed as 50 (criterion 1 met), but you mislabeled it as m/s and failed to convert km/h to m/s using ×1000/3600 (criterion 2 missed), giving an incorrect final value of 50 m/s instead of 13.9 m/s (criterion 3 missed). To improve: write 50 km/h, then convert: 50 × 1000 / 3600 ≈ 13.9 m/s.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 7.1
+      "warnings": [],
+      "seconds": 11.9
     },
     {
       "id": "P8",
@@ -975,11 +1015,11 @@
       "mark": 0.0,
       "error": null,
       "sampled_totals": [
+        2.0,
         0.0,
         0.0,
         0.0,
-        0.0,
-        2.0
+        0.0
       ],
       "judge2_total": 2.0,
       "adjudicated": true,
@@ -988,9 +1028,10 @@
       "integrity_flags": [],
       "answer_language": "Hindi",
       "feedback_language": "Hindi",
-      "feedback": "आपने चाल = दूरी/समय = 100/2 = 50 तो सही निकाला, लेकिन इकाई galat 'm/s' लिखी—सही इकाई 'km/h' होनी चाहिए थी। km/h को m/s में बदलने का गुणक (×1000/3600 या ×5/18) दिखाना आवश्यक था, जो नहीं दिखाया गया। अंत में 50 × 5/18 ≈ 13.9 m/s लिखकर सही मान निकालें।",
+      "feedback": "Grader A और B दोनों में से, Grader A का विश्लेषण सही है: छात्र ने 50 तो निकाला लेकिन unit 'm/s' लिखी, जो km/h में Chal ka maan hai, isliye pehla criterion bhi nahi milta. Conversion factor aur sahi antim maan (13.9 m/s) dono hi nahi hain. Sudhaar ke liye: pehle 50 km/h likhein, phir 50 × 1000/3600 = 13.9 m/s karein.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 19.1
+      "warnings": [],
+      "seconds": 13.0
     },
     {
       "id": "P8",
@@ -1002,32 +1043,33 @@
       "sampled_totals": [
         0.0,
         0.0,
-        0.0,
-        0.0,
+        2.0,
+        2.0,
         0.0
       ],
       "judge2_total": 2.0,
       "adjudicated": true,
-      "confidence": 0.667,
+      "confidence": 0.445,
       "flagged": true,
       "integrity_flags": [],
       "answer_language": "Tamil",
       "feedback_language": "Tamil",
-      "feedback": "மாணவர் வேகத்தைக் கணக்கிடும் methods சரியாகப் பயன்படுத்தியிருந்தாலும், அலகை (km/h) தவறாகக் indicated செய்து, km/h-ஐ m/s-ஆக மாற்றும் factorsShow செய்யவில்லை. therefore அனைத்து அளவுகோல்களும் தவறியுள்ளன. சரியான அலகுடன் 50 km/h என எழுதி, 50 × 1000/3600 = 13.9 m/s என மாற்றம்Show செய்ய வேண்டும்.",
+      "feedback": "Grader A-யின் மதிப்பீடு சரியானது: மாணவர் 50 என்ற எண்ணை சரியாக கணக்கிட்டாலும், அதை km/h எனக் குறிப்பிடாமல் தவறாக m/s என்று எழுதியுள்ளார், மேலும் km/h-இலிருந்து m/s-ஆக மாற்றும் factors (1000/3600) பயன்படுத்தப்படவில்லை. முதல் படியாக வேகம் = 100 km / 2 h = 50 km/h என்று அலகுடன் காட்ட வேண்டும், பின்னர் 50 × 1000 / 3600 ≈ 13.9 m/s என மாற்ற வேண்டும்.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 22.7
+      "warnings": [],
+      "seconds": 32.7
     },
     {
       "id": "P8",
       "lang": "te",
       "ground_truth": 2.0,
       "max": 5.0,
-      "mark": 0.0,
+      "mark": 1.0,
       "error": null,
       "sampled_totals": [
         0.0,
-        0.0,
         2.0,
+        0.0,
         1.0,
         0.0
       ],
@@ -1038,34 +1080,38 @@
       "integrity_flags": [],
       "answer_language": "Telugu",
       "feedback_language": "Telugu",
-      "feedback": "వేగం = దూరం/సమయం = 100/2 = 50 km/h అని km/h యూనిట్‌తో రాయాలి, తర్వాత 50 × 1000/3600 ≈ 13.9 m/s అని conversion factor showingあげて లెక్కించాలి; student m/s యూనిట్‌తో 50 అని తప్పుగా రాశారు, conversion step entirely lacks, so correct value 13.9 m/s also missed.",
+      "feedback": "మీరు 100/2 = 50 అని సరిగ్గా లెక్కించారు, కానీ యూనిట్ km/h అని రాయాలి, m/s కాదు. km/h నుండి m/s కి మార్పిడి కారకాన్ని (×1000/3600 లేదా ÷3.6) చూపించి, 50 km/h ≈ 13.9 m/s అని చివరి సమాధానం ఇవ్వాలి.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 27.5
+      "warnings": [
+        "QP8: 1 marking(s) wrote feedback containing Hangul text instead of Telugu even after a retry; it was kept as is."
+      ],
+      "seconds": 28.0
     },
     {
       "id": "P8",
       "lang": "en_rerun",
       "ground_truth": 2.0,
       "max": 5.0,
-      "mark": 2.0,
+      "mark": 0.0,
       "error": null,
       "sampled_totals": [
+        0.0,
         2.0,
+        0.0,
         2.0,
-        2.0,
-        2.0,
-        2.0
+        0.0
       ],
       "judge2_total": 2.0,
-      "adjudicated": false,
-      "confidence": 1.0,
-      "flagged": false,
+      "adjudicated": true,
+      "confidence": 0.445,
+      "flagged": true,
       "integrity_flags": [],
       "answer_language": "English",
       "feedback_language": "English",
-      "feedback": "You correctly found the speed as 50 km/h (criterion 1 met). However, you omitted the km/h to m/s conversion factor (criterion 2 missed) and gave 50 m/s instead of 13.9 m/s (criterion 3 missed). To improve, show the conversion explicitly: 50 km/h × 1000 m/3600 s ≈ 13.9 m/s, and always check that the units match what the question asks for.",
+      "feedback": "You correctly computed distance/time = 50, but you attached the wrong unit: the speed is 50 km/h, not 50 m/s, so the km/h criterion is missed. You also omitted the conversion step entirely; show 50 km/h × 1000 m/3600 s (or × 5/18) to get ≈13.9 m/s. Always carry units through the calculation and convert before stating the final speed.",
       "graded_by": "deepseek/deepseek-v4.1-flash",
-      "seconds": 7.6
+      "warnings": [],
+      "seconds": 11.6
     }
   ]
 }

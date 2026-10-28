@@ -5,7 +5,7 @@
     "handwriting",
     "photo"
   ],
-  "n_entries": 85,
+  "n_entries": 133,
   "entries": [
     {
       "id": "P1_clean",
@@ -13,6 +13,7 @@
       "item_id": "P1",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P1_clean.png",
       "ground_truth": "Newton's second law states that the force acting on an object equals the rate of change of momentum. F=ma. For 2kg and 10N, a = F/m = 10/2 = 5 m/s^2."
     },
@@ -22,6 +23,7 @@
       "item_id": "P1",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P1_handwriting.png",
       "ground_truth": "Newton's second law states that the force acting on an object equals the rate of change of momentum. F=ma. For 2kg and 10N, a = F/m = 10/2 = 5 m/s^2."
     },
@@ -31,6 +33,7 @@
       "item_id": "P1",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P1_photo.jpg",
       "ground_truth": "Newton's second law states that the force acting on an object equals the rate of change of momentum. F=ma. For 2kg and 10N, a = F/m = 10/2 = 5 m/s^2."
     },
@@ -40,6 +43,7 @@
       "item_id": "P2",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P2_clean.png",
       "ground_truth": "Every action has an equal and opposite reaction. For example, when you push a wall, the wall pushes you back."
     },
@@ -49,6 +53,7 @@
       "item_id": "P2",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P2_handwriting.png",
       "ground_truth": "Every action has an equal and opposite reaction. For example, when you push a wall, the wall pushes you back."
     },
@@ -58,6 +63,7 @@
       "item_id": "P2",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P2_photo.jpg",
       "ground_truth": "Every action has an equal and opposite reaction. For example, when you push a wall, the wall pushes you back."
     },
@@ -67,6 +73,7 @@
       "item_id": "P3",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P3_clean.png",
       "ground_truth": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration = 1000 x 2 = 2000 N."
     },
@@ -76,6 +83,7 @@
       "item_id": "P3",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P3_handwriting.png",
       "ground_truth": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration = 1000 x 2 = 2000 N."
     },
@@ -85,6 +93,7 @@
       "item_id": "P3",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P3_photo.jpg",
       "ground_truth": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration = 1000 x 2 = 2000 N."
     },
@@ -94,6 +103,7 @@
       "item_id": "P4",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P4_clean.png",
       "ground_truth": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 = 3 s."
     },
@@ -103,6 +113,7 @@
       "item_id": "P4",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P4_handwriting.png",
       "ground_truth": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 = 3 s."
     },
@@ -112,6 +123,7 @@
       "item_id": "P4",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P4_photo.jpg",
       "ground_truth": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 = 3 s."
     },
@@ -121,6 +133,7 @@
       "item_id": "P5",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P5_clean.png",
       "ground_truth": "a = F/m = 20/5 = 4 m/s^2."
     },
@@ -130,6 +143,7 @@
       "item_id": "P5",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P5_handwriting.png",
       "ground_truth": "a = F/m = 20/5 = 4 m/s^2."
     },
@@ -139,6 +153,7 @@
       "item_id": "P5",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P5_photo.jpg",
       "ground_truth": "a = F/m = 20/5 = 4 m/s^2."
     },
@@ -148,6 +163,7 @@
       "item_id": "M1",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M1_clean.png",
       "ground_truth": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
     },
@@ -157,6 +173,7 @@
       "item_id": "M1",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M1_handwriting.png",
       "ground_truth": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
     },
@@ -166,6 +183,7 @@
       "item_id": "M1",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M1_photo.jpg",
       "ground_truth": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
     },
@@ -175,6 +193,7 @@
       "item_id": "M2",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M2_clean.png",
       "ground_truth": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
     },
@@ -184,6 +203,7 @@
       "item_id": "M2",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M2_handwriting.png",
       "ground_truth": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
     },
@@ -193,6 +213,7 @@
       "item_id": "M2",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M2_photo.jpg",
       "ground_truth": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
     },
@@ -202,6 +223,7 @@
       "item_id": "M3",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M3_clean.png",
       "ground_truth": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the answer is x^4 + c."
     },
@@ -211,6 +233,7 @@
       "item_id": "M3",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M3_handwriting.png",
       "ground_truth": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the answer is x^4 + c."
     },
@@ -220,6 +243,7 @@
       "item_id": "M3",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M3_photo.jpg",
       "ground_truth": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the answer is x^4 + c."
     },
@@ -229,6 +253,7 @@
       "item_id": "C1",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "C1_clean.png",
       "ground_truth": "O(log n). Each comparison halves the search space, so after k steps there are n/2^k elements left. Setting this to 1 gives k = log2(n)."
     },
@@ -238,6 +263,7 @@
       "item_id": "C1",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "C1_handwriting.png",
       "ground_truth": "O(log n). Each comparison halves the search space, so after k steps there are n/2^k elements left. Setting this to 1 gives k = log2(n)."
     },
@@ -247,6 +273,7 @@
       "item_id": "C1",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "C1_photo.jpg",
       "ground_truth": "O(log n). Each comparison halves the search space, so after k steps there are n/2^k elements left. Setting this to 1 gives k = log2(n)."
     },
@@ -256,6 +283,7 @@
       "item_id": "C2",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "C2_clean.png",
       "ground_truth": "Arrays store elements in contiguous memory and allow O(1) random access but fixed size. Linked lists use nodes with pointers, allow O(1) insertion/deletion but O(n) access."
     },
@@ -265,6 +293,7 @@
       "item_id": "C2",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "C2_handwriting.png",
       "ground_truth": "Arrays store elements in contiguous memory and allow O(1) random access but fixed size. Linked lists use nodes with pointers, allow O(1) insertion/deletion but O(n) access."
     },
@@ -274,6 +303,7 @@
       "item_id": "C2",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "C2_photo.jpg",
       "ground_truth": "Arrays store elements in contiguous memory and allow O(1) random access but fixed size. Linked lists use nodes with pointers, allow O(1) insertion/deletion but O(n) access."
     },
@@ -283,6 +313,7 @@
       "item_id": "C3",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "C3_clean.png",
       "ground_truth": "A hash table maps keys to indices using a hash function for fast lookup. Average case search is O(1). Worst case is O(n) when all keys hash to the same bucket."
     },
@@ -292,6 +323,7 @@
       "item_id": "C3",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "C3_handwriting.png",
       "ground_truth": "A hash table maps keys to indices using a hash function for fast lookup. Average case search is O(1). Worst case is O(n) when all keys hash to the same bucket."
     },
@@ -301,6 +333,7 @@
       "item_id": "C3",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "C3_photo.jpg",
       "ground_truth": "A hash table maps keys to indices using a hash function for fast lookup. Average case search is O(1). Worst case is O(n) when all keys hash to the same bucket."
     },
@@ -310,6 +343,7 @@
       "item_id": "C4",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "C4_clean.png",
       "ground_truth": "In a BST, each node has a left and right child. Insert and search compare from the root and go left or right. The average case is O(log n)."
     },
@@ -319,6 +353,7 @@
       "item_id": "C4",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "C4_handwriting.png",
       "ground_truth": "In a BST, each node has a left and right child. Insert and search compare from the root and go left or right. The average case is O(log n)."
     },
@@ -328,6 +363,7 @@
       "item_id": "C4",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "C4_photo.jpg",
       "ground_truth": "In a BST, each node has a left and right child. Insert and search compare from the root and go left or right. The average case is O(log n)."
     },
@@ -337,6 +373,7 @@
       "item_id": "E1",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "E1_clean.png",
       "ground_truth": "Photosynthesis is the process by which plants convert sunlight into chemical energy, using water and carbon dioxide to make glucose and release oxygen."
     },
@@ -346,6 +383,7 @@
       "item_id": "E1",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "E1_handwriting.png",
       "ground_truth": "Photosynthesis is the process by which plants convert sunlight into chemical energy, using water and carbon dioxide to make glucose and release oxygen."
     },
@@ -355,6 +393,7 @@
       "item_id": "E1",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "E1_photo.jpg",
       "ground_truth": "Photosynthesis is the process by which plants convert sunlight into chemical energy, using water and carbon dioxide to make glucose and release oxygen."
     },
@@ -364,6 +403,7 @@
       "item_id": "E2",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "E2_clean.png",
       "ground_truth": "It is what plants do to make food."
     },
@@ -373,6 +413,7 @@
       "item_id": "E2",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "E2_handwriting.png",
       "ground_truth": "It is what plants do to make food."
     },
@@ -382,6 +423,7 @@
       "item_id": "E2",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "E2_photo.jpg",
       "ground_truth": "It is what plants do to make food."
     },
@@ -391,6 +433,7 @@
       "item_id": "E3",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "E3_clean.png",
       "ground_truth": "A machine learning model learns patterns from data and uses them to make predictions on new unseen data."
     },
@@ -400,6 +443,7 @@
       "item_id": "E3",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "E3_handwriting.png",
       "ground_truth": "A machine learning model learns patterns from data and uses them to make predictions on new unseen data."
     },
@@ -409,6 +453,7 @@
       "item_id": "E3",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "E3_photo.jpg",
       "ground_truth": "A machine learning model learns patterns from data and uses them to make predictions on new unseen data."
     },
@@ -418,6 +463,7 @@
       "item_id": "M4",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M4_clean.png",
       "ground_truth": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
     },
@@ -427,6 +473,7 @@
       "item_id": "M4",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M4_handwriting.png",
       "ground_truth": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
     },
@@ -436,6 +483,7 @@
       "item_id": "M4",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M4_photo.jpg",
       "ground_truth": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
     },
@@ -445,6 +493,7 @@
       "item_id": "P6",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P6_clean.png",
       "ground_truth": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
     },
@@ -454,6 +503,7 @@
       "item_id": "P6",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P6_handwriting.png",
       "ground_truth": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
     },
@@ -463,6 +513,7 @@
       "item_id": "P6",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P6_photo.jpg",
       "ground_truth": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
     },
@@ -472,6 +523,7 @@
       "item_id": "P7",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P7_clean.png",
       "ground_truth": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time to reach the top is 6 s, because the ball takes 6 s for the whole journey."
     },
@@ -481,6 +533,7 @@
       "item_id": "P7",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P7_handwriting.png",
       "ground_truth": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time to reach the top is 6 s, because the ball takes 6 s for the whole journey."
     },
@@ -490,6 +543,7 @@
       "item_id": "P7",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P7_photo.jpg",
       "ground_truth": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time to reach the top is 6 s, because the ball takes 6 s for the whole journey."
     },
@@ -499,6 +553,7 @@
       "item_id": "M5",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M5_clean.png",
       "ground_truth": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
     },
@@ -508,6 +563,7 @@
       "item_id": "M5",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M5_handwriting.png",
       "ground_truth": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
     },
@@ -517,6 +573,7 @@
       "item_id": "M5",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M5_photo.jpg",
       "ground_truth": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
     },
@@ -526,6 +583,7 @@
       "item_id": "M6",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M6_clean.png",
       "ground_truth": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4. So the answer is x^4."
     },
@@ -535,6 +593,7 @@
       "item_id": "M6",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M6_handwriting.png",
       "ground_truth": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4. So the answer is x^4."
     },
@@ -544,6 +603,7 @@
       "item_id": "M6",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M6_photo.jpg",
       "ground_truth": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4. So the answer is x^4."
     },
@@ -553,8 +613,9 @@
       "item_id": "M7",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "M7_clean.png",
-      "ground_truth": "x = (6 \u00b1 sqrt(36 + 32)) / 2 = (6 \u00b1 sqrt(68)) / 2, so x \u2248 7.1 or x \u2248 -1.1."
+      "ground_truth": "x = (6 ± sqrt(36 + 32)) / 2 = (6 ± sqrt(68)) / 2, so x ≈ 7.1 or x ≈ -1.1."
     },
     {
       "id": "M7_handwriting",
@@ -562,8 +623,9 @@
       "item_id": "M7",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "M7_handwriting.png",
-      "ground_truth": "x = (6 \u00b1 sqrt(36 + 32)) / 2 = (6 \u00b1 sqrt(68)) / 2, so x \u2248 7.1 or x \u2248 -1.1."
+      "ground_truth": "x = (6 ± sqrt(36 + 32)) / 2 = (6 ± sqrt(68)) / 2, so x ≈ 7.1 or x ≈ -1.1."
     },
     {
       "id": "M7_photo",
@@ -571,8 +633,9 @@
       "item_id": "M7",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "M7_photo.jpg",
-      "ground_truth": "x = (6 \u00b1 sqrt(36 + 32)) / 2 = (6 \u00b1 sqrt(68)) / 2, so x \u2248 7.1 or x \u2248 -1.1."
+      "ground_truth": "x = (6 ± sqrt(36 + 32)) / 2 = (6 ± sqrt(68)) / 2, so x ≈ 7.1 or x ≈ -1.1."
     },
     {
       "id": "P8_clean",
@@ -580,6 +643,7 @@
       "item_id": "P8",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P8_clean.png",
       "ground_truth": "Speed = distance / time = 100 / 2 = 50 m/s."
     },
@@ -589,6 +653,7 @@
       "item_id": "P8",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P8_handwriting.png",
       "ground_truth": "Speed = distance / time = 100 / 2 = 50 m/s."
     },
@@ -598,6 +663,7 @@
       "item_id": "P8",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P8_photo.jpg",
       "ground_truth": "Speed = distance / time = 100 / 2 = 50 m/s."
     },
@@ -607,6 +673,7 @@
       "item_id": "C5",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "C5_clean.png",
       "ground_truth": "A hash table keeps its keys in sorted order so you can search quickly, like a dictionary. Average search is O(log n)."
     },
@@ -616,6 +683,7 @@
       "item_id": "C5",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "C5_handwriting.png",
       "ground_truth": "A hash table keeps its keys in sorted order so you can search quickly, like a dictionary. Average search is O(log n)."
     },
@@ -625,6 +693,7 @@
       "item_id": "C5",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "C5_photo.jpg",
       "ground_truth": "A hash table keeps its keys in sorted order so you can search quickly, like a dictionary. Average search is O(log n)."
     },
@@ -634,6 +703,7 @@
       "item_id": "C6",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "C6_clean.png",
       "ground_truth": "Search compares from the root and goes left or right, average O(log n). Insert works by comparing and attaching a new node. Deletion works basically the same as insertion."
     },
@@ -643,6 +713,7 @@
       "item_id": "C6",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "C6_handwriting.png",
       "ground_truth": "Search compares from the root and goes left or right, average O(log n). Insert works by comparing and attaching a new node. Deletion works basically the same as insertion."
     },
@@ -652,6 +723,7 @@
       "item_id": "C6",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "C6_photo.jpg",
       "ground_truth": "Search compares from the root and goes left or right, average O(log n). Insert works by comparing and attaching a new node. Deletion works basically the same as insertion."
     },
@@ -661,6 +733,7 @@
       "item_id": "E4",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "E4_clean.png",
       "ground_truth": "Photosynthesis is how plants make glucose using water and sunlight, and the glucose stores chemical energy for the plant."
     },
@@ -670,6 +743,7 @@
       "item_id": "E4",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "E4_handwriting.png",
       "ground_truth": "Photosynthesis is how plants make glucose using water and sunlight, and the glucose stores chemical energy for the plant."
     },
@@ -679,6 +753,7 @@
       "item_id": "E4",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "E4_photo.jpg",
       "ground_truth": "Photosynthesis is how plants make glucose using water and sunlight, and the glucose stores chemical energy for the plant."
     },
@@ -688,6 +763,7 @@
       "item_id": "E5",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "E5_clean.png",
       "ground_truth": "It is basically a function that maps inputs to outputs, and it is used to make predictions."
     },
@@ -697,6 +773,7 @@
       "item_id": "E5",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "E5_handwriting.png",
       "ground_truth": "It is basically a function that maps inputs to outputs, and it is used to make predictions."
     },
@@ -706,6 +783,7 @@
       "item_id": "E5",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "E5_photo.jpg",
       "ground_truth": "It is basically a function that maps inputs to outputs, and it is used to make predictions."
     },
@@ -715,6 +793,7 @@
       "item_id": null,
       "style": "clean",
       "kind": "sheet",
+      "lang": "en",
       "image": "sheet_good_clean.png",
       "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
     },
@@ -724,6 +803,7 @@
       "item_id": null,
       "style": "handwriting",
       "kind": "sheet",
+      "lang": "en",
       "image": "sheet_good_handwriting.png",
       "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
     },
@@ -733,6 +813,7 @@
       "item_id": null,
       "style": "photo",
       "kind": "sheet",
+      "lang": "en",
       "image": "sheet_good_photo.jpg",
       "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
     },
@@ -742,6 +823,7 @@
       "item_id": null,
       "style": "clean",
       "kind": "sheet",
+      "lang": "en",
       "image": "sheet_poor_clean.png",
       "ground_truth": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m.\n"
     },
@@ -751,6 +833,7 @@
       "item_id": null,
       "style": "handwriting",
       "kind": "sheet",
+      "lang": "en",
       "image": "sheet_poor_handwriting.png",
       "ground_truth": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m.\n"
     },
@@ -760,6 +843,7 @@
       "item_id": null,
       "style": "photo",
       "kind": "sheet",
+      "lang": "en",
       "image": "sheet_poor_photo.jpg",
       "ground_truth": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m.\n"
     },
@@ -769,8 +853,489 @@
       "item_id": null,
       "style": "pdf",
       "kind": "pdf",
+      "lang": "en",
       "image": "scanned_answersheet.pdf",
       "ground_truth": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s.\n"
+    },
+    {
+      "id": "P2_hi_clean",
+      "doc_id": "P2_hi",
+      "item_id": "P2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P2_hi_clean.png",
+      "ground_truth": "प्रत्येक क्रिया की एक समान और विपरीत प्रतिक्रिया होती है। उदाहरण के लिए, जब आप दीवार को धक्का देते हैं, तो दीवार भी आपको पीछे की ओर धक्का देती है।"
+    },
+    {
+      "id": "P2_hi_handwriting",
+      "doc_id": "P2_hi",
+      "item_id": "P2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P2_hi_handwriting.png",
+      "ground_truth": "प्रत्येक क्रिया की एक समान और विपरीत प्रतिक्रिया होती है। उदाहरण के लिए, जब आप दीवार को धक्का देते हैं, तो दीवार भी आपको पीछे की ओर धक्का देती है।"
+    },
+    {
+      "id": "P2_hi_photo",
+      "doc_id": "P2_hi",
+      "item_id": "P2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P2_hi_photo.jpg",
+      "ground_truth": "प्रत्येक क्रिया की एक समान और विपरीत प्रतिक्रिया होती है। उदाहरण के लिए, जब आप दीवार को धक्का देते हैं, तो दीवार भी आपको पीछे की ओर धक्का देती है।"
+    },
+    {
+      "id": "P5_hi_clean",
+      "doc_id": "P5_hi",
+      "item_id": "P5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P5_hi_clean.png",
+      "ground_truth": "त्वरण a = F/m = 20/5 = 4 m/s^2 है।"
+    },
+    {
+      "id": "P5_hi_handwriting",
+      "doc_id": "P5_hi",
+      "item_id": "P5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P5_hi_handwriting.png",
+      "ground_truth": "त्वरण a = F/m = 20/5 = 4 m/s^2 है।"
+    },
+    {
+      "id": "P5_hi_photo",
+      "doc_id": "P5_hi",
+      "item_id": "P5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P5_hi_photo.jpg",
+      "ground_truth": "त्वरण a = F/m = 20/5 = 4 m/s^2 है।"
+    },
+    {
+      "id": "M1_hi_clean",
+      "doc_id": "M1_hi",
+      "item_id": "M1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M1_hi_clean.png",
+      "ground_truth": "x^2 का अवकलज 2x है, और x का अवकलज 1 है। इसलिए f'(x) = 6x + 2।"
+    },
+    {
+      "id": "M1_hi_handwriting",
+      "doc_id": "M1_hi",
+      "item_id": "M1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M1_hi_handwriting.png",
+      "ground_truth": "x^2 का अवकलज 2x है, और x का अवकलज 1 है। इसलिए f'(x) = 6x + 2।"
+    },
+    {
+      "id": "M1_hi_photo",
+      "doc_id": "M1_hi",
+      "item_id": "M1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M1_hi_photo.jpg",
+      "ground_truth": "x^2 का अवकलज 2x है, और x का अवकलज 1 है। इसलिए f'(x) = 6x + 2।"
+    },
+    {
+      "id": "M4_hi_clean",
+      "doc_id": "M4_hi",
+      "item_id": "M4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M4_hi_clean.png",
+      "ground_truth": "x = 6 और x = -1, क्योंकि 6 और -1 का गुणनफल -6 है और उनका योग 5 है।"
+    },
+    {
+      "id": "M4_hi_handwriting",
+      "doc_id": "M4_hi",
+      "item_id": "M4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M4_hi_handwriting.png",
+      "ground_truth": "x = 6 और x = -1, क्योंकि 6 और -1 का गुणनफल -6 है और उनका योग 5 है।"
+    },
+    {
+      "id": "M4_hi_photo",
+      "doc_id": "M4_hi",
+      "item_id": "M4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M4_hi_photo.jpg",
+      "ground_truth": "x = 6 और x = -1, क्योंकि 6 और -1 का गुणनफल -6 है और उनका योग 5 है।"
+    },
+    {
+      "id": "E1_hi_clean",
+      "doc_id": "E1_hi",
+      "item_id": "E1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E1_hi_clean.png",
+      "ground_truth": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे सूर्य के प्रकाश को रासायनिक ऊर्जा में बदलते हैं, और पानी तथा कार्बन डाइऑक्साइड से ग्लूकोज बनाकर ऑक्सीजन छोड़ते हैं।"
+    },
+    {
+      "id": "E1_hi_handwriting",
+      "doc_id": "E1_hi",
+      "item_id": "E1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E1_hi_handwriting.png",
+      "ground_truth": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे सूर्य के प्रकाश को रासायनिक ऊर्जा में बदलते हैं, और पानी तथा कार्बन डाइऑक्साइड से ग्लूकोज बनाकर ऑक्सीजन छोड़ते हैं।"
+    },
+    {
+      "id": "E1_hi_photo",
+      "doc_id": "E1_hi",
+      "item_id": "E1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E1_hi_photo.jpg",
+      "ground_truth": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे सूर्य के प्रकाश को रासायनिक ऊर्जा में बदलते हैं, और पानी तथा कार्बन डाइऑक्साइड से ग्लूकोज बनाकर ऑक्सीजन छोड़ते हैं।"
+    },
+    {
+      "id": "E2_hi_clean",
+      "doc_id": "E2_hi",
+      "item_id": "E2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E2_hi_clean.png",
+      "ground_truth": "यह वह है जो पौधे भोजन बनाने के लिए करते हैं।"
+    },
+    {
+      "id": "E2_hi_handwriting",
+      "doc_id": "E2_hi",
+      "item_id": "E2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E2_hi_handwriting.png",
+      "ground_truth": "यह वह है जो पौधे भोजन बनाने के लिए करते हैं।"
+    },
+    {
+      "id": "E2_hi_photo",
+      "doc_id": "E2_hi",
+      "item_id": "E2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E2_hi_photo.jpg",
+      "ground_truth": "यह वह है जो पौधे भोजन बनाने के लिए करते हैं।"
+    },
+    {
+      "id": "C2_hi_clean",
+      "doc_id": "C2_hi",
+      "item_id": "C2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "C2_hi_clean.png",
+      "ground_truth": "ऐरे तत्वों को लगातार मेमोरी में रखते हैं और O(1) रैंडम एक्सेस देते हैं, लेकिन उनका आकार निश्चित होता है। लिंक्ड लिस्ट पॉइंटर वाले नोड्स का उपयोग करती है, O(1) में इंसर्शन/डिलीशन देती है, लेकिन एक्सेस O(n) होता है।"
+    },
+    {
+      "id": "C2_hi_handwriting",
+      "doc_id": "C2_hi",
+      "item_id": "C2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "C2_hi_handwriting.png",
+      "ground_truth": "ऐरे तत्वों को लगातार मेमोरी में रखते हैं और O(1) रैंडम एक्सेस देते हैं, लेकिन उनका आकार निश्चित होता है। लिंक्ड लिस्ट पॉइंटर वाले नोड्स का उपयोग करती है, O(1) में इंसर्शन/डिलीशन देती है, लेकिन एक्सेस O(n) होता है।"
+    },
+    {
+      "id": "C2_hi_photo",
+      "doc_id": "C2_hi",
+      "item_id": "C2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "C2_hi_photo.jpg",
+      "ground_truth": "ऐरे तत्वों को लगातार मेमोरी में रखते हैं और O(1) रैंडम एक्सेस देते हैं, लेकिन उनका आकार निश्चित होता है। लिंक्ड लिस्ट पॉइंटर वाले नोड्स का उपयोग करती है, O(1) में इंसर्शन/डिलीशन देती है, लेकिन एक्सेस O(n) होता है।"
+    },
+    {
+      "id": "P8_hi_clean",
+      "doc_id": "P8_hi",
+      "item_id": "P8",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P8_hi_clean.png",
+      "ground_truth": "चाल = दूरी / समय = 100 / 2 = 50 m/s।"
+    },
+    {
+      "id": "P8_hi_handwriting",
+      "doc_id": "P8_hi",
+      "item_id": "P8",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P8_hi_handwriting.png",
+      "ground_truth": "चाल = दूरी / समय = 100 / 2 = 50 m/s।"
+    },
+    {
+      "id": "P8_hi_photo",
+      "doc_id": "P8_hi",
+      "item_id": "P8",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P8_hi_photo.jpg",
+      "ground_truth": "चाल = दूरी / समय = 100 / 2 = 50 m/s।"
+    },
+    {
+      "id": "P2_ta_clean",
+      "doc_id": "P2_ta",
+      "item_id": "P2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P2_ta_clean.png",
+      "ground_truth": "ஒவ்வொரு வினைக்கும் சமமான மற்றும் எதிரான எதிர்வினை உண்டு. உதாரணமாக, நீங்கள் ஒரு சுவரைத் தள்ளும்போது, சுவரும் உங்களைப் பின்னோக்கித் தள்ளுகிறது."
+    },
+    {
+      "id": "P2_ta_handwriting",
+      "doc_id": "P2_ta",
+      "item_id": "P2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P2_ta_handwriting.png",
+      "ground_truth": "ஒவ்வொரு வினைக்கும் சமமான மற்றும் எதிரான எதிர்வினை உண்டு. உதாரணமாக, நீங்கள் ஒரு சுவரைத் தள்ளும்போது, சுவரும் உங்களைப் பின்னோக்கித் தள்ளுகிறது."
+    },
+    {
+      "id": "P2_ta_photo",
+      "doc_id": "P2_ta",
+      "item_id": "P2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P2_ta_photo.jpg",
+      "ground_truth": "ஒவ்வொரு வினைக்கும் சமமான மற்றும் எதிரான எதிர்வினை உண்டு. உதாரணமாக, நீங்கள் ஒரு சுவரைத் தள்ளும்போது, சுவரும் உங்களைப் பின்னோக்கித் தள்ளுகிறது."
+    },
+    {
+      "id": "P5_ta_clean",
+      "doc_id": "P5_ta",
+      "item_id": "P5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P5_ta_clean.png",
+      "ground_truth": "முடுக்கம் a = F/m = 20/5 = 4 m/s^2 ஆகும்."
+    },
+    {
+      "id": "P5_ta_handwriting",
+      "doc_id": "P5_ta",
+      "item_id": "P5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P5_ta_handwriting.png",
+      "ground_truth": "முடுக்கம் a = F/m = 20/5 = 4 m/s^2 ஆகும்."
+    },
+    {
+      "id": "P5_ta_photo",
+      "doc_id": "P5_ta",
+      "item_id": "P5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P5_ta_photo.jpg",
+      "ground_truth": "முடுக்கம் a = F/m = 20/5 = 4 m/s^2 ஆகும்."
+    },
+    {
+      "id": "M1_ta_clean",
+      "doc_id": "M1_ta",
+      "item_id": "M1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M1_ta_clean.png",
+      "ground_truth": "x^2 இன் வகைக்கெழு 2x, மேலும் x இன் வகைக்கெழு 1. எனவே f'(x) = 6x + 2."
+    },
+    {
+      "id": "M1_ta_handwriting",
+      "doc_id": "M1_ta",
+      "item_id": "M1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M1_ta_handwriting.png",
+      "ground_truth": "x^2 இன் வகைக்கெழு 2x, மேலும் x இன் வகைக்கெழு 1. எனவே f'(x) = 6x + 2."
+    },
+    {
+      "id": "M1_ta_photo",
+      "doc_id": "M1_ta",
+      "item_id": "M1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M1_ta_photo.jpg",
+      "ground_truth": "x^2 இன் வகைக்கெழு 2x, மேலும் x இன் வகைக்கெழு 1. எனவே f'(x) = 6x + 2."
+    },
+    {
+      "id": "M4_ta_clean",
+      "doc_id": "M4_ta",
+      "item_id": "M4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M4_ta_clean.png",
+      "ground_truth": "x = 6 மற்றும் x = -1, ஏனெனில் 6 மற்றும் -1 இன் பெருக்கற்பலன் -6, அவற்றின் கூட்டுத்தொகை 5."
+    },
+    {
+      "id": "M4_ta_handwriting",
+      "doc_id": "M4_ta",
+      "item_id": "M4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M4_ta_handwriting.png",
+      "ground_truth": "x = 6 மற்றும் x = -1, ஏனெனில் 6 மற்றும் -1 இன் பெருக்கற்பலன் -6, அவற்றின் கூட்டுத்தொகை 5."
+    },
+    {
+      "id": "M4_ta_photo",
+      "doc_id": "M4_ta",
+      "item_id": "M4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M4_ta_photo.jpg",
+      "ground_truth": "x = 6 மற்றும் x = -1, ஏனெனில் 6 மற்றும் -1 இன் பெருக்கற்பலன் -6, அவற்றின் கூட்டுத்தொகை 5."
+    },
+    {
+      "id": "E1_ta_clean",
+      "doc_id": "E1_ta",
+      "item_id": "E1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E1_ta_clean.png",
+      "ground_truth": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை வேதி ஆற்றலாக மாற்றும் செயல்முறை ஆகும்; அவை நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி குளுக்கோஸை உருவாக்கி ஆக்சிஜனை வெளியிடுகின்றன."
+    },
+    {
+      "id": "E1_ta_handwriting",
+      "doc_id": "E1_ta",
+      "item_id": "E1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E1_ta_handwriting.png",
+      "ground_truth": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை வேதி ஆற்றலாக மாற்றும் செயல்முறை ஆகும்; அவை நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி குளுக்கோஸை உருவாக்கி ஆக்சிஜனை வெளியிடுகின்றன."
+    },
+    {
+      "id": "E1_ta_photo",
+      "doc_id": "E1_ta",
+      "item_id": "E1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E1_ta_photo.jpg",
+      "ground_truth": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை வேதி ஆற்றலாக மாற்றும் செயல்முறை ஆகும்; அவை நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி குளுக்கோஸை உருவாக்கி ஆக்சிஜனை வெளியிடுகின்றன."
+    },
+    {
+      "id": "E2_ta_clean",
+      "doc_id": "E2_ta",
+      "item_id": "E2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E2_ta_clean.png",
+      "ground_truth": "தாவரங்கள் உணவு தயாரிக்கச் செய்வது இதுதான்."
+    },
+    {
+      "id": "E2_ta_handwriting",
+      "doc_id": "E2_ta",
+      "item_id": "E2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E2_ta_handwriting.png",
+      "ground_truth": "தாவரங்கள் உணவு தயாரிக்கச் செய்வது இதுதான்."
+    },
+    {
+      "id": "E2_ta_photo",
+      "doc_id": "E2_ta",
+      "item_id": "E2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E2_ta_photo.jpg",
+      "ground_truth": "தாவரங்கள் உணவு தயாரிக்கச் செய்வது இதுதான்."
+    },
+    {
+      "id": "C2_ta_clean",
+      "doc_id": "C2_ta",
+      "item_id": "C2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "C2_ta_clean.png",
+      "ground_truth": "அணிகள் உறுப்புகளைத் தொடர்ச்சியான நினைவகத்தில் சேமிக்கின்றன, O(1) சீரற்ற அணுகலை அனுமதிக்கின்றன, ஆனால் அவற்றின் அளவு நிலையானது. இணைக்கப்பட்ட பட்டியல்கள் சுட்டிகளுடன் கூடிய கணுக்களைப் பயன்படுத்துகின்றன, O(1) செருகல்/நீக்கலை அனுமதிக்கின்றன, ஆனால் அணுகல் O(n)."
+    },
+    {
+      "id": "C2_ta_handwriting",
+      "doc_id": "C2_ta",
+      "item_id": "C2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "C2_ta_handwriting.png",
+      "ground_truth": "அணிகள் உறுப்புகளைத் தொடர்ச்சியான நினைவகத்தில் சேமிக்கின்றன, O(1) சீரற்ற அணுகலை அனுமதிக்கின்றன, ஆனால் அவற்றின் அளவு நிலையானது. இணைக்கப்பட்ட பட்டியல்கள் சுட்டிகளுடன் கூடிய கணுக்களைப் பயன்படுத்துகின்றன, O(1) செருகல்/நீக்கலை அனுமதிக்கின்றன, ஆனால் அணுகல் O(n)."
+    },
+    {
+      "id": "C2_ta_photo",
+      "doc_id": "C2_ta",
+      "item_id": "C2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "C2_ta_photo.jpg",
+      "ground_truth": "அணிகள் உறுப்புகளைத் தொடர்ச்சியான நினைவகத்தில் சேமிக்கின்றன, O(1) சீரற்ற அணுகலை அனுமதிக்கின்றன, ஆனால் அவற்றின் அளவு நிலையானது. இணைக்கப்பட்ட பட்டியல்கள் சுட்டிகளுடன் கூடிய கணுக்களைப் பயன்படுத்துகின்றன, O(1) செருகல்/நீக்கலை அனுமதிக்கின்றன, ஆனால் அணுகல் O(n)."
+    },
+    {
+      "id": "P8_ta_clean",
+      "doc_id": "P8_ta",
+      "item_id": "P8",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P8_ta_clean.png",
+      "ground_truth": "வேகம் = தூரம் / நேரம் = 100 / 2 = 50 m/s."
+    },
+    {
+      "id": "P8_ta_handwriting",
+      "doc_id": "P8_ta",
+      "item_id": "P8",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P8_ta_handwriting.png",
+      "ground_truth": "வேகம் = தூரம் / நேரம் = 100 / 2 = 50 m/s."
+    },
+    {
+      "id": "P8_ta_photo",
+      "doc_id": "P8_ta",
+      "item_id": "P8",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P8_ta_photo.jpg",
+      "ground_truth": "வேகம் = தூரம் / நேரம் = 100 / 2 = 50 m/s."
     }
   ]
 }

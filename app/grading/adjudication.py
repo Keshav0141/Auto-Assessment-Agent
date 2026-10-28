@@ -20,6 +20,8 @@ logger = logging.getLogger(__name__)
 DISAGREEMENT_SHARE = 0.25
 
 Validator = Callable[[QuestionSpec, dict], GradingResult]
+# (grading, regenerate) -> the grading to keep; see GradingEngine._script_checked.
+Checker = Callable[[GradingResult, Callable[[], GradingResult]], GradingResult]
 
 
 def cross_model_confidence(rep_total: float, judge2_total: float, max_marks: float) -> float:
@@ -92,6 +94,7 @@ def maybe_adjudicate(
     validate: Validator,
     notify: Optional[Callable[[str], None]] = None,
     feedback_language: Optional[str] = None,
+    check: Optional[Checker] = None,
 ) -> Tuple[GradingResult, bool, float, Optional[str]]:
     """Referee the two gradings when they disagree materially.
 
@@ -105,6 +108,7 @@ def maybe_adjudicate(
         notify: Optional progress hook, called with "moderation" and
             "moderation_done".
         feedback_language: Language for the referee's feedback (None: English).
+        check: Optional post-check that may ask the referee once more.
 
     Returns:
         (final_grading, adjudicated, pre_adjudication_total, referee_reason). On
@@ -117,7 +121,12 @@ def maybe_adjudicate(
     if notify:
         notify("moderation")
     try:
-        referee = referee_grade(q, student, primary, judge2_grade, validate, feedback_language)
+        def ask():
+            return referee_grade(q, student, primary, judge2_grade, validate, feedback_language)
+
+        referee = ask()
+        if check is not None:
+            referee = check(referee, ask)
     except Exception as exc:  # noqa: BLE001 - keep the original grading on failure
         logger.warning("Adjudication failed for Q%s (keeping original): %s", q.question_id, exc)
         return primary, False, rep_total, None

@@ -1,79 +1,201 @@
 {
-  "generated_at": "2026-10-27T21:47:55.521114+00:00",
-  "provider": "openrouter",
+  "generated_at": "2026-10-28T07:46:55.473443+00:00",
+  "provider": "goedel",
   "ocr_config": {
-    "backend": "gemini",
-    "model": "deepseek/deepseek-v4.1-flash-1017",
-    "base_url": "https://openrouter.ai/api/v1",
+    "backend": "vision",
+    "model": "deepseek/deepseek-v4.1-flash",
+    "base_url": "https://api.goedelmachines.com/v1",
     "api_key_set": true,
-    "extra_body_set": true
+    "extra_body_set": false
   },
-  "limit": 8,
+  "limit": null,
   "repeats": 1,
-  "n_images": 8,
-  "n_ocr_calls": 8,
-  "total_latency_s": 77.94084789999988,
+  "n_images": 133,
+  "n_ocr_calls": 133,
+  "total_latency_s": 162.97830349999276,
   "per_style": {
     "clean typed": {
-      "n_images": 3,
+      "n_images": 44,
       "n_failures": 0,
       "cer": {
-        "mean": 0.0,
-        "std": 0.0,
-        "n": 3
+        "mean": 0.0002553626149131767,
+        "std": 0.0016745246486981615,
+        "n": 44
       },
       "wer": {
-        "mean": 0.0,
-        "std": 0.0,
-        "n": 3
+        "mean": 0.001336898395721925,
+        "std": 0.008766629043184492,
+        "n": 44
       },
       "label_recall": {
-        "mean": null,
-        "std": null,
-        "n": 0
+        "mean": 1.0,
+        "std": 0.0,
+        "n": 2
       },
       "latency_s": {
-        "mean": 21.16150703333339,
-        "std": 23.853331644601052,
-        "n": 3
+        "mean": 1.2499558295453839,
+        "std": 0.8925853346567024,
+        "n": 44
       }
     },
     "handwriting": {
-      "n_images": 3,
+      "n_images": 44,
       "n_failures": 0,
       "cer": {
-        "mean": 0.0,
-        "std": 0.0,
-        "n": 3
+        "mean": 0.0006279408563438772,
+        "std": 0.0029296370370032565,
+        "n": 44
       },
       "wer": {
-        "mean": 0.0,
-        "std": 0.0,
-        "n": 3
+        "mean": 0.00267379679144385,
+        "std": 0.012252876189721497,
+        "n": 44
       },
       "label_recall": {
-        "mean": null,
-        "std": null,
-        "n": 0
+        "mean": 1.0,
+        "std": 0.0,
+        "n": 2
       },
       "latency_s": {
-        "mean": 3.648797866666579,
-        "std": 2.4416965617422965,
-        "n": 3
+        "mean": 1.1219466886362748,
+        "std": 0.24059482423160006,
+        "n": 44
       }
     },
     "phone photo": {
-      "n_images": 2,
+      "n_images": 44,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0016037431622849803,
+        "std": 0.005735748524814319,
+        "n": 44
+      },
+      "wer": {
+        "mean": 0.005476827094474153,
+        "std": 0.017929820087545005,
+        "n": 44
+      },
+      "label_recall": {
+        "mean": 1.0,
+        "std": 0.0,
+        "n": 2
+      },
+      "latency_s": {
+        "mean": 1.2385927477272907,
+        "std": 0.3642144828318831,
+        "n": 44
+      }
+    },
+    "scanned PDF": {
+      "n_images": 1,
       "n_failures": 0,
       "cer": {
         "mean": 0.0,
         "std": 0.0,
-        "n": 2
+        "n": 1
       },
       "wer": {
         "mean": 0.0,
         "std": 0.0,
+        "n": 1
+      },
+      "label_recall": {
+        "mean": 1.0,
+        "std": 0.0,
+        "n": 1
+      },
+      "latency_s": {
+        "mean": 4.116511799998989,
+        "std": 0.0,
+        "n": 1
+      }
+    }
+  },
+  "per_language_style": {
+    "English / clean typed": {
+      "n_images": 28,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 28
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 28
+      },
+      "label_recall": {
+        "mean": 1.0,
+        "std": 0.0,
         "n": 2
+      },
+      "latency_s": {
+        "mean": 1.3174837107141164,
+        "std": 1.1010464054827254,
+        "n": 28
+      }
+    },
+    "English / handwriting": {
+      "n_images": 28,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 28
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 28
+      },
+      "label_recall": {
+        "mean": 1.0,
+        "std": 0.0,
+        "n": 2
+      },
+      "latency_s": {
+        "mean": 1.0906329107141184,
+        "std": 0.19420699624986423,
+        "n": 28
+      }
+    },
+    "English / phone photo": {
+      "n_images": 28,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 28
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 28
+      },
+      "label_recall": {
+        "mean": 1.0,
+        "std": 0.0,
+        "n": 2
+      },
+      "latency_s": {
+        "mean": 1.2285826785713911,
+        "std": 0.34479139001126624,
+        "n": 28
+      }
+    },
+    "Hindi / clean typed": {
+      "n_images": 8,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 8
+      },
+      "wer": {
+        "mean": 0.0,
+        "std": 0.0,
+        "n": 8
       },
       "label_recall": {
         "mean": null,
@@ -81,34 +203,154 @@
         "n": 0
       },
       "latency_s": {
-        "mean": 1.7549665999999888,
-        "std": 0.13261030000012397,
-        "n": 2
+        "mean": 1.0859491500004879,
+        "std": 0.18874141426200725,
+        "n": 8
+      }
+    },
+    "Hindi / handwriting": {
+      "n_images": 8,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0020491803278688526,
+        "std": 0.005421621539066784,
+        "n": 8
+      },
+      "wer": {
+        "mean": 0.007352941176470588,
+        "std": 0.019454053757827872,
+        "n": 8
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 1.2099037499997394,
+        "std": 0.19856671697015746,
+        "n": 8
+      }
+    },
+    "Hindi / phone photo": {
+      "n_images": 8,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.005521402550091075,
+        "std": 0.009977868073531338,
+        "n": 8
+      },
+      "wer": {
+        "mean": 0.017769607843137254,
+        "std": 0.031381882419857544,
+        "n": 8
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 1.2367899875002877,
+        "std": 0.4050380275340904,
+        "n": 8
+      }
+    },
+    "Tamil / clean typed": {
+      "n_images": 8,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0014044943820224719,
+        "std": 0.003715942852618807,
+        "n": 8
+      },
+      "wer": {
+        "mean": 0.007352941176470588,
+        "std": 0.019454053757827872,
+        "n": 8
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 1.177614924999716,
+        "std": 0.2347791792605454,
+        "n": 8
+      }
+    },
+    "Tamil / handwriting": {
+      "n_images": 8,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0014044943820224719,
+        "std": 0.003715942852618807,
+        "n": 8
+      },
+      "wer": {
+        "mean": 0.007352941176470588,
+        "std": 0.019454053757827872,
+        "n": 8
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 1.1435878500003582,
+        "std": 0.36783090011711295,
+        "n": 8
+      }
+    },
+    "Tamil / phone photo": {
+      "n_images": 8,
+      "n_failures": 0,
+      "cer": {
+        "mean": 0.0032991848424763163,
+        "std": 0.007359419810684564,
+        "n": 8
+      },
+      "wer": {
+        "mean": 0.012352941176470587,
+        "std": 0.021907322881807145,
+        "n": 8
+      },
+      "label_recall": {
+        "mean": null,
+        "std": null,
+        "n": 0
+      },
+      "latency_s": {
+        "mean": 1.2754307499999413,
+        "std": 0.38436491226921526,
+        "n": 8
       }
     }
   },
   "overall": {
-    "n_images": 8,
+    "n_images": 133,
     "n_failures": 0,
     "cer": {
-      "mean": 0.0,
-      "std": 0.0,
-      "n": 8
+      "mean": 0.0008227823449311993,
+      "std": 0.003869989180585574,
+      "n": 133
     },
     "wer": {
-      "mean": 0.0,
-      "std": 0.0,
-      "n": 8
+      "mean": 0.0031387291758808783,
+      "std": 0.013582169020494759,
+      "n": 133
     },
     "label_recall": {
-      "mean": null,
-      "std": null,
-      "n": 0
+      "mean": 1.0,
+      "std": 0.0,
+      "n": 7
     },
     "latency_s": {
-      "mean": 9.742605987499985,
-      "std": 17.157532130298765,
-      "n": 8
+      "mean": 1.2254007781954344,
+      "std": 0.6270978808476368,
+      "n": 133
     }
   },
   "end_to_end": null,
@@ -119,21 +361,22 @@
       "item_id": "P1",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P1_clean.png",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 54.736752199999955,
+          "latency_s": 6.8851304999989225,
           "text": "Newton's second law states that the force acting on an object equals\nthe rate of change of momentum. F=ma. For 2kg and 10N, a = F/m =\n10/2 = 5 m/s^2."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 54.736752199999955
+      "latency_s": 6.8851304999989225
     },
     {
       "id": "P1_handwriting",
@@ -141,21 +384,22 @@
       "item_id": "P1",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P1_handwriting.png",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 2.173451699999987,
+          "latency_s": 0.9798465000003489,
           "text": "Newton's second law states that the force acting on\nan object equals the rate of change of momentum.\nF=ma. For 2kg and 10N, a = F/m = 10/2 = 5\nm/s^2."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 2.173451699999987
+      "latency_s": 0.9798465000003489
     },
     {
       "id": "P1_photo",
@@ -163,21 +407,22 @@
       "item_id": "P1",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P1_photo.jpg",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 1.8875769000001128,
+          "latency_s": 1.1928207999990263,
           "text": "Newton's second law states that the force acting on\nan object equals the rate of change of momentum.\nF=ma. For 2kg and 10N, a = F/m = 10/2 = 5\nm/s^2."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 1.8875769000001128
+      "latency_s": 1.1928207999990263
     },
     {
       "id": "P2_clean",
@@ -185,21 +430,22 @@
       "item_id": "P2",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P2_clean.png",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 1.5455758000002788,
+          "latency_s": 1.0609497000004922,
           "text": "Every action has an equal and opposite reaction. For example, when\nyou push a wall, the wall pushes you back."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 1.5455758000002788
+      "latency_s": 1.0609497000004922
     },
     {
       "id": "P2_handwriting",
@@ -207,21 +453,22 @@
       "item_id": "P2",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P2_handwriting.png",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 1.6827072000000953,
+          "latency_s": 1.265698400000474,
           "text": "Every action has an equal and opposite reaction.\nFor example, when you push a wall, the wall\npushes you back."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 1.6827072000000953
+      "latency_s": 1.265698400000474
     },
     {
       "id": "P2_photo",
@@ -229,21 +476,22 @@
       "item_id": "P2",
       "style": "photo",
       "kind": "item",
+      "lang": "en",
       "image": "P2_photo.jpg",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 1.6223562999998649,
+          "latency_s": 1.1319540000004054,
           "text": "Every action has an equal and opposite reaction.\nFor example, when you push a wall, the wall\npushes you back."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 1.6223562999998649
+      "latency_s": 1.1319540000004054
     },
     {
       "id": "P3_clean",
@@ -251,21 +499,22 @@
       "item_id": "P3",
       "style": "clean",
       "kind": "item",
+      "lang": "en",
       "image": "P3_clean.png",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 7.202193099999931,
+          "latency_s": 1.1728507000007085,
           "text": "acceleration = (20-10)/5 = 2 m/s^2. Then force = mass x acceleration =\n1000 x 2 = 2000 N."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 7.202193099999931
+      "latency_s": 1.1728507000007085
     },
     {
       "id": "P3_handwriting",
@@ -273,21 +522,2897 @@
       "item_id": "P3",
       "style": "handwriting",
       "kind": "item",
+      "lang": "en",
       "image": "P3_handwriting.png",
       "reacts": [
         {
           "ok": true,
-          "backend": "gemini",
+          "backend": "vision",
           "cer": 0.0,
           "wer": 0.0,
           "label_recall": null,
-          "latency_s": 7.090234699999655,
+          "latency_s": 1.4004172000004473,
           "text": "acceleration = (20-10)/5 = 2 m/s^2. Then force =\nmass x acceleration = 1000 x 2 = 2000 N."
         }
       ],
       "cer": 0.0,
       "wer": 0.0,
-      "latency_s": 7.090234699999655
+      "latency_s": 1.4004172000004473
+    },
+    {
+      "id": "P3_photo",
+      "doc_id": "P3",
+      "item_id": "P3",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "P3_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1425550000003568,
+          "text": "acceleration = (20-10)/5 = 2 m/s^2. Then force =\nmass x acceleration = 1000 x 2 = 2000 N."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1425550000003568
+    },
+    {
+      "id": "P4_clean",
+      "doc_id": "P4",
+      "item_id": "P4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "P4_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.8755328999995982,
+          "text": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m. Time t = u/g = 30/10 =\n3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.8755328999995982
+    },
+    {
+      "id": "P4_handwriting",
+      "doc_id": "P4",
+      "item_id": "P4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "P4_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9112932999996701,
+          "text": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m.\nTime t = u/g = 30/10 = 3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9112932999996701
+    },
+    {
+      "id": "P4_photo",
+      "doc_id": "P4",
+      "item_id": "P4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "P4_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0329008999997313,
+          "text": "v^2 = u^2 - 2gh, so h = u^2/2g = 900/20 = 45 m.\nTime t = u/g = 30/10 = 3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0329008999997313
+    },
+    {
+      "id": "P5_clean",
+      "doc_id": "P5",
+      "item_id": "P5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "P5_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.843880899999931,
+          "text": "a = F/m = 20/5 = 4 m/s^2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.843880899999931
+    },
+    {
+      "id": "P5_handwriting",
+      "doc_id": "P5",
+      "item_id": "P5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "P5_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8622592000010627,
+          "text": "a = F/m = 20/5 = 4 m/s^2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8622592000010627
+    },
+    {
+      "id": "P5_photo",
+      "doc_id": "P5",
+      "item_id": "P5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "P5_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 2.341157699998803,
+          "text": "a = F/m = 20/5 = 4 m/s^2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 2.341157699998803
+    },
+    {
+      "id": "M1_clean",
+      "doc_id": "M1",
+      "item_id": "M1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M1_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8983224999992672,
+          "text": "The derivative of x^2 is 2x, and derivative of x is 1. So f'(x) = 6x + 2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8983224999992672
+    },
+    {
+      "id": "M1_handwriting",
+      "doc_id": "M1",
+      "item_id": "M1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M1_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0811747000007017,
+          "text": "The derivative of x^2 is 2x, and derivative of x is\n1. So f'(x) = 6x + 2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0811747000007017
+    },
+    {
+      "id": "M1_photo",
+      "doc_id": "M1",
+      "item_id": "M1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M1_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.007308300000659,
+          "text": "The derivative of x^2 is 2x, and derivative of x is\n1. So f'(x) = 6x + 2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.007308300000659
+    },
+    {
+      "id": "M2_clean",
+      "doc_id": "M2",
+      "item_id": "M2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M2_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9298588000001473,
+          "text": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2 or x = 3."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9298588000001473
+    },
+    {
+      "id": "M2_handwriting",
+      "doc_id": "M2",
+      "item_id": "M2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M2_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.972532499999943,
+          "text": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2\nor x = 3."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.972532499999943
+    },
+    {
+      "id": "M2_photo",
+      "doc_id": "M2",
+      "item_id": "M2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M2_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9356403000001592,
+          "text": "x^2 - 5x + 6 = 0 factors to (x-2)(x-3) = 0, so x = 2\nor x = 3."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9356403000001592
+    },
+    {
+      "id": "M3_clean",
+      "doc_id": "M3",
+      "item_id": "M3",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M3_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9508749999986321,
+          "text": "Integral of x^3 is x^4/4, times 4 gives x^4, plus constant c. So the\nanswer is x^4 + c."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9508749999986321
+    },
+    {
+      "id": "M3_handwriting",
+      "doc_id": "M3",
+      "item_id": "M3",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M3_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9625568999999814,
+          "text": "Integral of x^3 is x^4/4, times 4 gives x^4, plus\nconstant c. So the answer is x^4 + c."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9625568999999814
+    },
+    {
+      "id": "M3_photo",
+      "doc_id": "M3",
+      "item_id": "M3",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M3_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.08518709999953,
+          "text": "Integral of x^3 is x^4/4, times 4 gives x^4, plus\nconstant c. So the answer is x^4 + c."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.08518709999953
+    },
+    {
+      "id": "C1_clean",
+      "doc_id": "C1",
+      "item_id": "C1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "C1_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9562881000001653,
+          "text": "O(log n). Each comparison halves the search space, so after k steps\nthere are n/2^k elements left. Setting this to 1 gives k = log2(n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9562881000001653
+    },
+    {
+      "id": "C1_handwriting",
+      "doc_id": "C1",
+      "item_id": "C1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "C1_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0935567999986233,
+          "text": "O(log n). Each comparison halves the search space,\nso after k steps there are n/2^k elements left.\nSetting this to 1 gives k = log2(n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0935567999986233
+    },
+    {
+      "id": "C1_photo",
+      "doc_id": "C1",
+      "item_id": "C1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "C1_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0073178999991796,
+          "text": "O(log n). Each comparison halves the search space,\nso after k steps there are n/2^k elements left.\nSetting this to 1 gives k = log2(n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0073178999991796
+    },
+    {
+      "id": "C2_clean",
+      "doc_id": "C2",
+      "item_id": "C2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "C2_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1614044000016293,
+          "text": "Arrays store elements in contiguous memory and allow O(1) random\naccess but fixed size. Linked lists use nodes with pointers, allow O(1)\ninsertion/deletion but O(n) access."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1614044000016293
+    },
+    {
+      "id": "C2_handwriting",
+      "doc_id": "C2",
+      "item_id": "C2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "C2_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2028647999995883,
+          "text": "Arrays store elements in contiguous memory and\nallow O(1) random access but fixed size. Linked\nlists use nodes with pointers, allow O(1)\ninsertion/deletion but O(n) access."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2028647999995883
+    },
+    {
+      "id": "C2_photo",
+      "doc_id": "C2",
+      "item_id": "C2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "C2_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0455480000000534,
+          "text": "Arrays store elements in contiguous memory and\nallow O(1) random access but fixed size. Linked\nlists use nodes with pointers, allow O(1)\ninsertion/deletion but O(n) access."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0455480000000534
+    },
+    {
+      "id": "C3_clean",
+      "doc_id": "C3",
+      "item_id": "C3",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "C3_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9389154999989842,
+          "text": "A hash table maps keys to indices using a hash function for fast lookup.\nAverage case search is O(1). Worst case is O(n) when all keys hash to\nthe same bucket."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9389154999989842
+    },
+    {
+      "id": "C3_handwriting",
+      "doc_id": "C3",
+      "item_id": "C3",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "C3_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9356127000010019,
+          "text": "A hash table maps keys to indices using a hash\nfunction for fast lookup. Average case search is\nO(1). Worst case is O(n) when all keys hash to the\nsame bucket."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9356127000010019
+    },
+    {
+      "id": "C3_photo",
+      "doc_id": "C3",
+      "item_id": "C3",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "C3_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0005770999996457,
+          "text": "A hash table maps keys to indices using a hash\nfunction for fast lookup. Average case search is\nO(1). Worst case is O(n) when all keys hash to the\nsame bucket."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0005770999996457
+    },
+    {
+      "id": "C4_clean",
+      "doc_id": "C4",
+      "item_id": "C4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "C4_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.842163100000107,
+          "text": "In a BST, each node has a left and right child. Insert and search\ncompare from the root and go left or right. The average case is O(log n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.842163100000107
+    },
+    {
+      "id": "C4_handwriting",
+      "doc_id": "C4",
+      "item_id": "C4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "C4_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8585447999994358,
+          "text": "In a BST, each node has a left and right child.\nInsert and search compare from the root and go left\nor right. The average case is O(log n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8585447999994358
+    },
+    {
+      "id": "C4_photo",
+      "doc_id": "C4",
+      "item_id": "C4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "C4_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9308560999998008,
+          "text": "In a BST, each node has a left and right child.\nInsert and search compare from the root and go left\nor right. The average case is O(log n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9308560999998008
+    },
+    {
+      "id": "E1_clean",
+      "doc_id": "E1",
+      "item_id": "E1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "E1_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.279828599999746,
+          "text": "Photosynthesis is the process by which plants convert sunlight into\nchemical energy, using water and carbon dioxide to make glucose and\nrelease oxygen."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.279828599999746
+    },
+    {
+      "id": "E1_handwriting",
+      "doc_id": "E1",
+      "item_id": "E1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "E1_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8477872000003117,
+          "text": "Photosynthesis is the process by which plants\nconvert sunlight into chemical energy, using water\nand carbon dioxide to make glucose and release\noxygen."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8477872000003117
+    },
+    {
+      "id": "E1_photo",
+      "doc_id": "E1",
+      "item_id": "E1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "E1_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9801514999999199,
+          "text": "Photosynthesis is the process by which plants\nconvert sunlight into chemical energy, using water\nand carbon dioxide to make glucose and release\noxygen."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9801514999999199
+    },
+    {
+      "id": "E2_clean",
+      "doc_id": "E2",
+      "item_id": "E2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "E2_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9883045999995375,
+          "text": "It is what plants do to make food."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9883045999995375
+    },
+    {
+      "id": "E2_handwriting",
+      "doc_id": "E2",
+      "item_id": "E2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "E2_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1205466999999771,
+          "text": "It is what plants do to make food."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1205466999999771
+    },
+    {
+      "id": "E2_photo",
+      "doc_id": "E2",
+      "item_id": "E2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "E2_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.158073600001444,
+          "text": "It is what plants do to make food."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.158073600001444
+    },
+    {
+      "id": "E3_clean",
+      "doc_id": "E3",
+      "item_id": "E3",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "E3_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.4374261000011757,
+          "text": "A machine learning model learns patterns from data and uses them to\nmake predictions on new unseen data."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.4374261000011757
+    },
+    {
+      "id": "E3_handwriting",
+      "doc_id": "E3",
+      "item_id": "E3",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "E3_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1658487999993667,
+          "text": "A machine learning model learns patterns from\ndata and uses them to make predictions on new\nunseen data."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1658487999993667
+    },
+    {
+      "id": "E3_photo",
+      "doc_id": "E3",
+      "item_id": "E3",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "E3_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8979603000007046,
+          "text": "A machine learning model learns patterns from\ndata and uses them to make predictions on new\nunseen data."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8979603000007046
+    },
+    {
+      "id": "M4_clean",
+      "doc_id": "M4",
+      "item_id": "M4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M4_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9639581999999791,
+          "text": "x = 6 and x = -1, because 6 and -1 multiply to -6 and add to 5."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9639581999999791
+    },
+    {
+      "id": "M4_handwriting",
+      "doc_id": "M4",
+      "item_id": "M4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M4_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9094287999996595,
+          "text": "x = 6 and x = -1, because 6 and -1 multiply to -6\nand add to 5."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9094287999996595
+    },
+    {
+      "id": "M4_photo",
+      "doc_id": "M4",
+      "item_id": "M4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M4_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.7451476999995066,
+          "text": "x = 6 and x = -1, because 6 and -1 multiply to -6\nand add to 5."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.7451476999995066
+    },
+    {
+      "id": "P6_clean",
+      "doc_id": "P6",
+      "item_id": "P6",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "P6_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9660586999998486,
+          "text": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9660586999998486
+    },
+    {
+      "id": "P6_handwriting",
+      "doc_id": "P6",
+      "item_id": "P6",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "P6_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.020556100000249,
+          "text": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.020556100000249
+    },
+    {
+      "id": "P6_photo",
+      "doc_id": "P6",
+      "item_id": "P6",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "P6_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.02867359999982,
+          "text": "a = F/m = 10/2 = 5. So the acceleration is 5 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.02867359999982
+    },
+    {
+      "id": "P7_clean",
+      "doc_id": "P7",
+      "item_id": "P7",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "P7_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9828783000011754,
+          "text": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g = 900/20 = 45 m. The time\nto reach the top is 6 s, because the ball takes 6 s for the whole journey."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9828783000011754
+    },
+    {
+      "id": "P7_handwriting",
+      "doc_id": "P7",
+      "item_id": "P7",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "P7_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1149126999989676,
+          "text": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g =\n900/20 = 45 m. The time to reach the top is 6 s,\nbecause the ball takes 6 s for the whole journey."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1149126999989676
+    },
+    {
+      "id": "P7_photo",
+      "doc_id": "P7",
+      "item_id": "P7",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "P7_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.070522300000448,
+          "text": "Using v^2 = u^2 - 2gh with v=0, h = u^2/2g =\n900/20 = 45 m. The time to reach the top is 6 s,\nbecause the ball takes 6 s for the whole journey."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.070522300000448
+    },
+    {
+      "id": "M5_clean",
+      "doc_id": "M5",
+      "item_id": "M5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M5_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9805476000001363,
+          "text": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x = -2 and x = -3."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9805476000001363
+    },
+    {
+      "id": "M5_handwriting",
+      "doc_id": "M5",
+      "item_id": "M5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M5_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9157236999999441,
+          "text": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x\n= -2 and x = -3."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9157236999999441
+    },
+    {
+      "id": "M5_photo",
+      "doc_id": "M5",
+      "item_id": "M5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M5_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1269938000004913,
+          "text": "x^2 - 5x + 6 = (x - 2)(x - 3), so the solutions are x\n= -2 and x = -3."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1269938000004913
+    },
+    {
+      "id": "M6_clean",
+      "doc_id": "M6",
+      "item_id": "M6",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M6_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9407585000008112,
+          "text": "Using the power rule, the integral of x^3 is x^4/4, and times 4 gives x^4.\nSo the answer is x^4."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9407585000008112
+    },
+    {
+      "id": "M6_handwriting",
+      "doc_id": "M6",
+      "item_id": "M6",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M6_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0820265999991534,
+          "text": "Using the power rule, the integral of x^3 is x^4/4,\nand times 4 gives x^4. So the answer is x^4."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0820265999991534
+    },
+    {
+      "id": "M6_photo",
+      "doc_id": "M6",
+      "item_id": "M6",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M6_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 2.0521284000005835,
+          "text": "Using the power rule, the integral of x^3 is x^4/4,\nand times 4 gives x^4. So the answer is x^4."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 2.0521284000005835
+    },
+    {
+      "id": "M7_clean",
+      "doc_id": "M7",
+      "item_id": "M7",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "M7_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.237022799999977,
+          "text": "x = (6 ± sqrt(36 + 32)) / 2 = (6 ± sqrt(68)) / 2, so x ≈ 7.1 or x ≈ -1.1."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.237022799999977
+    },
+    {
+      "id": "M7_handwriting",
+      "doc_id": "M7",
+      "item_id": "M7",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "M7_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.5117092999989836,
+          "text": "x = (6 ± sqrt(36 + 32)) / 2 = (6 ± sqrt(68)) / 2, so x\n≈ 7.1 or x ≈ -1.1."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.5117092999989836
+    },
+    {
+      "id": "M7_photo",
+      "doc_id": "M7",
+      "item_id": "M7",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "M7_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.5250796999989689,
+          "text": "x = (6 ± sqrt(36 + 32)) / 2 = (6 ± sqrt(68)) / 2, so x\n≈ 7.1 or x ≈ -1.1."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.5250796999989689
+    },
+    {
+      "id": "P8_clean",
+      "doc_id": "P8",
+      "item_id": "P8",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "P8_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9520969999994122,
+          "text": "Speed = distance / time = 100 / 2 = 50 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9520969999994122
+    },
+    {
+      "id": "P8_handwriting",
+      "doc_id": "P8",
+      "item_id": "P8",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "P8_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9747879999995348,
+          "text": "Speed = distance / time = 100 / 2 = 50 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9747879999995348
+    },
+    {
+      "id": "P8_photo",
+      "doc_id": "P8",
+      "item_id": "P8",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "P8_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.266119100000651,
+          "text": "Speed = distance / time = 100 / 2 = 50 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.266119100000651
+    },
+    {
+      "id": "C5_clean",
+      "doc_id": "C5",
+      "item_id": "C5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "C5_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9640961999994033,
+          "text": "A hash table keeps its keys in sorted order so you can search quickly,\nlike a dictionary. Average search is O(log n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9640961999994033
+    },
+    {
+      "id": "C5_handwriting",
+      "doc_id": "C5",
+      "item_id": "C5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "C5_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0702984999988985,
+          "text": "A hash table keeps its keys in sorted order so you\ncan search quickly, like a dictionary. Average\nsearch is O(log n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0702984999988985
+    },
+    {
+      "id": "C5_photo",
+      "doc_id": "C5",
+      "item_id": "C5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "C5_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.3315349999993487,
+          "text": "A hash table keeps its keys in sorted order so you\ncan search quickly, like a dictionary. Average\nsearch is O(log n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.3315349999993487
+    },
+    {
+      "id": "C6_clean",
+      "doc_id": "C6",
+      "item_id": "C6",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "C6_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.902955399998973,
+          "text": "Search compares from the root and goes left or right, average O(log n).\nInsert works by comparing and attaching a new node. Deletion works\nbasically the same as insertion."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.902955399998973
+    },
+    {
+      "id": "C6_handwriting",
+      "doc_id": "C6",
+      "item_id": "C6",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "C6_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0423023000003013,
+          "text": "Search compares from the root and goes left or\nright, average O(log n). Insert works by comparing\nand attaching a new node. Deletion works\nbasically the same as insertion."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0423023000003013
+    },
+    {
+      "id": "C6_photo",
+      "doc_id": "C6",
+      "item_id": "C6",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "C6_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0663659000001644,
+          "text": "Search compares from the root and goes left or\nright, average O(log n). Insert works by comparing\nand attaching a new node. Deletion works\nbasically the same as insertion."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0663659000001644
+    },
+    {
+      "id": "E4_clean",
+      "doc_id": "E4",
+      "item_id": "E4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "E4_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1782886999990296,
+          "text": "Photosynthesis is how plants make glucose using water and sunlight,\nand the glucose stores chemical energy for the plant."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1782886999990296
+    },
+    {
+      "id": "E4_handwriting",
+      "doc_id": "E4",
+      "item_id": "E4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "E4_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.059617699998853,
+          "text": "Photosynthesis is how plants make glucose using\nwater and sunlight, and the glucose stores chemical\nenergy for the plant."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.059617699998853
+    },
+    {
+      "id": "E4_photo",
+      "doc_id": "E4",
+      "item_id": "E4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "E4_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2470771999996941,
+          "text": "Photosynthesis is how plants make glucose using\nwater and sunlight, and the glucose stores chemical\nenergy for the plant."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2470771999996941
+    },
+    {
+      "id": "E5_clean",
+      "doc_id": "E5",
+      "item_id": "E5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "en",
+      "image": "E5_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0587127999988297,
+          "text": "It is basically a function that maps inputs to outputs, and it is used to\nmake predictions."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0587127999988297
+    },
+    {
+      "id": "E5_handwriting",
+      "doc_id": "E5",
+      "item_id": "E5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "en",
+      "image": "E5_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.531255500000043,
+          "text": "It is basically a function that maps inputs to\noutputs, and it is used to make predictions."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.531255500000043
+    },
+    {
+      "id": "E5_photo",
+      "doc_id": "E5",
+      "item_id": "E5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "en",
+      "image": "E5_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9274559000004956,
+          "text": "It is basically a function that maps inputs to\noutputs, and it is used to make predictions."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9274559000004956
+    },
+    {
+      "id": "sheet_good_clean",
+      "doc_id": "sheet_good",
+      "item_id": null,
+      "style": "clean",
+      "kind": "sheet",
+      "lang": "en",
+      "image": "sheet_good_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 1.375148299999637,
+          "text": "Question 1\nNewton's second law says that force equals mass times acceleration,\nso F = ma. With m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5\nm/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and\ncarbon dioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x =\n2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives\nh = 30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.375148299999637
+    },
+    {
+      "id": "sheet_good_handwriting",
+      "doc_id": "sheet_good",
+      "item_id": null,
+      "style": "handwriting",
+      "kind": "sheet",
+      "lang": "en",
+      "image": "sheet_good_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 1.524117799999658,
+          "text": "Question 1\nNewton's second law says that force equals mass\ntimes acceleration, so F = ma. With m = 2 kg and F\n= 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food\nusing sunlight and carbon dioxide, producing\noxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0,\nso the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero.\nUsing h = u^2/2g gives h = 30^2/20 = 45 m. The\ntime to reach the top is t = u/g = 30/10 = 3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.524117799999658
+    },
+    {
+      "id": "sheet_good_photo",
+      "doc_id": "sheet_good",
+      "item_id": null,
+      "style": "photo",
+      "kind": "sheet",
+      "lang": "en",
+      "image": "sheet_good_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 1.663385299998481,
+          "text": "Question 1\nNewton's second law says that force equals mass\ntimes acceleration, so F = ma. With m = 2 kg and F\n= 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food\nusing sunlight and carbon dioxide, producing\noxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0,\nso the solutions are x = 2 and x = 3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero.\nUsing h = u^2/2g gives h = 30^2/20 = 45 m. The\ntime to reach the top is t = u/g = 30/10 = 3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.663385299998481
+    },
+    {
+      "id": "sheet_poor_clean",
+      "doc_id": "sheet_poor",
+      "item_id": null,
+      "style": "clean",
+      "kind": "sheet",
+      "lang": "en",
+      "image": "sheet_poor_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 1.165289999999004,
+          "text": "Question 1\nF = ma. So acceleration is 10 divided by 2 which is 5.\n\nQuestion 2\nPhotosynthesis is something that happens in plants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum height is 45 m."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.165289999999004
+    },
+    {
+      "id": "sheet_poor_handwriting",
+      "doc_id": "sheet_poor",
+      "item_id": null,
+      "style": "handwriting",
+      "kind": "sheet",
+      "lang": "en",
+      "image": "sheet_poor_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 1.120444000000134,
+          "text": "Question 1\nF = ma. So acceleration is 10 divided by 2 which\nis 5.\n\nQuestion 2\nPhotosynthesis is something that happens in\nplants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum\nheight is 45 m."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.120444000000134
+    },
+    {
+      "id": "sheet_poor_photo",
+      "doc_id": "sheet_poor",
+      "item_id": null,
+      "style": "photo",
+      "kind": "sheet",
+      "lang": "en",
+      "image": "sheet_poor_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 1.4598225000008824,
+          "text": "Question 1\nF = ma. So acceleration is 10 divided by 2 which\nis 5.\n\nQuestion 2\nPhotosynthesis is something that happens in\nplants.\n\nQuestion 3\nThe answer is x = 2 and x = 3.\n\nQuestion 4\nUsing the formula h = u^2 / 2g, the maximum\nheight is 45 m."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.4598225000008824
+    },
+    {
+      "id": "scanned_pdf",
+      "doc_id": "scanned_pdf",
+      "item_id": null,
+      "style": "pdf",
+      "kind": "pdf",
+      "lang": "en",
+      "image": "scanned_answersheet.pdf",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": 1.0,
+          "latency_s": 4.116511799998989,
+          "text": "Question 1\nNewton's second law says that force equals mass times acceleration, so F = ma.\nWith m = 2 kg and F = 10 N, acceleration a = F/m = 10/2 = 5 m/s^2.\n\nQuestion 2\nPhotosynthesis is when plants make their own food using sunlight and carbon\ndioxide, producing oxygen.\n\nQuestion 3\nx^2 - 5x + 6 = 0. This factors as (x - 2)(x - 3) = 0, so the solutions are x = 2 and x =\n3.\n\nQuestion 4\nThe ball goes up until its velocity reaches zero. Using h = u^2/2g gives h =\n30^2/20 = 45 m. The time to reach the top is t = u/g = 30/10 = 3 s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 4.116511799998989
+    },
+    {
+      "id": "P2_hi_clean",
+      "doc_id": "P2_hi",
+      "item_id": "P2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P2_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1528835000008257,
+          "text": "प्रत्येक क्रिया की एक समान और विपरीत प्रतिक्रिया होती है। उदाहरण के लिए, जब\nआप दीवार को धक्का देते हैं, तो दीवार भी आपको पीछे की ओर धक्का देती है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1528835000008257
+    },
+    {
+      "id": "P2_hi_handwriting",
+      "doc_id": "P2_hi",
+      "item_id": "P2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P2_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2168055000001914,
+          "text": "प्रत्येक क्रिया की एक समान और विपरीत प्रतिक्रिया होती है। उदाहरण के\nलिए, जब आप दीवार को धक्का देते हैं, तो दीवार भी आपको पीछे की\nओर धक्का देती है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2168055000001914
+    },
+    {
+      "id": "P2_hi_photo",
+      "doc_id": "P2_hi",
+      "item_id": "P2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P2_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 2.156348500000604,
+          "text": "प्रत्येक क्रिया की एक समान और विपरीत प्रतिक्रिया होती है। उदाहरण के\nलिए, जब आप दीवार को धक्का देते हैं, तो दीवार भी आपको पीछे की ओर\nधक्का देती है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 2.156348500000604
+    },
+    {
+      "id": "P5_hi_clean",
+      "doc_id": "P5_hi",
+      "item_id": "P5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P5_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.022264900000664,
+          "text": "त्वरण a = F/m = 20/5 = 4 m/s^2 है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.022264900000664
+    },
+    {
+      "id": "P5_hi_handwriting",
+      "doc_id": "P5_hi",
+      "item_id": "P5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P5_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.121567899999718,
+          "text": "त्वरण a = F/m = 20/5 = 4 m/s^2 है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.121567899999718
+    },
+    {
+      "id": "P5_hi_photo",
+      "doc_id": "P5_hi",
+      "item_id": "P5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P5_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9838262000012037,
+          "text": "त्वरण a = F/m = 20/5 = 4 m/s^2 है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9838262000012037
+    },
+    {
+      "id": "M1_hi_clean",
+      "doc_id": "M1_hi",
+      "item_id": "M1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M1_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0096862999998848,
+          "text": "x^2 का अवकलज 2x है, और x का अवकलज 1 है। इसलिए f'(x) = 6x + 2।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0096862999998848
+    },
+    {
+      "id": "M1_hi_handwriting",
+      "doc_id": "M1_hi",
+      "item_id": "M1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M1_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.01639344262295082,
+          "wer": 0.058823529411764705,
+          "label_recall": null,
+          "latency_s": 1.3765040999987832,
+          "text": "x^2 का अवकलज 2x है, और x का अवकलज 1 है। इसलिए f'(x) = 6x\n+ 21"
+        }
+      ],
+      "cer": 0.01639344262295082,
+      "wer": 0.058823529411764705,
+      "latency_s": 1.3765040999987832
+    },
+    {
+      "id": "M1_hi_photo",
+      "doc_id": "M1_hi",
+      "item_id": "M1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M1_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.01639344262295082,
+          "wer": 0.058823529411764705,
+          "label_recall": null,
+          "latency_s": 0.9343660000013188,
+          "text": "x^2 का अवकलज 2x है, और x का अवकलज 1 है। इसलिए f'(x) =\n6x + 21"
+        }
+      ],
+      "cer": 0.01639344262295082,
+      "wer": 0.058823529411764705,
+      "latency_s": 0.9343660000013188
+    },
+    {
+      "id": "M4_hi_clean",
+      "doc_id": "M4_hi",
+      "item_id": "M4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M4_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9039141000012023,
+          "text": "x = 6 और x = -1, क्योंकि 6 और -1 का गुणनफल -6 है और उनका योग 5 है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9039141000012023
+    },
+    {
+      "id": "M4_hi_handwriting",
+      "doc_id": "M4_hi",
+      "item_id": "M4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M4_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1033695999994961,
+          "text": "x = 6 और x = -1, क्योंकि 6 और -1 का गुणनफल -6 है और उनका योग\n5 है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1033695999994961
+    },
+    {
+      "id": "M4_hi_photo",
+      "doc_id": "M4_hi",
+      "item_id": "M4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "M4_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9213615000007849,
+          "text": "x = 6 और x = -1, क्योंकि 6 और -1 का गुणनफल -6 है और उनका योग\n5 है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9213615000007849
+    },
+    {
+      "id": "E1_hi_clean",
+      "doc_id": "E1_hi",
+      "item_id": "E1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E1_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0940895000003366,
+          "text": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे सूर्य के प्रकाश को रासायनिक ऊर्जा\nमें बदलते हैं, और पानी तथा कार्बन डाइऑक्साइड से ग्लूकोज बनाकर ऑक्सीजन छोड़ते\nहैं।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0940895000003366
+    },
+    {
+      "id": "E1_hi_handwriting",
+      "doc_id": "E1_hi",
+      "item_id": "E1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E1_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0331050000004325,
+          "text": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे सूर्य के प्रकाश को\nरासायनिक ऊर्जा में बदलते हैं, और पानी तथा कार्बन डाइऑक्साइड से\nग्लूकोज बनाकर ऑक्सीजन छोड़ते हैं।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0331050000004325
+    },
+    {
+      "id": "E1_hi_photo",
+      "doc_id": "E1_hi",
+      "item_id": "E1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E1_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2749791000005644,
+          "text": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे सूर्य के प्रकाश को\nरासायनिक ऊर्जा में बदलते हैं, और पानी तथा कार्बन डाइऑक्साइड से\nग्लूकोज बनाकर ऑक्सीजन छोड़ते हैं।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2749791000005644
+    },
+    {
+      "id": "E2_hi_clean",
+      "doc_id": "E2_hi",
+      "item_id": "E2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E2_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9818635000010545,
+          "text": "यह वह है जो पौधे भोजन बनाने के लिए करते हैं।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9818635000010545
+    },
+    {
+      "id": "E2_hi_handwriting",
+      "doc_id": "E2_hi",
+      "item_id": "E2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E2_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0232371000001876,
+          "text": "यह वह है जो पौधे भोजन बनाने के लिए करते हैं।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0232371000001876
+    },
+    {
+      "id": "E2_hi_photo",
+      "doc_id": "E2_hi",
+      "item_id": "E2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "E2_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2341742999997223,
+          "text": "यह वह है जो पौधे भोजन बनाने के लिए करते हैं।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2341742999997223
+    },
+    {
+      "id": "C2_hi_clean",
+      "doc_id": "C2_hi",
+      "item_id": "C2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "C2_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.5486736000002566,
+          "text": "ऐरे तत्वों को लगातार मेमोरी में रखते हैं और O(1) रैंडम एक्सेस देते हैं, लेकिन उनका\nआकार निश्चित होता है। लिंक्ड लिस्ट पॉइंटर वाले नोड्स का उपयोग करती है, O(1) में\nइंसर्शन/डिलीशन देती है, लेकिन एक्सेस O(n) होता है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.5486736000002566
+    },
+    {
+      "id": "C2_hi_handwriting",
+      "doc_id": "C2_hi",
+      "item_id": "C2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "C2_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.6556218999994599,
+          "text": "ऐरे तत्वों को लगातार मेमोरी में रखते हैं और O(1) रैंडम एक्सेस देते हैं,\nलेकिन उनका आकार निश्चित होता है। लिंक्ड लिस्ट पॉइंटर वाले नोड्स का\nउपयोग करती है, O(1) में इंसर्शन/डिलीशन देती है, लेकिन एक्सेस O(n)\nहोता है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.6556218999994599
+    },
+    {
+      "id": "C2_hi_photo",
+      "doc_id": "C2_hi",
+      "item_id": "C2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "C2_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.5162628999987646,
+          "text": "ऐरे तत्वों को लगातार मेमोरी में रखते हैं और O(1) रैंडम एक्सेस देते हैं,\nलेकिन उनका आकार निश्चित होता है। लिंक्ड लिस्ट पॉइंटर वाले नोड्स का\nउपयोग करती है, O(1) में इंसर्शन/डिलीशन देती है, लेकिन एक्सेस O(n)\nहोता है।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.5162628999987646
+    },
+    {
+      "id": "P8_hi_clean",
+      "doc_id": "P8_hi",
+      "item_id": "P8",
+      "style": "clean",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P8_hi_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9742177999996784,
+          "text": "चाल = दूरी / समय = 100 / 2 = 50 m/s।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9742177999996784
+    },
+    {
+      "id": "P8_hi_handwriting",
+      "doc_id": "P8_hi",
+      "item_id": "P8",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P8_hi_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1490188999996462,
+          "text": "चाल = दूरी / समय = 100 / 2 = 50 m/s।"
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1490188999996462
+    },
+    {
+      "id": "P8_hi_photo",
+      "doc_id": "P8_hi",
+      "item_id": "P8",
+      "style": "photo",
+      "kind": "item",
+      "lang": "hi",
+      "image": "P8_hi_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.027777777777777776,
+          "wer": 0.08333333333333333,
+          "label_recall": null,
+          "latency_s": 0.8730013999993389,
+          "text": "चाल = दूरी / समय = 100 / 2 = 50 m/s"
+        }
+      ],
+      "cer": 0.027777777777777776,
+      "wer": 0.08333333333333333,
+      "latency_s": 0.8730013999993389
+    },
+    {
+      "id": "P2_ta_clean",
+      "doc_id": "P2_ta",
+      "item_id": "P2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P2_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1293270999995002,
+          "text": "ஒவ்வொரு வினைக்கும் சமமான மற்றும் எதிரான\nஎதிர்வினை உண்டு. உதாரணமாக, நீங்கள் ஒரு சுவரைத்\nதள்ளும்போது, சுவரும் உங்களைப் பின்னோக்கித்\nதள்ளுகிறது."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1293270999995002
+    },
+    {
+      "id": "P2_ta_handwriting",
+      "doc_id": "P2_ta",
+      "item_id": "P2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P2_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1042474000005313,
+          "text": "ஒவ்வொரு வினைக்கும் சமமான மற்றும் எதிரான\nஎதிர்வினை உண்டு. உதாரணமாக, நீங்கள் ஒரு\nசுவரைத் தள்ளும்போது, சுவரும் உங்களைப்\nபின்னோக்கித் தள்ளுகிறது."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1042474000005313
+    },
+    {
+      "id": "P2_ta_photo",
+      "doc_id": "P2_ta",
+      "item_id": "P2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P2_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 2.035726899999645,
+          "text": "ஒவ்வொரு வினைக்கும் சமமான மற்றும் எதிரான\nஎதிர்வினை உண்டு. உதாரணமாக, நீங்கள் ஒரு\nசுவரைத் தள்ளும்போது, சுவரும் உங்களைப்\nபின்னோக்கித் தள்ளுகிறது."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 2.035726899999645
+    },
+    {
+      "id": "P5_ta_clean",
+      "doc_id": "P5_ta",
+      "item_id": "P5",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P5_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9808369000002131,
+          "text": "முடுக்கம் a = F/m = 20/5 = 4 m/s^2 ஆகும்."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9808369000002131
+    },
+    {
+      "id": "P5_ta_handwriting",
+      "doc_id": "P5_ta",
+      "item_id": "P5",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P5_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9524151000005077,
+          "text": "முடுக்கம் a = F/m = 20/5 = 4 m/s^2 ஆகும்."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9524151000005077
+    },
+    {
+      "id": "P5_ta_photo",
+      "doc_id": "P5_ta",
+      "item_id": "P5",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P5_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.0319700000000012,
+          "text": "முடுக்கம் a = F/m = 20/5 = 4 m/s^2 ஆகும்."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.0319700000000012
+    },
+    {
+      "id": "M1_ta_clean",
+      "doc_id": "M1_ta",
+      "item_id": "M1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M1_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.1930616999998165,
+          "text": "x^2 இன் வகைக்கெழு 2x, மேலும் x இன் வகைக்கெழு 1.\nஎனவே f'(x) = 6x + 2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.1930616999998165
+    },
+    {
+      "id": "M1_ta_handwriting",
+      "doc_id": "M1_ta",
+      "item_id": "M1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M1_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9065276999990601,
+          "text": "x^2 இன் வகைக்கெழு 2x, மேலும் x இன்\nவகைக்கெழு 1. எனவே f'(x) = 6x + 2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9065276999990601
+    },
+    {
+      "id": "M1_ta_photo",
+      "doc_id": "M1_ta",
+      "item_id": "M1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M1_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9351535000005242,
+          "text": "x^2 இன் வகைக்கெழு 2x, மேலும் x இன்\nவகைக்கெழு 1. எனவே f'(x) = 6x + 2."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9351535000005242
+    },
+    {
+      "id": "M4_ta_clean",
+      "doc_id": "M4_ta",
+      "item_id": "M4",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M4_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.011235955056179775,
+          "wer": 0.058823529411764705,
+          "label_recall": null,
+          "latency_s": 1.0843786999994336,
+          "text": "x = 6 மற்றும் x = -1, எனெனில் 6 மற்றும் -1 இன்\nபெருக்கற்பலன் -6, அவற்றின் கூட்டுத்தொகை 5."
+        }
+      ],
+      "cer": 0.011235955056179775,
+      "wer": 0.058823529411764705,
+      "latency_s": 1.0843786999994336
+    },
+    {
+      "id": "M4_ta_handwriting",
+      "doc_id": "M4_ta",
+      "item_id": "M4",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M4_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.011235955056179775,
+          "wer": 0.058823529411764705,
+          "label_recall": null,
+          "latency_s": 0.9754155999999057,
+          "text": "x = 6 மற்றும் x = -1, எனெனில் 6 மற்றும் -1 இன்\nபெருக்கற்பலன் -6, அவற்றின் கூட்டுத்தொகை 5."
+        }
+      ],
+      "cer": 0.011235955056179775,
+      "wer": 0.058823529411764705,
+      "latency_s": 0.9754155999999057
+    },
+    {
+      "id": "M4_ta_photo",
+      "doc_id": "M4_ta",
+      "item_id": "M4",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "M4_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.02247191011235955,
+          "wer": 0.058823529411764705,
+          "label_recall": null,
+          "latency_s": 1.010138999999981,
+          "text": "x = 6 மற்றும் x = -1, எனினில் 6 மற்றும் -1 இன்\nபெருக்கற்பலன் -6, அவற்றின் கூட்டுத்தொகை 5."
+        }
+      ],
+      "cer": 0.02247191011235955,
+      "wer": 0.058823529411764705,
+      "latency_s": 1.010138999999981
+    },
+    {
+      "id": "E1_ta_clean",
+      "doc_id": "E1_ta",
+      "item_id": "E1",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E1_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.259033400001499,
+          "text": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை வேதி\nஆற்றலாக மாற்றும் செயல்முறை ஆகும்; அவை நீர் மற்றும்\nகார்பன் டை ஆக்சைடைப் பயன்படுத்தி குளுக்கோஸை\nஉருவாக்கி ஆக்சிஜனை வெளியிடுகின்றன."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.259033400001499
+    },
+    {
+      "id": "E1_ta_handwriting",
+      "doc_id": "E1_ta",
+      "item_id": "E1",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E1_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 2.040886100001444,
+          "text": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை\nவேதி ஆற்றலாக மாற்றும் செயல்முறை ஆகும்;\nஅவை நீர் மற்றும் கார்பன் டை ஆக்சைடைப்\nபயன்படுத்தி குளுக்கோஸை உருவாக்கி\nஆக்சிஜனை வெளியிடுகின்றன."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 2.040886100001444
+    },
+    {
+      "id": "E1_ta_photo",
+      "doc_id": "E1_ta",
+      "item_id": "E1",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E1_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.6308719999997265,
+          "text": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை\nவேதி ஆற்றலாக மாற்றும் செயல்முறை ஆகும்;\nஅவை நீர் மற்றும் கார்பன் டை ஆக்சைடைப்\nபயன்படுத்தி குளுக்கோஸை உருவாக்கி\nஆக்சிஜனை வெளியிடுகின்றன."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.6308719999997265
+    },
+    {
+      "id": "E2_ta_clean",
+      "doc_id": "E2_ta",
+      "item_id": "E2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E2_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2122087999996438,
+          "text": "தாவரங்கள் உணவு தயாரிக்கச் செய்வது இதுதான்."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2122087999996438
+    },
+    {
+      "id": "E2_ta_handwriting",
+      "doc_id": "E2_ta",
+      "item_id": "E2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E2_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9110763999997289,
+          "text": "தாவரங்கள் உணவு தயாரிக்கச் செய்வது இதுதான்."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9110763999997289
+    },
+    {
+      "id": "E2_ta_photo",
+      "doc_id": "E2_ta",
+      "item_id": "E2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "E2_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.2442065999985061,
+          "text": "தாவரங்கள் உணவு தயாரிக்கச் செய்வது இதுதான்."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.2442065999985061
+    },
+    {
+      "id": "C2_ta_clean",
+      "doc_id": "C2_ta",
+      "item_id": "C2",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "C2_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.706340699998691,
+          "text": "அணிகள் உறுப்புகளைத் தொடர்ச்சியான நினைவகத்தில்\nசேமிக்கின்றன, O(1) சீரற்ற அணுகலை அனுமதிக்கின்றன,\nஆனால் அவற்றின் அளவு நிலையானது. இணைக்கப்பட்ட\nபட்டியல்கள் சுட்டிகளுடன் கூடிய கணுக்களைப்\nபயன்படுத்துகின்றன, O(1) செருகல்/நீக்கலை\nஅனுமதிக்கின்றன, ஆனால் அணுகல் O(n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.706340699998691
+    },
+    {
+      "id": "C2_ta_handwriting",
+      "doc_id": "C2_ta",
+      "item_id": "C2",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "C2_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 1.352892000000793,
+          "text": "அணிகள் உறுப்புகளைத் தொடர்ச்சியான\nநினைவகத்தில் சேமிக்கின்றன, O(1) சீரற்ற\nஅணுகலை அனுமதிக்கின்றன, ஆனால் அவற்றின்\nஅளவு நிலையானது. இணைக்கப்பட்ட பட்டியல்கள்\nசுட்டிகளுடன் கூடிய கணுக்களைப்\nபயன்படுத்துகின்றன, O(1) செருகல்/நீக்கலை\nஅனுமதிக்கின்றன, ஆனால் அணுகல் O(n)."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 1.352892000000793
+    },
+    {
+      "id": "C2_ta_photo",
+      "doc_id": "C2_ta",
+      "item_id": "C2",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "C2_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.00392156862745098,
+          "wer": 0.04,
+          "label_recall": null,
+          "latency_s": 1.4765618000001268,
+          "text": "அணிகள் உறுப்புகளைத் தொடர்ச்சியான\nநினைவகத்தில் சேமிக்கின்றன, O(1) சீற்ற\nஅணுகலை அனுமதிக்கின்றன, ஆனால் அவற்றின்\nஅளவு நிலையானது. இணைக்கப்பட்ட பட்டியல்கள்\nசுட்டிகளுடன் கூடிய கணுக்களைப்\nபயன்படுத்துகின்றன, O(1) செருகல்/நீக்கலை\nஅனுமதிக்கின்றன, ஆனால் அணுகல் O(n)."
+        }
+      ],
+      "cer": 0.00392156862745098,
+      "wer": 0.04,
+      "latency_s": 1.4765618000001268
+    },
+    {
+      "id": "P8_ta_clean",
+      "doc_id": "P8_ta",
+      "item_id": "P8",
+      "style": "clean",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P8_ta_clean.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8557320999989315,
+          "text": "வேகம் = தூரம் / நேரம் = 100 / 2 = 50 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8557320999989315
+    },
+    {
+      "id": "P8_ta_handwriting",
+      "doc_id": "P8_ta",
+      "item_id": "P8",
+      "style": "handwriting",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P8_ta_handwriting.png",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.9052425000008952,
+          "text": "வேகம் = தூரம் / நேரம் = 100 / 2 = 50 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.9052425000008952
+    },
+    {
+      "id": "P8_ta_photo",
+      "doc_id": "P8_ta",
+      "item_id": "P8",
+      "style": "photo",
+      "kind": "item",
+      "lang": "ta",
+      "image": "P8_ta_photo.jpg",
+      "reacts": [
+        {
+          "ok": true,
+          "backend": "vision",
+          "cer": 0.0,
+          "wer": 0.0,
+          "label_recall": null,
+          "latency_s": 0.8388162000010198,
+          "text": "வேகம் = தூரம் / நேரம் = 100 / 2 = 50 m/s."
+        }
+      ],
+      "cer": 0.0,
+      "wer": 0.0,
+      "latency_s": 0.8388162000010198
     }
   ]
 }

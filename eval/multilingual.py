@@ -133,6 +133,7 @@ def _grade(engine: GradingEngine, case: Dict[str, Any], n_samples: Optional[int]
             feedback_language=conf.feedback_language,
             feedback=rep.feedback,
             graded_by=conf.graded_by,
+            warnings=conf.warnings,
         )
     except Exception as exc:  # noqa: BLE001 - one failed case must not stop the run
         row["error"] = str(exc)
@@ -167,6 +168,7 @@ def summarize(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
             "max_abs_diff_vs_en": max(diffs) if diffs else None,
             "mean_confidence": _mean([r["confidence"] for r in done]),
             "n_flagged": sum(1 for r in done if r["flagged"]),
+            "n_script_warnings": sum(1 for r in done if any("even after a retry" in w for w in r["warnings"])),
         }
     return out
 

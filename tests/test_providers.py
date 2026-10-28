@@ -276,3 +276,69 @@ def test_explicit_feedback_language_overrides_auto(backend):
     _, _, conf = GradingEngine().grade_with_confidence(QUESTION, ANSWER, n_samples=1, feedback_language="ta")
     assert conf.feedback_language == "Tamil"
     assert "in Tamil (Tamil script)" in _user_message(backend.requests("primary")[0])
+
+
+# --- feedback script check ---------------------------------------------------------
+
+
+TELUGU_ANSWER = StudentAnswer(question_id="1", student_answer_text="బలం ద్రవ్యరాశి మరియు త్వరణం యొక్క లబ్ధం, F = ma.")
+CLEAN_TELUGU = "సరైన సమాధానం."
+DRIFTED_TELUGU = "conversion stepあげて లెక్కించాలి."
+
+
+def graded(total, feedback):
+    return reply(json.dumps({
+        "criterion_scores": [{"criterion": "law", "awarded": total, "max": 5, "justification": feedback}],
+        "total_awarded": total, "feedback": feedback, "integrity_flags": [],
+    }))
+
+
+def test_drifted_feedback_is_regenerated_once(backend):
+    replies = iter([graded(4, DRIFTED_TELUGU), graded(4, CLEAN_TELUGU)])
+    backend.on("primary", lambda kwargs: next(replies))
+    rep, samples, conf = GradingEngine().grade_with_confidence(QUESTION, TELUGU_ANSWER, n_samples=1)
+    assert rep.feedback == CLEAN_TELUGU
+    assert len(backend.requests("primary")) == 2
+    assert not any("even after a retry" in w for w in conf.warnings)
+
+
+def test_persistent_drift_is_kept_with_a_warning(backend):
+    backend.on("primary", lambda kwargs: graded(4, DRIFTED_TELUGU))
+    rep, samples, conf = GradingEngine().grade_with_confidence(QUESTION, TELUGU_ANSWER, n_samples=2)
+    assert len(samples) == 2 and rep.feedback == DRIFTED_TELUGU
+    assert len(backend.requests("primary")) == 4  # one retry per sample, no more
+    warning = next(w for w in conf.warnings if "even after a retry" in w)
+    assert "2 marking(s)" in warning and "Japanese kana" in warning and "Telugu" in warning
+    assert "_foreign_scripts" not in rep.model_dump()
+
+
+def test_clean_feedback_is_not_regenerated(backend):
+    backend.on("primary", lambda kwargs: graded(4, CLEAN_TELUGU))
+    GradingEngine().grade_with_confidence(QUESTION, TELUGU_ANSWER, n_samples=3)
+    assert len(backend.requests("primary")) == 3
+
+
+def test_native_n_regenerates_only_the_drifted_choice(backend, monkeypatch):
+    monkeypatch.setattr(settings, "llm_native_n", True)
+
+    def fn(kwargs):
+        if kwargs.get("n"):
+            choices = graded(4, CLEAN_TELUGU).choices + graded(3, DRIFTED_TELUGU).choices
+            return SimpleNamespace(choices=choices)
+        return graded(3, CLEAN_TELUGU)
+
+    backend.on("primary", fn)
+    _, samples, conf = GradingEngine().grade_with_confidence(QUESTION, TELUGU_ANSWER, n_samples=2)
+    assert [s.feedback for s in samples] == [CLEAN_TELUGU, CLEAN_TELUGU]
+    assert [bool(r.get("n")) for r in backend.requests("primary")] == [True, False]
+
+
+def test_referee_feedback_is_checked(backend, monkeypatch):
+    monkeypatch.setattr(settings, "judge2_api_key", "test-judge2-key")
+    backend.on("primary", lambda kwargs: graded(1, CLEAN_TELUGU))
+    backend.on("judge2", lambda kwargs: graded(5, CLEAN_TELUGU))
+    backend.on("referee", lambda kwargs: graded(3, DRIFTED_TELUGU))
+    rep, _, conf = GradingEngine().grade_with_confidence(QUESTION, TELUGU_ANSWER, n_samples=1)
+    assert conf.adjudicated and rep.total_awarded == 3
+    assert len(backend.requests("referee")) == 2
+    assert any("1 marking(s)" in w for w in conf.warnings)

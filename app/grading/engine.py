@@ -28,6 +28,7 @@ from app.grading.prompts import (  # noqa: F401
     resolve_feedback_language,
 )
 from app.grading.prompts import fence as _fence  # noqa: F401
+from app.grading.scripts import foreign_scripts
 from app.ingestion.parser import default_criterion
 from app.llm import LLMClient, LLMError, OutputBudgetError, _is_auth_error
 from app.models import (
@@ -96,9 +97,48 @@ class GradingEngine:
         """
         if self.mock:
             return self._mock_grade(q, student, jitter)
-        system, user = build_grade_messages(q, student, feedback_language)
-        raw = (llm or self.llm).chat_json(system, user, temperature=temperature, max_tokens=800)
-        return self._validate(q, raw)
+
+        def ask():
+            system, user = build_grade_messages(q, student, feedback_language)
+            raw = (llm or self.llm).chat_json(system, user, temperature=temperature, max_tokens=800)
+            return self._validate(q, raw)
+
+        return self._script_checked(q, student, feedback_language, ask(), ask)
+
+    @staticmethod
+    def _foreign(q: QuestionSpec, student: StudentAnswer, lang: Optional[str], g: GradingResult) -> List[str]:
+        """Scripts in g's feedback that are neither Latin nor the feedback language's."""
+        text = " ".join([g.feedback] + [s.justification for s in g.criterion_scores])
+        context = [q.question_text, q.model_answer, student.student_answer_text]
+        context += [c.criterion for c in q.rubric_criteria]
+        return foreign_scripts(text, lang or "English", context)
+
+    def _script_checked(self, q: QuestionSpec, student: StudentAnswer, lang: Optional[str],
+                        grading: GradingResult, regenerate: Callable[[], GradingResult]) -> GradingResult:
+        """Regenerate a grading once if its feedback drifted into an unrelated script.
+
+        Feedback may use Latin, Greek symbols, the feedback language's script and any
+        script that appears in the question, rubric, model answer or student answer.
+        Anything else (e.g. Japanese inside Telugu feedback) triggers one retry; if the
+        retry fails or still drifts, the grading is kept and the scripts are recorded
+        for a warning.
+        """
+        foreign = self._foreign(q, student, lang, grading)
+        if not foreign:
+            return grading
+        logger.warning("Q%s feedback contains %s text; regenerating once", q.question_id, ", ".join(foreign))
+        try:
+            retry = regenerate()
+        except Exception as exc:  # noqa: BLE001 - keep the first grading
+            logger.warning("Regeneration failed for Q%s: %s", q.question_id, exc)
+            retry = None
+        if retry is not None:
+            still = self._foreign(q, student, lang, retry)
+            if not still:
+                return retry
+            grading, foreign = retry, still
+        grading._foreign_scripts = foreign
+        return grading
 
     def grade_with_confidence(
         self, q: QuestionSpec, student: StudentAnswer, n_samples: Optional[int] = None,
@@ -209,6 +249,14 @@ class GradingEngine:
         confidence.feedback_language = lang
 
         voters = list(results) + [judge2_grade] + ([representative] if adjudicated else [])
+        unique = {id(g): g for g in voters if g is not None}.values()  # the referee may repeat
+        drifted = [g for g in unique if g._foreign_scripts]
+        if drifted:
+            scripts = sorted({s for g in drifted for s in g._foreign_scripts})
+            confidence.warnings.append(
+                f"Q{q.question_id}: {len(drifted)} marking(s) wrote feedback containing "
+                f"{', '.join(scripts)} text instead of {lang} even after a retry; it was kept as is."
+            )
         flags, reasons = merge_flags(report, voters)
         self._apply_flags(confidence, flags, reasons, report.language)
         return representative, results, confidence
@@ -286,9 +334,13 @@ class GradingEngine:
                 raw_list = []
             for raw in raw_list:
                 try:
-                    results.append(self._validate(q, raw))
+                    grading = self._validate(q, raw)
                 except Exception:
                     continue
+                results.append(self._script_checked(
+                    q, student, lang, grading,
+                    lambda: self.grade_once(q, student, llm=llm, feedback_language=lang),
+                ))
         if len(results) < 2:
             # Fewer than 2 valid native-n results: fall back to the per-sample loop.
             results = []
@@ -350,15 +402,21 @@ class GradingEngine:
 
     def _maybe_adjudicate(self, q, student, primary, judge2_grade, rep_total, notify=None, lang=None):
         """Referee the two gradings when they disagree materially (see `maybe_adjudicate`)."""
-        return maybe_adjudicate(q, student, primary, judge2_grade, rep_total, self._validate, notify, lang)
+        return maybe_adjudicate(
+            q, student, primary, judge2_grade, rep_total, self._validate, notify, lang,
+            check=lambda g, ask: self._script_checked(q, student, lang, g, ask),
+        )
 
     def _judge2_grade(self, q: QuestionSpec, student: StudentAnswer, lang: Optional[str] = None) -> GradingResult:
         """Single temperature-0 grading by the independent second model."""
-        system, user = build_grade_messages(q, student, lang)
-        raw = LLMClient(settings.judge2_provider()).chat_json(
-            system, user, temperature=0.0, max_tokens=800, max_attempts=2
-        )
-        return self._validate(q, raw)
+        def ask():
+            system, user = build_grade_messages(q, student, lang)
+            raw = LLMClient(settings.judge2_provider()).chat_json(
+                system, user, temperature=0.0, max_tokens=800, max_attempts=2
+            )
+            return self._validate(q, raw)
+
+        return self._script_checked(q, student, lang, ask(), ask)
 
     def _referee_grade(self, q, student, primary, second, lang=None) -> GradingResult:
         """One referee call deciding the final mark (see `referee_grade`)."""

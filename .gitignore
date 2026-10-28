@@ -8,3 +8,6 @@ __pycache__/
 eval/ocr_data/*
 !eval/ocr_data/manifest.json
 !eval/ocr_data/real/
+
+# Local backups (e.g. eval results before a re-run)
+backups/
