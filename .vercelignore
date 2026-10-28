@@ -27,3 +27,6 @@ eval/ocr_data/
 *.orig
 *.log
 backups/
+
+# Docs / screenshots (not needed at runtime)
+docs/

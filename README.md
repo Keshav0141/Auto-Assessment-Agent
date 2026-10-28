@@ -27,9 +27,42 @@ copy .env.example .env                # then edit OPENAI_API_KEY, OPENAI_BASE_UR
 uvicorn app.main:app --reload --port 8000
 ```
 
-Open http://localhost:8000, upload the sample files from `sample_data/`
-(`question_paper.txt`, `answer_sheet_good.txt`, `rubric.txt`, `model_answers.txt`)
-and hit **Grade answer sheet**.
+Open http://localhost:8000. A sample is loaded on the desk. Pick another from
+**Try a sample** (English good / weak, or an adversarial sheet with prompt injection,
+a blank answer and a Hindi answer), or upload your own files, then press
+**Mark the script**.
+
+## The examiner's desk (web UI)
+
+The results look like a hand-marked exam script (screenshots in `docs/screenshots/`):
+
+- **Papers on the desk.** One sheet per input, with drag-and-drop, a file picker, and
+  a **Take photo** button on touch devices (`capture="environment"`). A thumbnail is
+  shown for images. Each file goes to `/api/extract` first. The OCR'd or parsed text
+  appears in an editable box, so OCR mistakes can be fixed. Marking uses the edited
+  text, not the original file.
+- **Progress timeline.** Reading → Grading ×N → Second examiner → Moderation → Done,
+  driven by real stage events streamed from `/api/grade` (`stream=true`). Steps that
+  don't apply (no second examiner, nothing to moderate) are marked as skipped. If a
+  host buffers the stream, the steps complete together when the result arrives.
+- **Marked script.** A cover sheet with the circled total and a per-question tally.
+  Each question is on its own page, with the student's answer on ruled paper in
+  Kalam (a handwriting font with Devanagari; other Indic scripts fall back to Noto Sans).
+  Each rubric criterion gets a red-pen tick, part-tick or cross, labelled "full",
+  "part" or "none", with its marks in the margin. The examiner's comment is in red pen.
+- **Stamp + why.** Each answer is stamped "Confident" or "Second examiner needed".
+  "Why this stamp?" shows bars for agreement, cross-model and score spread, and every
+  sampled total as a dot on a 0..max line, with the second examiner's mark.
+- **Sticky notes.** A flagged answer gets a yellow note listing the reasons: low
+  confidence, each integrity flag with its explanation, or the two examiners
+  disagreeing. A moderated answer shows "Moderator decision: 3 → 4" with the referee
+  model and its reason. Chips show the detected answer language and
+  "Backup grader used" when the fallback provider did the marking.
+- **Download marked script (PDF)** uses a print stylesheet (`window.print()`, save as
+  PDF). A **JSON** download is also available.
+- Keyboard accessible with visible focus. Colour is never the only signal (words on
+  stamps and marks). Works at 360 px, with light and dark desks (follows the system
+  setting, with a toggle).
 
 > No API key set? The app falls back to a deterministic **mock grader** so you can
 > exercise the whole UI/pipeline free of cost (it says so in the UI). Real grading
@@ -268,7 +301,8 @@ app/
   grading/engine.py  grading prompts, JSON validation, fallback chain, mock grader
   grading/guards.py  cheap pre-checks + integrity flags (injection, blank, gibberish, ...)
   confidence/scorer.py  sampling-based confidence (variance + semantic + EigV)
-frontend/            vanilla HTML/JS/CSS single page served by FastAPI
+frontend/            vanilla HTML/JS/CSS single page served by FastAPI (the examiner's desk)
+docs/screenshots/    UI screenshots as WebP (mock mode, 1280 px and 360 px, light/dark, print)
 eval/
   dataset.py         labeled items incl. borderline cases
   harness.py         metrics: MAE, Pearson, AUROC, calibration curve
@@ -355,11 +389,21 @@ server enforces the same 4 MB per-file limit (and a 10-page cap for OCR'd PDFs).
 
 - `GET /api/health` — status, mock flag, provider + models, sampling config,
   second-grader on/off, adjudication on/off, referee and fallback model names (no keys).
-- `GET /api/sample` — the bundled `sample_data/` inputs for the "Try with sample data" button.
+- `GET /api/samples` — the bundled sample sets (`good`, `weak`, `adversarial`).
+- `GET /api/sample?name=good` — one sample set's text (paper, answer sheet, rubric,
+  model answers). The sets share everything except the answer sheet.
+- `POST /api/extract` — multipart files `question_paper` / `answer_sheet` / `rubric` /
+  `model_answers`. Returns `{"inputs": {key: {filename, text, ocr, warning, error}}}`
+  with the extracted text (OCR for images and scans) so it can be checked before
+  grading. Nothing is graded, and an unreadable file gives an `error` for that input.
 - `POST /api/grade` — multipart form with optional files `question_paper`,
   `answer_sheet`, `rubric`, `model_answers` (or matching `*_text` form fields),
   optional `structured_json`, and `n_samples` / `threshold`. Returns a
-  `PipelineResult` JSON document. Files are limited to 4 MB each and OCR'd PDFs to
+  `PipelineResult` JSON document. With `stream=true` it returns NDJSON instead: a
+  `start` event (question ids, samples, whether a second examiner / moderation will
+  run), `stage` events per question (`grading`, `graded`, `second`, `second_done`,
+  `moderation`, `moderation_done`, `done`), then `result` (or `error`). Input errors
+  are still a normal 4xx response. Files are limited to 4 MB each and OCR'd PDFs to
   10 pages; images are downscaled in the browser before upload. If the primary LLM fails
   after retries it falls back to the `FALLBACK_*` provider, then to the second grader
   (with a warning). Each question reports `integrity_flags` / `integrity_reasons`,

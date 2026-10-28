@@ -175,10 +175,23 @@ class GradingEngine:
         return self._validate(q, raw)
 
     def grade_with_confidence(
-        self, q: QuestionSpec, student: StudentAnswer, n_samples: int = None, threshold: float = None
+        self, q: QuestionSpec, student: StudentAnswer, n_samples: int = None, threshold: float = None,
+        progress=None,
     ) -> Tuple[GradingResult, List[GradingResult], object]:
-        """Sample N gradings and return (representative, all_samples, confidence)."""
+        """Sample N gradings and return (representative, all_samples, confidence).
+
+        `progress`, if given, is called with a stage name as the work proceeds:
+        grading, graded, second, second_done, moderation, moderation_done. It is for
+        display only and never affects grading.
+        """
         from app.confidence.scorer import compute_confidence, representative_total
+
+        def notify(stage):
+            if progress is not None:
+                try:
+                    progress(stage)
+                except Exception:  # noqa: BLE001 - a display hook must never break grading
+                    pass
 
         n_samples = settings.n_samples if n_samples is None else n_samples
         threshold = settings.confidence_threshold if threshold is None else threshold
@@ -192,6 +205,7 @@ class GradingEngine:
             return self._blank_result(q, report, warnings, threshold)
         graded = StudentAnswer(question_id=q.question_id, student_answer_text=report.text)
 
+        notify("grading")
         self._maybe_warmup()
         if self.mock:
             role, graded_by = "mock", "mock"
@@ -205,6 +219,7 @@ class GradingEngine:
                 raise
             results, role, graded_by, warn = self._fallback_grade(q, graded, n_samples, exc)
             warnings.append(warn)
+        notify("graded")
 
         totals = [r.total_awarded for r in results]
         rep_total = representative_total(totals)
@@ -217,7 +232,11 @@ class GradingEngine:
             # Already graded by the second grader - no independent cross-check.
             judge2_total = rep_total
         else:
+            if not self.mock and settings.judge2_api_key:
+                notify("second")
             judge2_grade = self._second_grader(q, graded)
+            if not self.mock and settings.judge2_api_key:
+                notify("second_done")
             judge2_total = judge2_grade.total_awarded if judge2_grade is not None else None
             if judge2_total is not None:
                 denom = max(1.0, 0.25 * q.max_marks)
@@ -228,7 +247,7 @@ class GradingEngine:
             adjudicated, pre_total, referee_reason = False, rep_total, None
         else:
             representative, adjudicated, pre_total, referee_reason = self._maybe_adjudicate(
-                q, graded, representative, judge2_grade, rep_total
+                q, graded, representative, judge2_grade, rep_total, notify
             )
             if adjudicated:
                 referee_model = settings.referee_provider().model
@@ -377,7 +396,7 @@ class GradingEngine:
             logger.warning("Second-grader check failed for Q%s (skipped): %s", q.question_id, exc)
             return None
 
-    def _maybe_adjudicate(self, q, student, primary, judge2_grade, rep_total):
+    def _maybe_adjudicate(self, q, student, primary, judge2_grade, rep_total, notify=None):
         """Referee the two gradings when they disagree materially.
 
         Returns (final_grading, adjudicated, pre_adjudication_total, referee_reason).
@@ -387,11 +406,16 @@ class GradingEngine:
             return primary, False, rep_total, None
         if abs(judge2_grade.total_awarded - rep_total) < 0.25 * q.max_marks:
             return primary, False, rep_total, None
+        if notify:
+            notify("moderation")
         try:
             referee = self._referee_grade(q, student, primary, judge2_grade)
         except Exception as exc:  # noqa: BLE001 - keep the original grading on failure
             logger.warning("Adjudication failed for Q%s (keeping original): %s", q.question_id, exc)
             return primary, False, rep_total, None
+        finally:
+            if notify:
+                notify("moderation_done")
         return referee, True, rep_total, referee.feedback
 
     def _judge2_grade(self, q: QuestionSpec, student: StudentAnswer) -> GradingResult:

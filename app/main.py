@@ -1,11 +1,14 @@
 """Confidence-Aware Auto-Assessment - FastAPI application."""
 import concurrent.futures
+import json
 import os
+import queue
 import threading
 from typing import List, Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
@@ -53,6 +56,10 @@ _FRONTEND = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
 _SAMPLE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "sample_data")
 
 
+def _second_examiner_active() -> bool:
+    return bool(settings.judge2_api_key) and not settings.using_mock
+
+
 @app.get("/api/health")
 def health():
     fallback = settings.fallback_provider()
@@ -67,6 +74,7 @@ def health():
         "ocr_model": settings.ocr_model,
         "judge2": bool(settings.judge2_api_key),
         "judge2_model": settings.judge2_model if settings.judge2_api_key else None,
+        "second_examiner_active": _second_examiner_active(),
         "adjudicate": settings.adjudicate,
         "referee_model": settings.referee_provider().model,
         "fallback_model": fallback.model if fallback else None,
@@ -79,16 +87,32 @@ def health():
     }
 
 
+# Bundled sample sets: they share the paper, rubric and model answers and differ in
+# the answer sheet.
+SAMPLES = {
+    "good": ("English (good)", "answer_sheet_good.txt"),
+    "weak": ("English (weak)", "answer_sheet_poor.txt"),
+    "adversarial": ("Adversarial (prompt injection)", "answer_sheet_adversarial.txt"),
+}
+
+
+@app.get("/api/samples")
+def samples():
+    return [{"name": k, "label": v[0]} for k, v in SAMPLES.items()]
+
+
 @app.get("/api/sample")
-def sample():
-    """Return the bundled sample inputs (used by the 'Try with sample data' button)."""
+def sample(name: str = "good"):
+    """Return one bundled sample set (used by the sample picker)."""
+    if name not in SAMPLES:
+        raise HTTPException(404, f"Unknown sample '{name}'. Choose one of: {', '.join(SAMPLES)}.")
     files = {
         "question_paper_text": "question_paper.txt",
-        "answer_sheet_text": "answer_sheet_good.txt",
+        "answer_sheet_text": SAMPLES[name][1],
         "rubric_text": "rubric.txt",
         "model_answers_text": "model_answers.txt",
     }
-    out = {}
+    out = {"name": name, "label": SAMPLES[name][0]}
     for key, fname in files.items():
         try:
             with open(os.path.join(_SAMPLE_DIR, fname), "r", encoding="utf-8") as f:
@@ -96,6 +120,57 @@ def sample():
         except OSError:
             out[key] = ""
     return out
+
+
+def _upload_bytes(upload: UploadFile) -> bytes:
+    data = upload.file.read()
+    if len(data) > _MAX_UPLOAD_BYTES:
+        mb = len(data) / (1024 * 1024)
+        raise HTTPException(
+            413,
+            f"'{upload.filename}' is {mb:.1f} MB; the maximum is "
+            f"{_MAX_UPLOAD_BYTES // (1024 * 1024)} MB per file.",
+        )
+    return data
+
+
+@app.post("/api/extract")
+def extract(
+    question_paper: Optional[UploadFile] = File(None),
+    answer_sheet: Optional[UploadFile] = File(None),
+    rubric: Optional[UploadFile] = File(None),
+    model_answers: Optional[UploadFile] = File(None),
+):
+    """Read uploaded files (text, PDF or OCR for images / scans) and return the text
+    per input, so it can be checked and corrected before grading. Nothing is graded.
+
+    Each entry: {filename, text, ocr, warning, error}. A file that cannot be read gives
+    an `error` for that input instead of failing the whole request.
+    """
+    uploads = {
+        "question_paper": question_paper,
+        "answer_sheet": answer_sheet,
+        "rubric": rubric,
+        "model_answers": model_answers,
+    }
+    out = {}
+    for key, upload in uploads.items():
+        if upload is None or not upload.filename:
+            continue
+        entry = {"filename": upload.filename, "text": "", "ocr": None, "warning": None, "error": None}
+        try:
+            text, ocr = extract_text_meta(upload.filename, _upload_bytes(upload))
+            entry.update(text=text, ocr=ocr)
+            if ocr:
+                entry["warning"] = f"Read by OCR ({ocr}). Check the text for mistakes before grading."
+        except NoTextError as exc:
+            entry["warning"] = str(exc)
+        except ParseError as exc:
+            entry["error"] = str(exc)
+        except HTTPException as exc:
+            entry["error"] = exc.detail
+        out[key] = entry
+    return {"inputs": out}
 
 
 def _read(upload: Optional[UploadFile], text: Optional[str], warnings: List[str], label: str,
@@ -108,14 +183,7 @@ def _read(upload: Optional[UploadFile], text: Optional[str], warnings: List[str]
     except for the question paper, which must contain questions.
     """
     if upload is not None and upload.filename:
-        data = upload.file.read()
-        if len(data) > _MAX_UPLOAD_BYTES:
-            mb = len(data) / (1024 * 1024)
-            raise HTTPException(
-                413,
-                f"'{upload.filename}' is {mb:.1f} MB; the maximum is "
-                f"{_MAX_UPLOAD_BYTES // (1024 * 1024)} MB per file.",
-            )
+        data = _upload_bytes(upload)
         try:
             content, ocr = extract_text_meta(upload.filename, data)
         except NoTextError as exc:
@@ -134,20 +202,10 @@ def _read(upload: Optional[UploadFile], text: Optional[str], warnings: List[str]
     return text, ("text" if text else None)
 
 
-@app.post("/api/grade")
-def grade(
-    question_paper: Optional[UploadFile] = File(None),
-    answer_sheet: Optional[UploadFile] = File(None),
-    rubric: Optional[UploadFile] = File(None),
-    model_answers: Optional[UploadFile] = File(None),
-    question_paper_text: Optional[str] = Form(None),
-    answer_sheet_text: Optional[str] = Form(None),
-    rubric_text: Optional[str] = Form(None),
-    model_answers_text: Optional[str] = Form(None),
-    structured_json: Optional[str] = Form(None),
-    n_samples: Optional[int] = Form(None),
-    threshold: Optional[float] = Form(None),
-):
+def _prepare(question_paper, answer_sheet, rubric, model_answers, question_paper_text,
+             answer_sheet_text, rubric_text, model_answers_text, structured_json):
+    """Ingest and parse the inputs. Returns (questions, answer_map, warnings) or raises
+    an HTTPException with a clear message."""
     warnings: List[str] = []
     if settings.using_mock:
         warnings.append(
@@ -155,9 +213,8 @@ def grade(
             "OPENAI_BASE_URL if needed) in .env for real grading."
         )
 
-    # 1. Ingestion
-    q_text, q_src = _read(question_paper, question_paper_text or structured_json, warnings,
-                          "question paper", required=True)
+    q_text, _ = _read(question_paper, question_paper_text or structured_json, warnings,
+                      "question paper", required=True)
     a_text, a_src = _read(answer_sheet, answer_sheet_text, warnings, "answer sheet", required=True)
     r_text, _ = _read(rubric, rubric_text, warnings, "rubric")
     m_text, _ = _read(model_answers, model_answers_text, warnings, "model answers")
@@ -200,22 +257,31 @@ def grade(
         }
         for qid in question_ids:
             answer_map.setdefault(qid, StudentAnswer(question_id=qid, student_answer_text=""))
+    return questions, answer_map, warnings
 
-    # 2 & 3. Grade each question with confidence sampling
-    n = settings.n_samples if n_samples is None else max(1, min(10, n_samples))
-    thr = settings.confidence_threshold if threshold is None else max(0.0, min(1.0, threshold))
+
+def _grade_all(questions, answer_map, warnings, n, thr, emit=None) -> PipelineResult:
+    """Grade every question (in parallel) and aggregate. `emit`, if given, receives
+    progress events: {"type": "stage", "stage": ..., "question": id}."""
 
     def _grade_one(q):
         student = answer_map.get(q.question_id, StudentAnswer(question_id=q.question_id, student_answer_text=""))
         warns = []
         if not student.student_answer_text.strip():
             warns.append(f"Q{q.question_id}: no student answer found for this question.")
+        progress = None
+        if emit is not None:
+            def progress(stage, qid=q.question_id):
+                emit({"type": "stage", "stage": stage, "question": qid})
         try:
             representative, _samples, confidence = engine.grade_with_confidence(
-                q, student, n_samples=n, threshold=thr
+                q, student, n_samples=n, threshold=thr, progress=progress
             )
         except Exception as exc:
             raise HTTPException(502, f"Grading failed for Q{q.question_id}: {exc}")
+        if emit is not None:
+            emit({"type": "stage", "stage": "done", "question": q.question_id,
+                  "llm": confidence.grader_role != "none"})
         warns.extend(confidence.warnings)
         result = QuestionResult(
             grading=representative,
@@ -233,7 +299,6 @@ def grade(
             warnings.extend(warns)
             results.append(result)
 
-    # 4. Output aggregation
     total_awarded = sum(r.grading.total_awarded for r in results)
     total_max = sum(r.grading.max_marks for r in results)
     conf = [r.confidence.combined_confidence for r in results]
@@ -249,6 +314,70 @@ def grade(
         warnings=warnings,
         using_mock=settings.using_mock,
     )
+
+
+def _stream(questions, answer_map, warnings, n, thr):
+    """NDJSON stream of real progress events, then the result (or an error)."""
+    events: "queue.Queue" = queue.Queue()
+
+    def worker():
+        try:
+            result = _grade_all(questions, answer_map, warnings, n, thr, emit=events.put)
+            events.put({"type": "result", "result": jsonable_encoder(result)})
+        except HTTPException as exc:
+            events.put({"type": "error", "status": exc.status_code, "detail": exc.detail})
+        except Exception as exc:  # noqa: BLE001 - reported to the client, never swallowed
+            events.put({"type": "error", "status": 500, "detail": str(exc)})
+        finally:
+            events.put(None)
+
+    def gen():
+        yield json.dumps({
+            "type": "start",
+            "questions": [q.question_id for q in questions],
+            "samples": n,
+            "second_examiner": _second_examiner_active(),
+            "moderation": settings.adjudicate and _second_examiner_active(),
+        }) + "\n"
+        threading.Thread(target=worker, daemon=True).start()
+        while True:
+            item = events.get()
+            if item is None:
+                break
+            yield json.dumps(item) + "\n"
+
+    return StreamingResponse(gen(), media_type="application/x-ndjson",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+@app.post("/api/grade")
+def grade(
+    question_paper: Optional[UploadFile] = File(None),
+    answer_sheet: Optional[UploadFile] = File(None),
+    rubric: Optional[UploadFile] = File(None),
+    model_answers: Optional[UploadFile] = File(None),
+    question_paper_text: Optional[str] = Form(None),
+    answer_sheet_text: Optional[str] = Form(None),
+    rubric_text: Optional[str] = Form(None),
+    model_answers_text: Optional[str] = Form(None),
+    structured_json: Optional[str] = Form(None),
+    n_samples: Optional[int] = Form(None),
+    threshold: Optional[float] = Form(None),
+    stream: Optional[bool] = Form(False),
+):
+    """Grade an answer sheet. Returns a PipelineResult, or with `stream=true` an NDJSON
+    stream: a `start` event, `stage` events as each question moves through grading,
+    second examiner and moderation, then a `result` (or `error`) event. Input errors
+    are a normal 4xx response in both modes."""
+    questions, answer_map, warnings = _prepare(
+        question_paper, answer_sheet, rubric, model_answers, question_paper_text,
+        answer_sheet_text, rubric_text, model_answers_text, structured_json,
+    )
+    n = settings.n_samples if n_samples is None else max(1, min(10, n_samples))
+    thr = settings.confidence_threshold if threshold is None else max(0.0, min(1.0, threshold))
+    if stream:
+        return _stream(questions, answer_map, warnings, n, thr)
+    return _grade_all(questions, answer_map, warnings, n, thr)
 
 
 # API routes first, then serve the frontend at /

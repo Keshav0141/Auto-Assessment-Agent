@@ -3,137 +3,216 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Confidence-Aware Auto-Assessment</title>
+  <title>Examiner's Desk · Confidence-Aware Auto-Assessment</title>
+  <meta name="description" content="Marks an answer sheet against a rubric and stamps every decision with a confidence level, so uncertain answers go to a human examiner." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23fbf8f1'/%3E%3Cpath d='M6 17c2.5 1.6 4.4 4 6.2 7.2C16 15.5 21 9.4 27 5' fill='none' stroke='%23c0262d' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Kalam:wght@400;700&family=Noto+Sans+Bengali&family=Noto+Sans+Gujarati&family=Noto+Sans+Gurmukhi&family=Noto+Sans+Kannada&family=Noto+Sans+Malayalam&family=Noto+Sans+Oriya&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Naskh+Arabic&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // Apply a saved theme before first paint (no flash). Storage can be unavailable.
+    try {
+      const t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+    } catch (e) { /* ignore */ }
+  </script>
 </head>
 <body>
-  <div class="bg-gradient-blobs"></div>
-  <div class="bg-noise"></div>
+  <a class="skip-link" href="#desk-title">Skip to the papers</a>
 
-  <div class="container">
-    <header class="hero">
-      <div class="hero-glow-orb"></div>
-      <h1>Confidence-Aware Auto-Assessment</h1>
-      <p class="sub">Per-question marks + rubric-defensible feedback + a confidence score per grading decision, so low-confidence gradings are flagged for human review.</p>
-      <div id="status-pill" class="pill hidden"></div>
-    </header>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand">
+        <p class="eyebrow">Examiner's desk</p>
+        <h1>Confidence-Aware Auto-Assessment</h1>
+        <p class="lede">Put a question paper and a student's answer sheet on the desk. Each answer is marked against the rubric, and every decision is stamped with how sure the markers are, so uncertain answers go to a human examiner.</p>
+      </div>
+      <button id="theme-toggle" class="tool-btn" type="button" aria-pressed="false">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <span class="tool-label">Dark desk</span>
+      </button>
+    </div>
+    <p id="status-line" class="status-line">Checking the markers…</p>
+  </header>
 
-    <main>
-      <section class="card neon-border" id="input-card">
-        <div class="card-header">
-          <h2>Assessment Inputs</h2>
-        </div>
-
-        <div class="grid">
-          <div class="field group">
-            <label for="question_paper_text">Question paper <em class="req">(required)</em></label>
-            <div class="file-upload-wrapper neon-btn-border">
-              <label for="question_paper" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
-              <input type="file" id="question_paper" accept=".txt,.md,.pdf" class="file-input" />
-              <span class="file-name">No file chosen</span>
-            </div>
-            <textarea id="question_paper_text" rows="5" placeholder="…or paste question paper text (Question 1 (5 marks) …)"></textarea>
-          </div>
-
-          <div class="field group">
-            <label for="answer_sheet_text">Answer sheet</label>
-            <div class="file-upload-wrapper neon-btn-border">
-              <label for="answer_sheet" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
-              <input type="file" id="answer_sheet" accept=".txt,.md,.pdf,.png,.jpg,.jpeg" class="file-input" />
-              <span class="file-name">No file chosen</span>
-            </div>
-            <textarea id="answer_sheet_text" rows="5" placeholder="…or paste student answers"></textarea>
-          </div>
-
-          <div class="field group">
-            <label for="rubric_text">Rubric <em>(optional)</em></label>
-            <div class="file-upload-wrapper neon-btn-border">
-              <label for="rubric" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
-              <input type="file" id="rubric" accept=".txt,.md,.pdf" class="file-input" />
-              <span class="file-name">No file chosen</span>
-            </div>
-            <textarea id="rubric_text" rows="5" placeholder="…or paste rubric (1 mark for defining X, …)"></textarea>
-          </div>
-
-          <div class="field group">
-            <label for="model_answers_text">Model answers <em>(optional)</em></label>
-            <div class="file-upload-wrapper neon-btn-border">
-              <label for="model_answers" class="file-btn"><i class="ph ph-upload-simple"></i> Choose File</label>
-              <input type="file" id="model_answers" accept=".txt,.md,.pdf" class="file-input" />
-              <span class="file-name">No file chosen</span>
-            </div>
-            <textarea id="model_answers_text" rows="5" placeholder="…or paste model answers"></textarea>
+  <main id="main">
+    <section class="desk" aria-labelledby="desk-title">
+      <div class="desk-head">
+        <h2 id="desk-title" tabindex="-1"><span class="step-no">1</span> Papers on the desk</h2>
+        <div class="sample-picker">
+          <label for="sample-select">Try a sample</label>
+          <div class="sample-row">
+            <select id="sample-select">
+              <option value="good">English (good)</option>
+              <option value="weak">English (weak)</option>
+              <option value="adversarial">Adversarial (prompt injection)</option>
+            </select>
+            <button id="sample-load" class="btn btn-ghost" type="button">Load sample</button>
           </div>
         </div>
+      </div>
 
-        <div class="controls-row">
-          <div class="control-group">
-            <label for="n_samples">Samples / question</label>
-            <input type="number" id="n_samples" value="5" min="1" max="20" class="num-input" />
+      <p class="desk-note">Upload a file, drop it on a sheet, or take a photo on your phone. The text that will be marked appears in the box under each sheet. Fix any OCR mistakes there before marking.</p>
+
+      <div class="papers">
+        <article class="sheet sheet--paper" data-input="question_paper" aria-labelledby="question_paper-title">
+          <span class="sheet-tab" aria-hidden="true">Q</span>
+          <header class="sheet-head">
+            <h3 id="question_paper-title">Question paper <span class="req">required</span></h3>
+            <p class="sheet-hint" id="question_paper-hint">Questions with their marks, e.g. "Question 1 (5 marks)".</p>
+          </header>
+          <div class="drop" data-drop>
+            <button class="btn btn-ghost" type="button" data-action="choose" aria-describedby="question_paper-hint">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M12 16V4m0 0 4.5 4.5M12 4 7.5 8.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg>
+              Choose file
+            </button>
+            <button class="btn btn-ghost camera-only" type="button" data-action="camera">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Take photo
+            </button>
+            <span class="drop-hint">or drop it here</span>
+            <input type="file" data-role="file" accept=".txt,.md,.pdf,.png,.jpg,.jpeg,.webp" hidden />
+            <input type="file" data-role="camera" accept="image/*" capture="environment" hidden />
           </div>
-          <div class="control-group">
-            <label for="threshold">Confidence threshold</label>
-            <input type="number" id="threshold" value="0.85" min="0" max="1" step="0.05" class="num-input" />
+          <div class="file-status" aria-live="polite"></div>
+          <label class="text-label" for="question_paper_text">Text that will be used</label>
+          <textarea id="question_paper_text" rows="7" spellcheck="false" placeholder="Question 1 (5 marks)&#10;State Newton's second law…"></textarea>
+        </article>
+
+        <article class="sheet sheet--answer" data-input="answer_sheet" aria-labelledby="answer_sheet-title">
+          <span class="sheet-tab" aria-hidden="true">A</span>
+          <header class="sheet-head">
+            <h3 id="answer_sheet-title">Answer sheet <span class="req">required</span></h3>
+            <p class="sheet-hint" id="answer_sheet-hint">The student's script: text, PDF, or a photo of handwriting.</p>
+          </header>
+          <div class="drop" data-drop>
+            <button class="btn btn-ghost" type="button" data-action="choose" aria-describedby="answer_sheet-hint">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M12 16V4m0 0 4.5 4.5M12 4 7.5 8.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg>
+              Choose file
+            </button>
+            <button class="btn btn-ghost camera-only" type="button" data-action="camera">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Take photo
+            </button>
+            <span class="drop-hint">or drop it here</span>
+            <input type="file" data-role="file" accept=".txt,.md,.pdf,.png,.jpg,.jpeg,.webp" hidden />
+            <input type="file" data-role="camera" accept="image/*" capture="environment" hidden />
+          </div>
+          <div class="file-status" aria-live="polite"></div>
+          <label class="text-label" for="answer_sheet_text">Text that will be marked</label>
+          <textarea id="answer_sheet_text" class="handwritten" rows="9" spellcheck="false" placeholder="Question 1&#10;F = ma, so a = 10/2 = 5 m/s^2…"></textarea>
+        </article>
+
+        <article class="sheet sheet--note" data-input="rubric" aria-labelledby="rubric-title">
+          <span class="sheet-tab" aria-hidden="true">R</span>
+          <header class="sheet-head">
+            <h3 id="rubric-title">Rubric <span class="opt">optional</span></h3>
+            <p class="sheet-hint" id="rubric-hint">Marks per criterion, e.g. "2 marks for stating the law".</p>
+          </header>
+          <div class="drop" data-drop>
+            <button class="btn btn-ghost" type="button" data-action="choose" aria-describedby="rubric-hint">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M12 16V4m0 0 4.5 4.5M12 4 7.5 8.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg>
+              Choose file
+            </button>
+            <button class="btn btn-ghost camera-only" type="button" data-action="camera">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Take photo
+            </button>
+            <span class="drop-hint">or drop it here</span>
+            <input type="file" data-role="file" accept=".txt,.md,.pdf,.png,.jpg,.jpeg,.webp" hidden />
+            <input type="file" data-role="camera" accept="image/*" capture="environment" hidden />
+          </div>
+          <div class="file-status" aria-live="polite"></div>
+          <label class="text-label" for="rubric_text">Text that will be used</label>
+          <textarea id="rubric_text" rows="6" spellcheck="false" placeholder="Question 1&#10;2 marks for stating the law correctly, 1 mark for F=ma…"></textarea>
+        </article>
+
+        <article class="sheet sheet--note" data-input="model_answers" aria-labelledby="model_answers-title">
+          <span class="sheet-tab" aria-hidden="true">M</span>
+          <header class="sheet-head">
+            <h3 id="model_answers-title">Model answers <span class="opt">optional</span></h3>
+            <p class="sheet-hint" id="model_answers-hint">The examiner's reference answers.</p>
+          </header>
+          <div class="drop" data-drop>
+            <button class="btn btn-ghost" type="button" data-action="choose" aria-describedby="model_answers-hint">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M12 16V4m0 0 4.5 4.5M12 4 7.5 8.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg>
+              Choose file
+            </button>
+            <button class="btn btn-ghost camera-only" type="button" data-action="camera">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Take photo
+            </button>
+            <span class="drop-hint">or drop it here</span>
+            <input type="file" data-role="file" accept=".txt,.md,.pdf,.png,.jpg,.jpeg,.webp" hidden />
+            <input type="file" data-role="camera" accept="image/*" capture="environment" hidden />
+          </div>
+          <div class="file-status" aria-live="polite"></div>
+          <label class="text-label" for="model_answers_text">Text that will be used</label>
+          <textarea id="model_answers_text" rows="6" spellcheck="false" placeholder="Question 1&#10;F = ma; a = F/m = 5 m/s^2…"></textarea>
+        </article>
+      </div>
+
+      <details class="settings">
+        <summary>Marking settings</summary>
+        <div class="settings-row">
+          <div class="field">
+            <label for="n_samples">Markings per answer</label>
+            <input type="number" id="n_samples" value="5" min="1" max="10" inputmode="numeric" aria-describedby="n_samples-hint" />
+            <p class="field-hint" id="n_samples-hint">How many times the main marker marks each answer (1–10).</p>
+          </div>
+          <div class="field">
+            <label for="threshold">Confidence needed</label>
+            <input type="number" id="threshold" value="0.85" min="0" max="1" step="0.05" inputmode="decimal" aria-describedby="threshold-hint" />
+            <p class="field-hint" id="threshold-hint">Below this (0–1), an answer is sent to a second examiner.</p>
           </div>
         </div>
+      </details>
 
-        <div class="actions">
-          <button id="grade-btn" class="primary-btn neon-primary">
-            <span class="btn-icon">⚡</span>
-            <span class="btn-text">Grade answer sheet</span>
+      <div class="actions">
+        <button id="grade-btn" class="btn btn-pen" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M4 20l4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10z"/><path d="M13.5 7.5l3 3"/></svg>
+          Mark the script
+        </button>
+        <p class="demo-note">Demo: please don't upload real student data.</p>
+      </div>
+
+      <div id="error-box" class="error-box" role="alert" hidden></div>
+
+      <div id="progress" class="progress" hidden>
+        <div class="progress-head">
+          <h3 class="progress-title">Marking in progress</h3>
+          <span class="elapsed" aria-label="Elapsed time"><span id="elapsed">0:00</span></span>
+        </div>
+        <ol id="timeline" class="timeline"></ol>
+        <p id="progress-live" class="sr-only" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="results" class="results" aria-labelledby="results-title" hidden>
+      <div class="results-head">
+        <h2 id="results-title" tabindex="-1"><span class="step-no">2</span> Marked script</h2>
+        <div class="results-actions">
+          <button id="print-btn" class="btn btn-ghost" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/><path d="M7 14h10v6H7z"/></svg>
+            Download marked script (PDF)
           </button>
-          <button id="sample-btn" class="secondary-btn ghost-neon">
-            <i class="ph ph-magic-wand"></i> Try with sample data
+          <button id="json-btn" class="btn btn-ghost" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M4 19h16"/></svg>
+            Download JSON
           </button>
         </div>
+      </div>
+      <div id="cover" class="cover"></div>
+      <div id="pages" class="pages"></div>
+    </section>
+  </main>
 
-        <div class="demo-note"><i class="ph ph-info"></i> Demo — please don't upload real student data.</div>
-        
-        <div id="loading" class="hidden">
-          <div class="spinner-container">
-            <div class="neon-spinner"></div>
-          </div>
-          <div class="loading-text">
-            <span id="loading-msg">Grading in progress…</span>
-            <div class="neon-shimmer"></div>
-            <span id="elapsed" class="elapsed timer-font">0:00</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="results-card" class="card neon-border hidden">
-        <div class="card-header row spread">
-          <h2>Results</h2>
-          <button id="download-btn" class="secondary-btn ghost-neon sm"><i class="ph ph-download-simple"></i> Download JSON</button>
-        </div>
-        <div id="summary" class="summary-grid"></div>
-        <div id="legend" class="legend"></div>
-        <div id="warnings" class="warnings-container"></div>
-        <div id="questions" class="questions-list"></div>
-      </section>
-    </main>
-
-    <footer class="subtle-footer">
-      <div class="neon-footer-line"></div>
-      <p>&copy; 2026 Confidence-Aware Auto-Assessment. Powered by Generative AI.</p>
-    </footer>
-  </div>
-  <div id="confetti-container"></div>
+  <footer class="colophon">
+    <p>Confidence-Aware Auto-Assessment · a course project for <em>Recent Advances in Generative AI</em>. Marks are a recommendation; a human examiner has the final say.</p>
+  </footer>
 
   <script src="app.js"></script>
-  <script>
-    // Custom file input logic
-    document.querySelectorAll('.file-input').forEach(input => {
-      input.addEventListener('change', (e) => {
-        const fileName = e.target.files[0] ? e.target.files[0].name : "No file chosen";
-        const wrapper = e.target.closest('.file-upload-wrapper');
-        wrapper.querySelector('.file-name').textContent = fileName;
-      });
-    });
-  </script>
 </body>
 </html>
