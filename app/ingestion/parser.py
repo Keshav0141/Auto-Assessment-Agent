@@ -116,7 +116,7 @@ def extract_text_meta(filename, data: bytes):
         raise NoTextError(f"No text could be found in '{name}' (blank page or unreadable image).") from exc
     except (OCRError, ImportError) as exc:
         raise ParseError(
-            f"Could not OCR '{name}': {exc}. Set an LLM API key (Gemini OCR) or "
+            f"Could not OCR '{name}': {exc}. Set an OCR_API_KEY for a vision model or "
             "install Tesseract, or upload a text / text-layer PDF."
         ) from exc
 

@@ -1,8 +1,9 @@
 """Pluggable OCR backends for scanned answer sheets / images.
 
 OCR_PROVIDER (env):
-  auto      -> gemini if an LLM key is set, else tesseract   (default)
-  gemini    -> vision LLM transcription via the OpenAI-compatible endpoint
+  auto      -> vision if an OCR/LLM key is set, else tesseract   (default)
+  vision    -> vision-LLM transcription via the OpenAI-compatible endpoint
+               (OCR_MODEL; "gemini" is accepted as an alias)
   tesseract -> local pytesseract (needs the Tesseract binary)
   bodhan    -> Bodhan OCR API (placeholder until course access is enabled)
 
@@ -39,11 +40,26 @@ class NoTextError(OCRError):
     """The image was read but contains no text (blank page, photo without writing)."""
 
 
+_ALIASES = {"gemini": "vision"}
+
+
 def _provider():
-    p = settings.ocr_provider
+    p = _ALIASES.get(settings.ocr_provider, settings.ocr_provider)
     if p == "auto":
-        return "gemini" if settings.ocr_api_key else "tesseract"
+        return "vision" if settings.ocr_api_key else "tesseract"
     return p
+
+
+def provider_name() -> str:
+    """The OCR backend that will be used (vision / tesseract / bodhan)."""
+    return _provider()
+
+
+def backend_label(backend) -> str:
+    """Human-readable OCR source: the vision model's name, or the backend name."""
+    if backend == "vision":
+        return settings.ocr_model
+    return {"tesseract": "Tesseract", "bodhan": "Bodhan"}.get(backend, str(backend))
 
 
 def _to_jpeg_b64(img_or_bytes):
@@ -63,7 +79,7 @@ def _to_jpeg_b64(img_or_bytes):
     return base64.b64encode(buf.getvalue()).decode("ascii")
 
 
-def _gemini_page(img_or_bytes):
+def _vision_page(img_or_bytes):
     from openai import OpenAI
 
     client = OpenAI(base_url=settings.ocr_base_url, api_key=settings.ocr_api_key)
@@ -100,7 +116,7 @@ def _gemini_page(img_or_bytes):
                 raise OCRError(f"invalid API key for {settings.ocr_base_url}") from exc
             last = exc
         time.sleep(min(5 * (2 ** attempt), 60))
-    raise OCRError(f"Gemini OCR failed: {last}")
+    raise OCRError(f"Vision OCR ({settings.ocr_model}) failed: {last}")
 
 
 def _tesseract_page(img_or_bytes):
@@ -115,10 +131,10 @@ def _tesseract_page(img_or_bytes):
 
 def _bodhan_page(img_or_bytes):
     # TODO: wire up once Bodhan OCR credits/docs are available (console.bodhan.ai).
-    raise OCRError("Bodhan OCR is not configured yet - set OCR_PROVIDER=gemini for now.")
+    raise OCRError("Bodhan OCR is not configured yet - set OCR_PROVIDER=vision for now.")
 
 
-_BACKENDS = {"gemini": _gemini_page, "tesseract": _tesseract_page, "bodhan": _bodhan_page}
+_BACKENDS = {"vision": _vision_page, "tesseract": _tesseract_page, "bodhan": _bodhan_page}
 
 
 def ocr_pages(pages):
@@ -130,7 +146,7 @@ def ocr_pages(pages):
     out = []
     for i, p in enumerate(pages):
         out.append(fn(p))
-        if provider == "gemini" and settings.request_pacing and i < len(pages) - 1:
+        if provider == "vision" and settings.request_pacing and i < len(pages) - 1:
             time.sleep(settings.request_pacing)
     text = "\n".join(out)
     text = re.sub(r"(?im)^\s*\[no text\]\s*$", "", text)

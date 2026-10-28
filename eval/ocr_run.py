@@ -11,7 +11,7 @@ Usage:
 
 Provider selection: set OCR_BASE_URL / OCR_API_KEY / OCR_MODEL in the shell (they
 win over .env for this run) and pass a name with --provider. `tesseract` forces the
-local Tesseract backend; any other name uses the vision-LLM backend (`gemini`) at the
+local Tesseract backend; any other name uses the vision-LLM backend (`vision`) at the
 configured endpoint. Results are written to eval/results/ocr_metrics.json.
 """
 import os
@@ -143,7 +143,7 @@ def _select_provider(name):
         settings.ocr_provider = "auto"
     else:
         # Any other label = vision-LLM backend; endpoint comes from the env.
-        settings.ocr_provider = "gemini"
+        settings.ocr_provider = "vision"
 
 
 def _tesseract_available():

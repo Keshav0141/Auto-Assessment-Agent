@@ -13,6 +13,8 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.grading.engine import GradingEngine
+from app.ingestion.ocr import backend_label as ocr_backend_label
+from app.ingestion.ocr import provider_name as ocr_provider_name
 from app.ingestion.parser import (
     NoTextError,
     ParseError,
@@ -71,6 +73,7 @@ def health():
         "samples_per_question": settings.n_samples,
         "confidence_threshold": settings.confidence_threshold,
         "ocr_provider": settings.ocr_provider,
+        "ocr_backend": ocr_provider_name(),
         "ocr_model": settings.ocr_model,
         "judge2": bool(settings.judge2_api_key),
         "judge2_model": settings.judge2_model if settings.judge2_api_key else None,
@@ -162,7 +165,8 @@ def extract(
             text, ocr = extract_text_meta(upload.filename, _upload_bytes(upload))
             entry.update(text=text, ocr=ocr)
             if ocr:
-                entry["warning"] = f"Read by OCR ({ocr}). Check the text for mistakes before grading."
+                entry["warning"] = (f"Read by OCR ({ocr_backend_label(ocr)}). "
+                                    "Check the text for mistakes before marking.")
         except NoTextError as exc:
             entry["warning"] = str(exc)
         except ParseError as exc:
@@ -197,7 +201,8 @@ def _read(upload: Optional[UploadFile], text: Optional[str], warnings: List[str]
             warnings.append(f"{exc} The {label} was ignored.")
             return None, None
         if ocr:
-            warnings.append(f"'{upload.filename}' was read via OCR ({ocr}); check the extracted text below.")
+            warnings.append(f"'{upload.filename}' was read via OCR ({ocr_backend_label(ocr)}); "
+                            "check the extracted text below.")
         return content, f"file:{upload.filename}"
     return text, ("text" if text else None)
 

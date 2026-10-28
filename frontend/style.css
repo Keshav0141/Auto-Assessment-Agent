@@ -1,5 +1,17 @@
 /* Examiner's desk: paper off-white, navy ink, red pen, highlighter yellow. */
 
+/* Unambiguous digits for every handwritten annotation: a digits-only subset of
+   Shantell Sans (SIL OFL 1.1, see fonts/OFL-ShantellSans.txt). Its 1 has a flag and a
+   foot and its 7 a crossbar, so marks like 1.7/7 can't be misread. It is listed first
+   in the pen font stack and only covers 0-9 . / so letters still come from Kalam. */
+@font-face {
+  font-family: "Mark Digits";
+  src: url("fonts/shantell-sans-digits.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+  unicode-range: U+0030-0039, U+002E, U+002F;
+}
+
 :root {
   --desk: #e7e1d3;
   --desk-line: #d8d0bd;
@@ -25,9 +37,12 @@
 
   --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-print: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-hand: "Kalam", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Bengali", "Noto Sans Gujarati",
-    "Noto Sans Gurmukhi", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Oriya", "Noto Naskh Arabic", cursive;
-  --font-pen: "Caveat", "Kalam", cursive;
+  /* Student text and editable boxes: plain, readable, wide script coverage. */
+  --font-read: "Noto Sans", "Noto Sans Devanagari", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Bengali",
+    "Noto Sans Gujarati", "Noto Sans Gurmukhi", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Oriya",
+    "Noto Naskh Arabic", system-ui, sans-serif;
+  /* Examiner annotations (red pen): Kalam, with clear digits first. */
+  --font-pen: "Mark Digits", "Kalam", cursive;
   --line: 2rem;
   --radius: 3px;
   color-scheme: light;
@@ -178,7 +193,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 1rem 3rem; }
 .desk-head h2, .results-head h2 { font-size: 1.55rem; display: flex; align-items: center; gap: 0.6rem; }
 .step-no {
   display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%;
-  border: 2px solid var(--pen); color: var(--pen); font-family: var(--font-pen); font-size: 1.35rem; font-weight: 700;
+  border: 2px solid var(--pen); color: var(--pen); font-family: var(--font-pen); font-size: 1.1rem; font-weight: 700;
 }
 .desk-note { color: var(--ink-soft); max-width: 75ch; margin-bottom: 1.25rem; }
 
@@ -212,7 +227,7 @@ select, input[type="number"] {
 .sheet-tab {
   position: absolute; top: -0.9rem; right: 1.1rem; width: 2.1rem; height: 2.1rem; display: grid; place-items: center;
   background: var(--paper); border: 2px solid var(--pen); color: var(--pen); border-radius: 50%;
-  font-family: var(--font-pen); font-weight: 700; font-size: 1.35rem;
+  font-family: var(--font-pen); font-weight: 700; font-size: 1.1rem;
 }
 .sheet-head h3 { font-size: 1.2rem; }
 .req, .opt {
@@ -252,10 +267,10 @@ select, input[type="number"] {
 textarea {
   display: block; width: 100%; margin-top: 0.3rem; resize: vertical;
   background: transparent; border: 1px solid var(--paper-edge); border-radius: var(--radius);
-  padding: 0.6rem 0.7rem; line-height: 1.5; font-size: 0.95rem;
+  padding: 0.6rem 0.7rem; line-height: 1.5; font-size: 0.95rem; font-family: var(--font-read);
 }
-textarea.handwritten {
-  font-family: var(--font-hand); font-size: 1.05rem; line-height: var(--line);
+textarea.ruled {
+  font-size: 1rem; line-height: var(--line);
   background-image: repeating-linear-gradient(to bottom, transparent 0 calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px) var(--line));
   background-attachment: local; background-position: 0 0.6rem; padding-top: 0.6rem;
 }
@@ -355,8 +370,8 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 .total svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .total-ring { fill: none; stroke: var(--pen); stroke-width: 2.6; stroke-linecap: round; }
 .total-num { font-family: var(--font-pen); font-weight: 700; line-height: 1; text-align: center; }
-.total-num .got { font-size: 3.4rem; }
-.total-num .of { font-size: 1.7rem; }
+.total-num .got { font-size: 2.7rem; }
+.total-num .of { font-size: 1.35rem; }
 .total-label { font-size: 0.8rem; color: var(--ink-soft); text-align: center; margin-top: 0.15rem; }
 
 .cover-body h3 { font-size: 1.25rem; }
@@ -372,7 +387,7 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 }
 .tally a:hover { border-color: var(--ink-soft); }
 .tally .t-q { font-weight: 600; }
-.tally .t-m { font-family: var(--font-pen); font-size: 1.25rem; color: var(--pen); font-weight: 700; }
+.tally .t-m { font-family: var(--font-pen); font-size: 1.05rem; color: var(--pen); font-weight: 700; }
 .tally .t-s { font-size: 0.78rem; color: var(--ink-soft); }
 .tally .is-review { border-color: var(--sticky-edge); background: var(--sticky); color: var(--sticky-ink); }
 .tally .is-review .t-s { color: var(--sticky-ink); }
@@ -397,13 +412,13 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 .page:target { outline: 3px solid var(--highlight); outline-offset: 4px; }
 
 .page-margin { grid-area: margin; padding: 1.2rem 0 0; text-align: center; }
-.qnum { font-family: var(--font-pen); font-size: 1.7rem; font-weight: 700; color: var(--ink); }
+.qnum { font-family: var(--font-pen); font-size: 1.4rem; font-weight: 700; color: var(--ink); }
 
 .page-body { grid-area: body; padding: 1.2rem 1.25rem 1.5rem; min-width: 0; }
 .page-score { grid-area: score; padding: 1rem 0.75rem 0 0; text-align: center; }
 .score-mark { font-family: var(--font-pen); color: var(--pen); line-height: 1; font-weight: 700; }
-.score-mark .got { font-size: 2.4rem; display: block; }
-.score-mark .of { font-size: 1.25rem; }
+.score-mark .got { font-size: 1.9rem; display: block; }
+.score-mark .of { font-size: 1.1rem; }
 .score-mark .rule { display: block; width: 2.6rem; height: 2px; background: var(--pen); margin: 0.15rem auto; transform: rotate(-4deg); }
 
 .page-head { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: flex-start; justify-content: space-between; }
@@ -430,7 +445,7 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 }
 .block-label { display: block; margin-top: 1.1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); font-weight: 600; }
 .answer {
-  margin-top: 0.2rem; font-family: var(--font-hand); font-size: 1.12rem; color: var(--ink);
+  margin-top: 0.2rem; font-family: var(--font-read); font-size: 1.02rem; color: var(--ink);
   line-height: var(--line); white-space: pre-wrap; overflow-wrap: anywhere;
   background-image: repeating-linear-gradient(to bottom, transparent 0 calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px) var(--line));
   padding: 0 0.25rem; min-height: calc(var(--line) * 2);
@@ -439,7 +454,7 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 
 .criteria { list-style: none; margin: 1.1rem 0 0; padding: 0; border-top: 1px solid var(--paper-edge); }
 .criteria li {
-  display: grid; grid-template-columns: 2rem minmax(0, 1fr) 3.75rem; gap: 0.6rem; align-items: start;
+  display: grid; grid-template-columns: 2rem minmax(0, 1fr) 4.5rem; gap: 0.6rem; align-items: start;
   padding: 0.6rem 0; border-bottom: 1px solid var(--paper-edge);
 }
 .mark-sym { width: 1.9rem; color: var(--pen); text-align: center; }
@@ -447,10 +462,10 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 .mark-word { display: block; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1; margin-top: 0.1rem; }
 .crit-text { font-weight: 500; overflow-wrap: anywhere; }
 .crit-why { display: block; font-size: 0.88rem; color: var(--ink-soft); font-weight: 400; margin-top: 0.15rem; }
-.crit-mark { font-family: var(--font-pen); color: var(--pen); font-size: 1.45rem; font-weight: 700; text-align: right; line-height: 1.1; white-space: nowrap; }
+.crit-mark { font-family: var(--font-pen); color: var(--pen); font-size: 1.15rem; font-weight: 700; text-align: right; line-height: 1.1; white-space: nowrap; }
 
 .comment {
-  margin-top: 1rem; font-family: var(--font-pen); color: var(--pen); font-size: 1.35rem; line-height: 1.35;
+  margin-top: 1rem; font-family: var(--font-pen); color: var(--pen); font-size: 1.08rem; line-height: 1.5;
   overflow-wrap: anywhere;
 }
 .comment::before { content: "Examiner: "; font-family: var(--font-ui); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
@@ -460,7 +475,7 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
   background: var(--pen-wash);
 }
 .moderator-title { font-weight: 700; color: var(--pen); }
-.moderator-title .pen { font-family: var(--font-pen); font-size: 1.45rem; }
+.moderator-title .pen { font-family: var(--font-pen); font-size: 1.2rem; }
 .moderator p { font-size: 0.92rem; margin-top: 0.15rem; overflow-wrap: anywhere; }
 
 .sticky {
@@ -486,7 +501,7 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 }
 .why h4 { margin: 0; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); }
 .bars { display: grid; gap: 0.4rem; margin: 0; }
-.bar-row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 3.2rem; gap: 0.6rem; align-items: center; font-size: 0.9rem; }
+.bar-row { display: grid; grid-template-columns: 10rem minmax(0, 1fr) 3.2rem; gap: 0.6rem; align-items: center; font-size: 0.9rem; }
 .bar-row dt { color: var(--ink); }
 .bar-row dd { margin: 0; }
 .bar-track { height: 0.55rem; background: var(--paper-2); border: 1px solid var(--paper-edge); border-radius: 999px; overflow: hidden; }
@@ -501,6 +516,8 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
 .dotline .second { fill: var(--paper); stroke: var(--pen); stroke-width: 2; }
 .dotline .final { fill: none; stroke: var(--pen); stroke-width: 1.5; stroke-dasharray: 3 2; }
 .dot-legend { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+.bars-legend { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.5rem; max-width: 70ch; }
+.bars-legend b { color: var(--ink); font-weight: 600; }
 .dot-legend span { display: inline-block; margin-right: 0.9rem; overflow-wrap: anywhere; }
 
 /* ---------- footer ---------- */
@@ -531,16 +548,16 @@ textarea:hover, select:hover, input[type="number"]:hover { border-color: var(--i
   }
   .page::before { left: 2.4rem; }
   .page-score { text-align: left; padding: 0.9rem 1rem 0; display: flex; align-items: baseline; gap: 0.4rem; }
-  .score-mark .got { display: inline; font-size: 2rem; }
+  .score-mark .got { display: inline; font-size: 1.7rem; }
   .score-mark .rule { display: none; }
   .score-mark .of::before { content: "/ "; }
   .page-body { padding: 0.5rem 0.9rem 1.25rem; }
   .page-margin { padding-top: 0.9rem; }
-  .qnum { font-size: 1.35rem; }
-  .criteria li { grid-template-columns: 1.6rem minmax(0, 1fr) 3rem; gap: 0.45rem; }
+  .qnum { font-size: 1.2rem; }
+  .criteria li { grid-template-columns: 1.6rem minmax(0, 1fr) 3.6rem; gap: 0.45rem; }
   .mark-sym, .mark-sym svg { width: 1.5rem; }
   .mark-sym svg { height: 1.5rem; }
-  .bar-row { grid-template-columns: 6.5rem minmax(0, 1fr) 2.8rem; }
+  .bar-row { grid-template-columns: 7.5rem minmax(0, 1fr) 2.8rem; }
   .stamp { max-width: 100%; }
 }
 

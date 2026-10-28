@@ -99,7 +99,7 @@ class Settings:
 
         self.embedding_model = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
-        # OCR: auto | gemini | tesseract | bodhan
+        # OCR: auto | vision (alias: gemini) | tesseract | bodhan
         self.ocr_provider = os.getenv("OCR_PROVIDER", "auto").strip().lower()
         self.ocr_model = os.getenv("OCR_MODEL", "").strip() or self.llm_model
         self.ocr_base_url = (os.getenv("OCR_BASE_URL", "").strip() or self.openai_base_url).rstrip("/")

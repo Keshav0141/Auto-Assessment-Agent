@@ -39,20 +39,27 @@ The results look like a hand-marked exam script (screenshots in `docs/screenshot
 - **Papers on the desk.** One sheet per input, with drag-and-drop, a file picker, and
   a **Take photo** button on touch devices (`capture="environment"`). A thumbnail is
   shown for images. Each file goes to `/api/extract` first. The OCR'd or parsed text
-  appears in an editable box, so OCR mistakes can be fixed. Marking uses the edited
-  text, not the original file.
+  appears in an editable box, so OCR mistakes can be fixed, along with a note naming
+  the OCR model used (`ocr_model` from `/api/health`). Marking uses the edited text,
+  not the original file.
 - **Progress timeline.** Reading → Grading ×N → Second examiner → Moderation → Done,
   driven by real stage events streamed from `/api/grade` (`stream=true`). Steps that
   don't apply (no second examiner, nothing to moderate) are marked as skipped. If a
   host buffers the stream, the steps complete together when the result arrives.
 - **Marked script.** A cover sheet with the circled total and a per-question tally.
-  Each question is on its own page, with the student's answer on ruled paper in
-  Kalam (a handwriting font with Devanagari; other Indic scripts fall back to Noto Sans).
+  Each question is on its own page. The student's answer is on ruled paper in a plain
+  readable font (Noto Sans, with Devanagari and other Indic Noto families); the
+  editable text boxes use the same font. Only the examiner's annotations (marks,
+  comments, the circled total) look handwritten, in Kalam. Their digits come from a
+  digits-only subset of Shantell Sans (`frontend/fonts/`, SIL OFL), loaded with
+  `unicode-range` and listed first in the font stack, so 1 and 7 can't be confused.
   Each rubric criterion gets a red-pen tick, part-tick or cross, labelled "full",
-  "part" or "none", with its marks in the margin. The examiner's comment is in red pen.
+  "part" or "none", with its marks in the margin.
 - **Stamp + why.** Each answer is stamped "Confident" or "Second examiner needed".
-  "Why this stamp?" shows bars for agreement, cross-model and score spread, and every
-  sampled total as a dot on a 0..max line, with the second examiner's mark.
+  "Why this stamp?" shows bars for agreement, cross-model and score consistency
+  (higher = steadier marks across markings), and every sampled total as a dot on a
+  0..max line, with the second examiner's mark. After marking, the timeline shows the
+  total time taken ("Marked in 0:42").
 - **Sticky notes.** A flagged answer gets a yellow note listing the reasons: low
   confidence, each integrity flag with its explanation, or the two examiners
   disagreeing. A moderated answer shows "Moderator decision: 3 → 4" with the referee
@@ -72,8 +79,8 @@ The results look like a hand-marked exam script (screenshots in `docs/screenshot
 
 1. **Ingestion & parsing** (`app/ingestion/parser.py`)
    - Text, PDF (text layer via pypdf) or scanned PDF/images via a pluggable OCR
-     layer (`app/ingestion/ocr.py`, `OCR_PROVIDER`): Gemini vision transcription by
-     default (handles handwriting, no system binary), Tesseract as a local fallback,
+     layer (`app/ingestion/ocr.py`, `OCR_PROVIDER`): vision-LLM transcription
+     with `OCR_MODEL` (e.g. Gemini) by default (handles handwriting, no system binary), Tesseract as a local fallback,
      and a Bodhan OCR slot pending course access. OCR'd inputs are flagged in the UI.
    - Segments question paper / rubric / model answers / answer sheet by question
      anchors (`Question 1 (5 marks)` or a numbered list), extracting marks and
@@ -341,7 +348,7 @@ sample_data/         demo question paper / rubric / model answers / answer sheet
 | `FALLBACK_MODEL` | *(empty)* | enables the fallback grader used when the primary fails after retries |
 | `FALLBACK_BASE_URL` / `FALLBACK_API_KEY` | = primary LLM | fallback endpoint / key |
 | `FALLBACK_EXTRA_BODY` | *(empty)* | JSON merged into fallback requests |
-| `OCR_PROVIDER` | `auto` | `auto` / `gemini` / `tesseract` / `bodhan` |
+| `OCR_PROVIDER` | `auto` | `auto` / `vision` (`gemini` is accepted as an alias) / `tesseract` / `bodhan` |
 | `OCR_BASE_URL` | = `OPENAI_BASE_URL` | OCR/vision endpoint |
 | `OCR_API_KEY` | = `OPENAI_API_KEY` | OCR/vision key — the text-only DeepSeek endpoint cannot OCR, so this must point at a vision model (e.g. Gemini) |
 | `OCR_MODEL` | = `LLM_MODEL` | vision model used for OCR |

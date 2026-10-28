@@ -213,14 +213,25 @@ async function handleFile(key, file) {
     }
     const area = $(`#${key}_text`);
     area.value = entry.text || "";
-    const msg = entry.warning
-      ? `<span class="hl">${esc(entry.warning)}</span>`
+    let note = entry.warning || "";
+    if (entry.ocr) {
+      note = `Read by OCR (${ocrLabel(entry.ocr)}). Check the text for mistakes before marking.`;
+    }
+    const msg = note
+      ? `<span class="hl">${esc(note)}</span>`
       : "Text read from the file. You can edit it below before marking.";
     setFileStatus(key, toSend, msg);
-    announce(`${toSend.name} was read. ${entry.warning || "Its text is in the box below."}`);
+    announce(`${toSend.name} was read. ${note || "Its text is in the box below."}`);
   } catch (e) {
     setFileStatus(key, toSend, esc(e.message || "The file could not be read."), "error");
   }
+}
+
+// The OCR source to show: the vision model's name from /api/health, or the backend name.
+function ocrLabel(backend) {
+  if (backend === "vision") return (state.health && state.health.ocr_model) || "vision model";
+  if (backend === "tesseract") return "Tesseract";
+  return backend;
 }
 
 function setupSheet(key) {
@@ -291,9 +302,17 @@ const timeline = {
     this.timer = setInterval(() => this.tick(), 1000);
     this.draw();
   },
-  tick() {
+  clock() {
     const s = Math.floor((Date.now() - this.t0) / 1000);
-    $("#elapsed").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  },
+  tick() {
+    $("#elapsed").textContent = this.clock();
+  },
+  stopClock(prefix) {
+    clearInterval(this.timer);
+    const ms = Date.now() - this.t0;
+    $("#elapsed").textContent = ms < 1000 ? `${prefix} under a second` : `${prefix} ${this.clock()}`;
   },
   handle(ev) {
     if (ev.type === "start") {
@@ -314,13 +333,13 @@ const timeline = {
   },
   finish() {
     this.finished = true;
-    clearInterval(this.timer);
+    this.stopClock("Marked in");
     $(".progress-title").textContent = "Marking finished";
     this.draw();
   },
   fail() {
     this.failed = true;
-    clearInterval(this.timer);
+    this.stopClock("Stopped after");
     $(".progress-title").textContent = "Marking stopped";
     this.draw();
   },
@@ -501,13 +520,13 @@ function reviewReasons(r) {
   return reasons;
 }
 
-function barRow(label, value, weight) {
+function barRow(label, value, weight, hint) {
   if (value == null) {
-    return `<div class="bar-row is-na"><dt>${esc(label)}</dt><dd class="bar-track" aria-hidden="true"></dd><dd class="bar-val">n/a</dd></div>`;
+    return `<div class="bar-row is-na"><dt title="${esc(hint)}">${esc(label)}</dt><dd class="bar-track" aria-hidden="true"></dd><dd class="bar-val">n/a</dd></div>`;
   }
   const w = Math.max(0, Math.min(100, Math.round(value * 100)));
   const unused = weight === 0 ? " (not counted)" : "";
-  return `<div class="bar-row"><dt>${esc(label)}${unused}</dt>
+  return `<div class="bar-row"><dt title="${esc(hint)}">${esc(label)}${unused}</dt>
     <dd class="bar-track" aria-hidden="true"><div class="bar-fill" style="width:${w}%"></div></dd>
     <dd class="bar-val">${w}%</dd></div>`;
 }
@@ -547,16 +566,24 @@ function dotLine(r) {
 function whyPanel(r, id) {
   const c = r.confidence;
   const w = state.weights;
+  const HINTS = {
+    agreement: "Share of the marker's markings that gave the final mark. Higher is better.",
+    cross: "How close the second examiner's mark was to the marker's. Higher is better.",
+    consistency: "How steady the marks were across the marker's markings (1 minus their spread). Higher = steadier marks.",
+    semantic: "How similar the written feedback was across markings. Higher is better.",
+  };
   const bars = [
-    barRow("Agreement", c.agreement_confidence, w.agreement),
-    barRow("Cross-model", c.cross_model_confidence, w.cross),
-    barRow("Score spread", c.score_variance, w.variance),
+    barRow("Agreement", c.agreement_confidence, w.agreement, HINTS.agreement),
+    barRow("Cross-model", c.cross_model_confidence, w.cross, HINTS.cross),
+    barRow("Score consistency", c.score_variance, w.variance, HINTS.consistency),
   ];
-  if (w.semantic) bars.push(barRow("Feedback consistency", c.semantic_consistency, w.semantic));
+  if (w.semantic) bars.push(barRow("Feedback consistency", c.semantic_consistency, w.semantic, HINTS.semantic));
   const empty = c.n_samples === 0;
+  const legend = `<p class="bars-legend">Higher is better for every bar. <b>Agreement</b>: share of markings that gave the final mark.
+      <b>Cross-model</b>: how close the second examiner came. <b>Score consistency</b>: how steady the marks were across markings (higher = steadier).</p>`;
   return `<div class="why" id="${id}" hidden>
       <div><h4>How sure the markers were</h4>
-        ${empty ? `<p>No marker was called: a blank answer gets 0 without marking.</p>` : `<dl class="bars">${bars.join("")}</dl>`}
+        ${empty ? `<p>No marker was called: a blank answer gets 0 without marking.</p>` : `<dl class="bars">${bars.join("")}</dl>${legend}`}
       </div>
       ${empty ? "" : `<div class="dotline"><h4>Every mark given, on a 0–${fmt(r.grading.max_marks)} line</h4>${dotLine(r)}</div>`}
     </div>`;

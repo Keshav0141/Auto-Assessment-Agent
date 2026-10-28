@@ -9,7 +9,8 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23fbf8f1'/%3E%3Cpath d='M6 17c2.5 1.6 4.4 4 6.2 7.2C16 15.5 21 9.4 27 5' fill='none' stroke='%23c0262d' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Kalam:wght@400;700&family=Noto+Sans+Bengali&family=Noto+Sans+Gujarati&family=Noto+Sans+Gurmukhi&family=Noto+Sans+Kannada&family=Noto+Sans+Malayalam&family=Noto+Sans+Oriya&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Naskh+Arabic&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Kalam:wght@400;700&family=Noto+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&family=Noto+Sans+Bengali&family=Noto+Sans+Gujarati&family=Noto+Sans+Gurmukhi&family=Noto+Sans+Kannada&family=Noto+Sans+Malayalam&family=Noto+Sans+Oriya&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Naskh+Arabic&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/shantell-sans-digits.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <script>
     // Apply a saved theme before first paint (no flash). Storage can be unavailable.
@@ -102,7 +103,7 @@
           </div>
           <div class="file-status" aria-live="polite"></div>
           <label class="text-label" for="answer_sheet_text">Text that will be marked</label>
-          <textarea id="answer_sheet_text" class="handwritten" rows="9" spellcheck="false" placeholder="Question 1&#10;F = ma, so a = 10/2 = 5 m/s^2…"></textarea>
+          <textarea id="answer_sheet_text" class="ruled" rows="9" spellcheck="false" placeholder="Question 1&#10;F = ma, so a = 10/2 = 5 m/s^2…"></textarea>
         </article>
 
         <article class="sheet sheet--note" data-input="rubric" aria-labelledby="rubric-title">
@@ -183,7 +184,7 @@
       <div id="progress" class="progress" hidden>
         <div class="progress-head">
           <h3 class="progress-title">Marking in progress</h3>
-          <span class="elapsed" aria-label="Elapsed time"><span id="elapsed">0:00</span></span>
+          <span class="elapsed"><span class="sr-only">Time: </span><span id="elapsed">0:00</span></span>
         </div>
         <ol id="timeline" class="timeline"></ol>
         <p id="progress-live" class="sr-only" aria-live="polite"></p>
