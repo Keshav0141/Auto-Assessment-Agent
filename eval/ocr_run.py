@@ -14,7 +14,15 @@ win over .env for this run) and pass a name with --provider. `tesseract` forces 
 local Tesseract backend; any other name uses the vision-LLM backend (`vision`) at the
 configured endpoint. Results are written to eval/results/ocr_metrics.json.
 """
+import argparse
+import json
 import os
+import re
+import statistics
+import sys
+import time
+from datetime import datetime, timezone
+from typing import Optional
 
 # Snapshot shell-provided OCR overrides BEFORE app.config calls load_dotenv(override=True),
 # so `export OCR_BASE_URL=...` on the command line wins over .env for this run.
@@ -30,15 +38,7 @@ _SHELL_OCR = {
     )
 }
 
-import argparse
-import json
-import re
-import statistics
-import sys
-import time
-from datetime import datetime, timezone
-
-from app.config import settings
+from app.config import settings  # noqa: E402 - must run after the snapshot above
 
 
 def _apply_shell_overrides():
@@ -95,17 +95,20 @@ def _levenshtein(a, b):
     return prev[-1]
 
 
-def cer(ground_truth, hypothesis):
+def cer(ground_truth: str, hypothesis: str) -> float:
+    """Character error rate: Levenshtein distance / ground-truth length (after normalising)."""
     gt, hy = _normalize(ground_truth), _normalize(hypothesis)
     return _levenshtein(gt, hy) / max(1, len(gt))
 
 
-def wer(ground_truth, hypothesis):
+def wer(ground_truth: str, hypothesis: str) -> float:
+    """Word error rate: word-level Levenshtein distance / ground-truth word count."""
     gt, hy = _normalize(ground_truth).split(), _normalize(hypothesis).split()
     return _levenshtein(gt, hy) / max(1, len(gt))
 
 
-def label_recall(ground_truth, hypothesis):
+def label_recall(ground_truth: str, hypothesis: str) -> Optional[float]:
+    """Share of "Question N" labels in the ground truth that survive OCR (None if there are none)."""
     labels = set(ANCHOR_RE.findall(ground_truth))
     if not labels:
         return None
@@ -255,7 +258,8 @@ def _print_table(by_style, overall):
         )
 
 
-def main():
+def main() -> None:
+    """Run the OCR benchmark from the command line."""
     parser = argparse.ArgumentParser(description="OCR benchmark")
     parser.add_argument("--provider", required=True, help="report label; 'tesseract' forces local OCR")
     parser.add_argument("--limit", type=int, default=None, help="max images to process")

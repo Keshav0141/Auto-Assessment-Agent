@@ -1,6 +1,10 @@
-"""Evaluation harness: run grading + confidence on the labeled set and compute
-grading accuracy and confidence-calibration metrics (the core MTP deliverable)."""
-from typing import Dict, List
+"""Evaluation harness for grading accuracy and confidence calibration.
+
+Grades every labelled item with the full pipeline and computes MAE, Pearson r,
+agreement rate, calibration AUROC (overall and per confidence component), flagging
+error rates and a calibration curve.
+"""
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -15,13 +19,19 @@ def _correlation(x, y):
     return float(np.corrcoef(x, y)[0, 1])
 
 
-def auroc(confidences, correct_flags):
-    """Calibration AUROC: probability that a correct grading has HIGHER confidence
-    than an erroneous one. Higher = better (low-confidence gradings are the ones
-    that actually went wrong). Tie ranks are averaged.
+def auroc(confidences: Sequence[float], correct_flags: Sequence[int]) -> float:
+    """Compute the calibration AUROC.
 
-    confidences: predicted confidence (higher -> more confident).
-    correct_flags: 1 where |pred - ground_truth| < margin (grading was correct).
+    The probability that a correct grading has higher confidence than an erroneous
+    one, so higher is better (low-confidence gradings are the ones that actually went
+    wrong). Tie ranks are averaged.
+
+    Args:
+        confidences: Predicted confidence (higher means more confident).
+        correct_flags: 1 where |pred - ground_truth| < margin (grading was correct).
+
+    Returns:
+        The AUROC, or NaN when every item is correct or every item is wrong.
     """
     confidences = np.asarray(confidences, dtype=float)
     correct = (np.asarray(correct_flags, dtype=int) == 1)
@@ -49,7 +59,21 @@ def auroc(confidences, correct_flags):
     return float(auc)
 
 
-def compute_metrics(predictions, ground_truths, confidences, errors, margin):
+def compute_metrics(predictions: Sequence[float], ground_truths: Sequence[float], confidences: Sequence[float],
+                    errors: Sequence[float], margin: float) -> Dict[str, Any]:
+    """Compute grading-accuracy and calibration metrics.
+
+    Args:
+        predictions: Predicted marks.
+        ground_truths: Ground-truth marks.
+        confidences: Combined confidence per item.
+        errors: |prediction - ground truth| per item.
+        margin: An error of at least this many marks counts as wrong.
+
+    Returns:
+        n_items, mae, pearson_r, agreement_rate, auroc, error counts and mean
+        confidences.
+    """
     predictions = np.asarray(predictions, dtype=float)
     ground_truths = np.asarray(ground_truths, dtype=float)
     errors = np.asarray(errors, dtype=float)
@@ -82,9 +106,14 @@ def _safe_auroc(values, errors, margin):
     return auroc(vs, correct)
 
 
-def low_conf_threshold_analysis(confidences, errors, margin, frac=0.2):
-    """Threshold that flags the lowest-confidence `frac` of items, and the error
-    rate among flagged vs unflagged items at that threshold."""
+def low_conf_threshold_analysis(confidences: Sequence[float], errors: Sequence[float], margin: float,
+                                frac: float = 0.2) -> Dict[str, Any]:
+    """Flag the lowest-confidence `frac` of items and compare error rates.
+
+    Returns:
+        The threshold that flags that fraction, the flagged/unflagged counts, and the
+        error rate in each group.
+    """
     conf = np.asarray(confidences, dtype=float)
     err = np.asarray(errors, dtype=float)
     thr = float(np.quantile(conf, frac))
@@ -100,7 +129,8 @@ def low_conf_threshold_analysis(confidences, errors, margin, frac=0.2):
     }
 
 
-def threshold_error_rates(confidences, errors, margin, threshold):
+def threshold_error_rates(confidences: Sequence[float], errors: Sequence[float], margin: float,
+                          threshold: float) -> Dict[str, Any]:
     """Error rate among items flagged (confidence < threshold) vs unflagged."""
     conf = np.asarray(confidences, dtype=float)
     err = np.asarray(errors, dtype=float)
@@ -115,7 +145,19 @@ def threshold_error_rates(confidences, errors, margin, threshold):
     }
 
 
-def calibration_curve(confidences, errors, margin, bins=None):
+def calibration_curve(confidences: Sequence[float], errors: Sequence[float], margin: float,
+                      bins: Optional[np.ndarray] = None) -> Dict[str, List[float]]:
+    """Bin items by confidence and report the observed error rate per bin.
+
+    Args:
+        confidences: Combined confidence per item.
+        errors: |prediction - ground truth| per item.
+        margin: An error of at least this many marks counts as wrong.
+        bins: Bin edges (default: 0.0 to 1.0 in steps of 0.1).
+
+    Returns:
+        bin_centers, error_rates and counts for the non-empty bins, and the edges.
+    """
     confidences = np.asarray(confidences, dtype=float)
     errors = np.asarray(errors, dtype=float)
     if bins is None:
@@ -135,7 +177,19 @@ def calibration_curve(confidences, errors, margin, bins=None):
     return {"bin_centers": centers, "error_rates": error_rates, "counts": counts, "bins": bins.tolist()}
 
 
-def run_eval(engine, items: List[Dict], n_samples: int = None, threshold: float = None):
+def run_eval(engine: Any, items: List[Dict], n_samples: Optional[int] = None,
+             threshold: Optional[float] = None) -> Tuple[Dict[str, Any], Dict[str, List[float]], List[Dict]]:
+    """Grade every item and compute all metrics.
+
+    Args:
+        engine: A GradingEngine.
+        items: Labelled items from eval.dataset.
+        n_samples: Gradings per item (default: CONFIDENCE_SAMPLES).
+        threshold: Flagging threshold (default: CONFIDENCE_THRESHOLD).
+
+    Returns:
+        (metrics, calibration_curve, per_item_details).
+    """
     n_samples = n_samples or settings.n_samples
     threshold = threshold if threshold is not None else settings.confidence_threshold
     predictions, ground_truths, confidences, errors, details = [], [], [], [], []

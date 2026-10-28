@@ -205,7 +205,8 @@ def _table(rows):
     return "\n".join(lines)
 
 
-def main():
+def main() -> None:
+    """Run every adversarial case, print a pass/fail table and write adversarial.json."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--samples", type=int, default=None, help="grading samples per case")
     parser.add_argument("--workers", type=int, default=int(os.getenv("GRADE_WORKERS", "4")))

@@ -86,7 +86,8 @@ def _plot(curve, auroc, path):
         print(f"[warn] could not render plot: {exc}")
 
 
-def main():
+def main() -> None:
+    """Run the grading eval from the command line and write metrics + calibration curve."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--samples", type=int, default=None, help="grading samples per item")
     parser.add_argument("--repeats", type=int, default=1, help="number of eval repetitions")
@@ -100,7 +101,8 @@ def main():
         f"(mock={settings.using_mock}, model={settings.llm_model})..."
     )
 
-    engine = GradingEngine()
+    # Always compute semantic consistency so the ablation can report it.
+    engine = GradingEngine(include_semantic=True)
     runs, pooled_conf, pooled_err = [], [], []
     for r in range(repeats):
         metrics, curve, details = run_eval(engine, ITEMS, n_samples=args.samples)

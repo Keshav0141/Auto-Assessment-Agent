@@ -1,32 +1,43 @@
 """OpenAI-compatible chat client with retry/backoff and robust JSON extraction.
 
-Handles rate-limiting (HTTP 429) with exponential backoff — critical for free-tier
-APIs like Google Gemini Flash which enforce tight RPM limits.
+Rate limits (HTTP 429) get exponential backoff, which free-tier APIs with tight
+per-minute limits need. Auth errors and exhausted output budgets are raised at once,
+since retrying cannot fix them.
 """
 import json
 import re
 import time
+from typing import Any, Callable, List, Optional
 
-from app.config import settings
+from app.config import Provider, settings
 
 
 class LLMError(RuntimeError):
-    pass
+    """An LLM call failed or returned unusable output."""
 
 
 class RateLimitError(LLMError):
     """Raised when the API returns a 429 (rate-limit/quota) error."""
-    pass
 
 
 class OutputBudgetError(LLMError):
-    """The reply was cut off at max_tokens before any content was written (a reasoning
-    model spent the whole budget thinking). Retrying the same request cannot help."""
-    pass
+    """The reply hit max_tokens before any content was written.
+
+    A reasoning model spent the whole budget thinking. Retrying the same request
+    cannot help.
+    """
 
 
-def check_output_budget(choice, model):
-    """Raise OutputBudgetError when a choice is empty and finish_reason is "length"."""
+def check_output_budget(choice: Any, model: str) -> None:
+    """Raise OutputBudgetError when a choice is empty and finish_reason is "length".
+
+    Args:
+        choice: One `choices[i]` entry of a chat completion.
+        model: Model name, for the error message.
+
+    Raises:
+        OutputBudgetError: If the reply is empty because the budget ran out.
+    """
     content = (choice.message.content or "") if getattr(choice, "message", None) else ""
     if not content.strip() and getattr(choice, "finish_reason", None) == "length":
         raise OutputBudgetError(
@@ -35,8 +46,21 @@ def check_output_budget(choice, model):
         )
 
 
-def extract_json(content: str):
-    """Best-effort extraction of a JSON object from an LLM response."""
+def extract_json(content: str) -> Any:
+    """Extract a JSON object from an LLM reply.
+
+    Strips code fences, takes the outermost `{...}` and repairs a common missing-comma
+    error between list objects.
+
+    Args:
+        content: The raw reply text.
+
+    Returns:
+        The parsed JSON value.
+
+    Raises:
+        LLMError: If there is no JSON object or it does not parse.
+    """
     content = (content or "").strip()
     if content.startswith("```"):
         content = re.sub(r"^```[a-zA-Z]*\s*", "", content)
@@ -46,20 +70,20 @@ def extract_json(content: str):
     if start == -1 or end == -1 or end <= start:
         snippet = content[:200] + ("..." if len(content) > 200 else "")
         raise LLMError(f"Model returned no JSON object. Raw output: '{snippet}'")
-    
+
     json_str = content[start:end + 1]
-    
+
     # Common DeepSeek error: missing comma between objects in a list: `} {` or `}, \n {` (without comma)
     json_str = re.sub(r'\}\s*\{', '}, {', json_str)
     json_str = re.sub(r'\}\s*\n\s*\{', '},\n{', json_str)
-    
+
     try:
         return json.loads(json_str)
     except json.JSONDecodeError as exc:
         raise LLMError(f"Malformed JSON from model: {exc}") from exc
 
 
-def _is_rate_limit(exc):
+def _is_rate_limit(exc: Exception) -> bool:
     """Check if an exception is a rate-limit (429) error."""
     exc_str = str(exc).lower()
     if "429" in exc_str or "rate" in exc_str or "quota" in exc_str or "resource_exhausted" in exc_str:
@@ -71,7 +95,7 @@ def _is_rate_limit(exc):
     return False
 
 
-def _is_auth_error(exc):
+def _is_auth_error(exc: Exception) -> bool:
     """Check if an exception is an authentication/permission (401/403) error."""
     if type(exc).__name__ in ("AuthenticationError", "PermissionDeniedError"):
         return True
@@ -88,18 +112,22 @@ def _is_auth_error(exc):
 class LLMClient:
     """Minimal OpenAI-compatible client with retry/backoff and forced-JSON parsing.
 
-    Bound to one `Provider` (endpoint + key + model + provider-specific extra body);
-    defaults to the primary grading LLM. For rate-limited APIs (especially Gemini
-    free tier at 15 RPM), uses aggressive exponential backoff: 5s -> 15s -> 45s on 429s.
+    Rate limits get exponential backoff (5s, 15s, 45s, ... capped at 120s); malformed
+    or empty JSON gets a short backoff and a retry.
+
+    Args:
+        provider: Endpoint, key, model and provider-specific extra body to use.
+            Defaults to the primary grading LLM, re-read on every call.
     """
 
-    def __init__(self, provider=None):
+    def __init__(self, provider: Optional[Provider] = None):
         self._provider = provider
         self._client = None
         self._client_key = None
 
     @property
-    def provider(self):
+    def provider(self) -> Provider:
+        """The bound provider (the primary when none was given)."""
         return self._provider or settings.primary_provider()
 
     def _get_client(self):
@@ -121,9 +149,14 @@ class LLMClient:
     def _auth_error(self, exc):
         return LLMError(f"invalid API key for {self.provider.base_url}")
 
-    def warmup(self):
-        """Fire a tiny request to keep the provider instance warm (free tiers have
-        slow cold starts). Best-effort; only raises on an invalid key."""
+    def warmup(self) -> None:
+        """Send a tiny request to wake the provider.
+
+        Free tiers have slow cold starts. Best-effort: only an invalid key raises.
+
+        Raises:
+            LLMError: If the API key is rejected.
+        """
         if settings.using_mock:
             return
         try:
@@ -136,7 +169,7 @@ class LLMClient:
             if _is_auth_error(exc):
                 raise self._auth_error(exc) from exc
 
-    def _with_retries(self, call, max_attempts=None):
+    def _with_retries(self, call: Callable[[], Any], max_attempts: Optional[int] = None) -> Any:
         max_attempts = max_attempts or settings.max_retries + 3  # extra retries for rate limits
         last_error = None
         for attempt in range(max_attempts):
@@ -163,7 +196,24 @@ class LLMClient:
             f"{self.provider.model} call failed after {max_attempts} attempts: {last_error}"
         )
 
-    def chat_json(self, system, user, temperature=None, max_tokens=1500, max_attempts=None):
+    def chat_json(self, system: str, user: str, temperature: Optional[float] = None, max_tokens: int = 1500,
+                  max_attempts: Optional[int] = None) -> Any:
+        """Send one chat request in JSON mode and parse the reply.
+
+        Args:
+            system: System message.
+            user: User message.
+            temperature: Sampling temperature (default: GRADING_TEMPERATURE).
+            max_tokens: Output token budget.
+            max_attempts: Attempts before giving up (default: LLM_MAX_RETRIES + 3).
+
+        Returns:
+            The parsed JSON reply.
+
+        Raises:
+            LLMError: On an auth error, an exhausted output budget, or when every
+                attempt fails.
+        """
         temperature = settings.grading_temperature if temperature is None else temperature
 
         def call():
@@ -186,9 +236,23 @@ class LLMClient:
 
         return self._with_retries(call, max_attempts)
 
-    def chat_json_n(self, system, user, n, temperature=None, max_tokens=1500):
-        """One request asking for `n` choices; returns a list of parsed JSON dicts
-        (unparseable choices are skipped). Raises LLMError if none parse."""
+    def chat_json_n(self, system: str, user: str, n: int, temperature: Optional[float] = None,
+                    max_tokens: int = 1500) -> List[Any]:
+        """Send one request for `n` choices and parse each.
+
+        Args:
+            system: System message.
+            user: User message.
+            n: Number of choices to request.
+            temperature: Sampling temperature (default: GRADING_TEMPERATURE).
+            max_tokens: Output token budget per choice.
+
+        Returns:
+            The parsed JSON dicts; unparseable choices are skipped.
+
+        Raises:
+            LLMError: If no choice parses after retries.
+        """
         temperature = settings.grading_temperature if temperature is None else temperature
 
         def call():

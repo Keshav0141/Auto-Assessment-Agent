@@ -30,3 +30,7 @@ backups/
 
 # Docs / screenshots (not needed at runtime)
 docs/
+
+# Tests and CI (not needed at runtime)
+tests/
+.github/

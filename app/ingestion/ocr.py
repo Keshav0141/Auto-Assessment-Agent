@@ -14,6 +14,7 @@ import base64
 import io
 import re
 import time
+from typing import Any, List, Sequence, Tuple
 
 from app.config import settings
 from app.llm import OutputBudgetError, _is_auth_error, check_output_budget
@@ -33,7 +34,7 @@ _MAX_PAGES = 10  # max PDF pages rendered for OCR (cost + latency guard)
 
 
 class OCRError(RuntimeError):
-    pass
+    """OCR failed (backend unavailable, request error, too many pages)."""
 
 
 class NoTextError(OCRError):
@@ -51,12 +52,19 @@ def _provider():
 
 
 def provider_name() -> str:
-    """The OCR backend that will be used (vision / tesseract / bodhan)."""
+    """Return the OCR backend that will be used (vision, tesseract or bodhan)."""
     return _provider()
 
 
-def backend_label(backend) -> str:
-    """Human-readable OCR source: the vision model's name, or the backend name."""
+def backend_label(backend: str) -> str:
+    """Return a human-readable OCR source.
+
+    Args:
+        backend: Backend name, as returned by `ocr_pages`.
+
+    Returns:
+        The vision model's name for the vision backend, else the backend's name.
+    """
     if backend == "vision":
         return settings.ocr_model
     return {"tesseract": "Tesseract", "bodhan": "Bodhan"}.get(backend, str(backend))
@@ -137,8 +145,19 @@ def _bodhan_page(img_or_bytes):
 _BACKENDS = {"vision": _vision_page, "tesseract": _tesseract_page, "bodhan": _bodhan_page}
 
 
-def ocr_pages(pages):
-    """OCR a list of PIL images or raw image bytes. Returns (text, backend_used)."""
+def ocr_pages(pages: Sequence[Any]) -> Tuple[str, str]:
+    """OCR pages with the configured backend.
+
+    Args:
+        pages: PIL images or raw image bytes, one per page.
+
+    Returns:
+        (text, backend_used), with the pages joined by newlines.
+
+    Raises:
+        OCRError: If the backend is unknown or fails.
+        NoTextError: If no page contains any text.
+    """
     provider = _provider()
     fn = _BACKENDS.get(provider)
     if fn is None:
@@ -155,7 +174,19 @@ def ocr_pages(pages):
     return text, provider
 
 
-def render_pdf_pages(data: bytes, scale=2.0):
+def render_pdf_pages(data: bytes, scale: float = 2.0) -> List[Any]:
+    """Render each PDF page to a PIL image for OCR.
+
+    Args:
+        data: The PDF file contents.
+        scale: Render scale (2.0 is about 144 dpi).
+
+    Returns:
+        One PIL image per page.
+
+    Raises:
+        OCRError: If the PDF has more than 10 pages.
+    """
     import pypdfium2 as pdfium
 
     pdf = pdfium.PdfDocument(data)

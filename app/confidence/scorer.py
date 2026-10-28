@@ -9,8 +9,12 @@ uncertainty quantification family of methods from Lin et al. 2023
   * Semantic consistency: greedy clustering of the N feedback texts by embedding
                           cosine similarity -> NumSet / Deg-style measures.
   * EigV (optional)     : eigenvalue spread on the similarity-graph Laplacian.
+
+The two embedding-based measures are only computed when they can affect the result
+(semantic weight > 0, or EigV requested), so with the default weights no embedding
+model is loaded at all.
 """
-from typing import List
+from typing import List, Optional
 
 import numpy as np
 
@@ -20,6 +24,7 @@ from app.models import ConfidenceScore, GradingResult
 
 
 def _score_variance_confidence(totals: List[float], max_marks: float) -> float:
+    """Return 1 - std(totals) / max_marks, clipped to [0, 1]."""
     if max_marks <= 0:
         return 1.0
     arr = np.asarray(totals, dtype=float)
@@ -28,7 +33,14 @@ def _score_variance_confidence(totals: List[float], max_marks: float) -> float:
 
 
 def representative_total(totals: List[float]) -> float:
-    """Median of the sample totals, snapped to the nearest sampled value."""
+    """Pick the representative mark for a set of sampled totals.
+
+    Args:
+        totals: Sampled `total_awarded` values.
+
+    Returns:
+        The median, snapped to the nearest sampled value (0.0 when empty).
+    """
     arr = np.asarray(totals, dtype=float)
     if arr.size == 0:
         return 0.0
@@ -46,8 +58,11 @@ def _agreement_confidence(totals: List[float], representative: float, tol: float
 
 
 def _max_linkage_clusters(vectors, threshold):
-    """Cluster vectors by max-linkage: join the cluster containing the most similar
-    member (cosine >= threshold). Robust to rephrased-but-identical feedback."""
+    """Cluster vectors by max-linkage.
+
+    Each vector joins the cluster containing its most similar member (cosine >=
+    threshold). Robust to rephrased-but-identical feedback.
+    """
     clusters = []
     for v in vectors:
         best_i, best_sim = -1, -1.0
@@ -63,6 +78,7 @@ def _max_linkage_clusters(vectors, threshold):
 
 
 def _semantic_consistency(feedbacks: List[str]) -> float:
+    """Average of NumSet- and Deg-style scores over clustered feedback embeddings."""
     n = len(feedbacks)
     if n <= 1:
         return 1.0
@@ -101,11 +117,34 @@ def _eigv_confidence(feedbacks: List[str]) -> float:
 
 def compute_confidence(
     results: List[GradingResult],
-    threshold: float | None = None,
+    threshold: Optional[float] = None,
     include_eigv: bool = False,
-    conf_cross: float | None = None,
-    representative: float | None = None,
+    conf_cross: Optional[float] = None,
+    representative: Optional[float] = None,
+    include_semantic: Optional[bool] = None,
 ) -> ConfidenceScore:
+    """Combine the confidence components for one question.
+
+    Missing components (e.g. no cross-model judge) and zero-weight ones are skipped
+    and the remaining weights renormalised.
+
+    Args:
+        results: The sampled gradings (at least one).
+        threshold: Flagging threshold (default: CONFIDENCE_THRESHOLD).
+        include_eigv: Also compute the EigV component (fixed weight 0.2).
+        conf_cross: Cross-model agreement in [0, 1], or None without a second grader.
+        representative: The representative total (default: `representative_total`).
+        include_semantic: Compute semantic consistency. None computes it only when
+            W_SEMANTIC > 0; when it is not computed, `semantic_consistency` is None
+            and no embeddings are made.
+
+    Returns:
+        A ConfidenceScore with `flagged` set when the combined score is below the
+        threshold.
+
+    Raises:
+        ValueError: If `results` is empty.
+    """
     if not results:
         raise ValueError("compute_confidence requires at least one grading result")
     threshold = settings.confidence_threshold if threshold is None else threshold
@@ -117,7 +156,9 @@ def compute_confidence(
 
     conf_agree = _agreement_confidence(totals, representative)
     conf_var = _score_variance_confidence(totals, max_marks)
-    conf_sem = _semantic_consistency(feedbacks)
+    if include_semantic is None:
+        include_semantic = settings.w_semantic > 0
+    conf_sem = _semantic_consistency(feedbacks) if include_semantic else None
     conf_eig = _eigv_confidence(feedbacks) if include_eigv else None
 
     # Weighted average of the available components; missing components (e.g. no

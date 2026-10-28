@@ -127,7 +127,8 @@ def _write_real_readme():
         )
 
 
-def main():
+def main() -> None:
+    """Build the OCR benchmark images and manifest in eval/ocr_data/."""
     os.makedirs(OCR_DATA_DIR, exist_ok=True)
     os.makedirs(REAL_DIR, exist_ok=True)
     _write_real_readme()

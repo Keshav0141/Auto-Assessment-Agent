@@ -1,10 +1,12 @@
 """Semantic embeddings with a dependency-free fallback.
 
-Prefers sentence-transformers (all-MiniLM-L6-v2) when installed; otherwise falls
-back to hashed character n-gram vectors so the confidence pipeline always runs.
+Prefers sentence-transformers (EMBEDDING_MODEL, default all-MiniLM-L6-v2) when
+installed; otherwise falls back to hashed character n-gram vectors so the
+confidence pipeline always runs. The model is loaded lazily on first use.
 """
 import hashlib
 import re
+from typing import Iterable
 
 import numpy as np
 
@@ -16,9 +18,9 @@ def _load_sentence_transformer():
     global _sent_model
     if _sent_model is None:
         try:
-            from app.config import settings
-
             from sentence_transformers import SentenceTransformer
+
+            from app.config import settings
 
             _sent_model = SentenceTransformer(settings.embedding_model)
         except Exception:
@@ -49,12 +51,21 @@ def _fallback_vec(text):
     return _norm(vec)
 
 
-def embed_texts(texts):
+def embed_texts(texts: Iterable[str]) -> np.ndarray:
+    """Embed texts as unit-length vectors.
+
+    Args:
+        texts: The texts to embed.
+
+    Returns:
+        A (len(texts), dim) array of L2-normalised embeddings.
+    """
     model = _load_sentence_transformer()
     if model:
         return model.encode(list(texts), normalize_embeddings=True, show_progress_bar=False)
     return np.array([_fallback_vec(t) for t in texts], dtype=np.float32)
 
 
-def cosine_similarity(a, b):
+def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
+    """Return the cosine similarity of two vectors."""
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-9))

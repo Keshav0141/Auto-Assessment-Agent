@@ -1,4 +1,9 @@
-"""Application configuration, loaded from environment variables (.env supported)."""
+"""Application configuration, loaded from environment variables.
+
+A `.env` file in the working directory is loaded first and overrides the process
+environment. Every setting has a default, so the app starts with no configuration
+at all (and then grades in mock mode).
+"""
 import json
 import os
 from dataclasses import dataclass
@@ -9,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 
-def _env_int(name, default):
+def _env_int(name: str, default: int) -> int:
     raw = os.getenv(name)
     if not raw:
         return default
@@ -19,7 +24,7 @@ def _env_int(name, default):
         return default
 
 
-def _env_float(name, default):
+def _env_float(name: str, default: float) -> float:
     raw = os.getenv(name)
     if not raw:
         return default
@@ -29,7 +34,7 @@ def _env_float(name, default):
         return default
 
 
-def _env_json(name, default):
+def _env_json(name: str, default: Optional[dict]) -> Optional[dict]:
     raw = os.getenv(name)
     if not raw:
         return default
@@ -42,8 +47,16 @@ def _env_json(name, default):
 
 @dataclass(frozen=True)
 class Provider:
-    """One OpenAI-compatible endpoint + model. `extra_body` is merged into every
-    request and is provider-specific (never copied across providers)."""
+    """One OpenAI-compatible endpoint and model.
+
+    Attributes:
+        role: primary, referee, fallback or judge2.
+        base_url: Endpoint URL.
+        api_key: API key for the endpoint.
+        model: Model name.
+        extra_body: Provider-specific JSON merged into every request; never copied
+            across providers.
+    """
     role: str
     base_url: str
     api_key: str
@@ -52,6 +65,11 @@ class Provider:
 
 
 class Settings:
+    """All runtime settings, read once from the environment at import time.
+
+    The module-level `settings` instance is shared by the whole app; tests and the
+    eval scripts change its attributes directly.
+    """
     def __init__(self):
         # True on Vercel/serverless: background threads and idle warm-ups are useless
         # (each invocation is isolated), so they are disabled.
@@ -112,19 +130,41 @@ class Settings:
 
     @property
     def using_mock(self) -> bool:
+        """True when grading uses the offline mock grader (no API key, or LLM_PROVIDER=mock)."""
         return self.llm_provider == "mock" or not self.openai_api_key
 
-    def primary_extra_body(self):
-        """Primary-only request flags (Goedel/DeepSeek chat_template_kwargs)."""
+    @property
+    def uses_embeddings(self) -> bool:
+        """True when the app needs feedback embeddings.
+
+        Only the semantic-consistency component uses them in the app (EigV is only
+        computed when a caller asks for it), so with W_SEMANTIC=0 the embedding model
+        is never loaded.
+        """
+        return self.w_semantic > 0
+
+    def primary_extra_body(self) -> Optional[dict]:
+        """Return the primary-only request flags.
+
+        Returns:
+            DeepSeek-style `chat_template_kwargs` that turn thinking off when
+            LLM_DISABLE_THINKING is set, else None.
+        """
         if self.llm_disable_thinking:
             return {"chat_template_kwargs": {"thinking": False}}
         return None
 
     def primary_provider(self) -> Provider:
+        """Return the primary grading provider."""
         return Provider("primary", self.openai_base_url, self.openai_api_key, self.llm_model,
                         self.primary_extra_body())
 
     def referee_provider(self) -> Provider:
+        """Return the referee provider.
+
+        Each REFEREE_* field defaults to the primary's. The primary's request flags are
+        reused only when the referee is the same endpoint and model.
+        """
         base_url = self.referee_base_url or self.openai_base_url
         model = self.referee_model or self.llm_model
         extra = self.referee_extra_body
@@ -134,6 +174,7 @@ class Settings:
         return Provider("referee", base_url, self.referee_api_key or self.openai_api_key, model, extra)
 
     def fallback_provider(self) -> Optional[Provider]:
+        """Return the fallback grader, or None when FALLBACK_MODEL is unset."""
         if not self.fallback_model:
             return None
         return Provider("fallback", self.fallback_base_url or self.openai_base_url,
@@ -141,12 +182,14 @@ class Settings:
                         self.fallback_extra_body)
 
     def judge2_provider(self) -> Optional[Provider]:
+        """Return the second grader, or None when JUDGE2_API_KEY is unset."""
         if not self.judge2_api_key:
             return None
         return Provider("judge2", self.judge2_base_url, self.judge2_api_key, self.judge2_model, None)
 
 
 def _hf_model_cached(model_name: str) -> bool:
+    """True if the HuggingFace cache already holds `model_name`."""
     hub = os.environ.get("HF_HOME") or os.path.join(os.path.expanduser("~"), ".cache", "huggingface")
     hub = os.path.join(hub, "hub")
     names = [model_name]

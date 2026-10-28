@@ -8,6 +8,7 @@ side-by-side ``<name>.txt`` transcription and is picked up automatically.
 """
 import json
 import os
+from typing import Any, Dict, List, Tuple
 
 from eval.dataset import ITEMS
 
@@ -37,23 +38,24 @@ def _read(path):
         return f.read()
 
 
-def item_answers():
-    """(item_id, ground_truth_text) for every labelled item."""
+def item_answers() -> List[Tuple[str, str]]:
+    """Return (item_id, ground_truth_text) for every labelled item."""
     return [(it["id"], it["answer"]) for it in ITEMS]
 
 
-def sheet_answers():
-    """(doc_id, ground_truth_text) for the bundled multi-question sheets."""
+def sheet_answers() -> List[Tuple[str, str]]:
+    """Return (doc_id, ground_truth_text) for the bundled multi-question sheets."""
     return [(doc_id, _read(os.path.join("sample_data", fname))) for doc_id, fname in SHEETS]
 
 
-def load_manifest():
+def load_manifest() -> Dict[str, Any]:
+    """Load eval/ocr_data/manifest.json."""
     with open(MANIFEST_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
-def real_entries():
-    """Real photos in eval/ocr_data/real/ that have a matching .txt transcription."""
+def real_entries() -> List[Dict[str, Any]]:
+    """Return the real photos in eval/ocr_data/real/ that have a matching .txt transcription."""
     entries = []
     if not os.path.isdir(REAL_DIR):
         return entries
@@ -78,10 +80,15 @@ def real_entries():
     return entries
 
 
-def all_entries(include_real=True):
-    """All benchmark entries (generated manifest + optional real photos).
+def all_entries(include_real: bool = True) -> List[Dict[str, Any]]:
+    """Return all benchmark entries (generated manifest plus optional real photos).
 
-    Each entry: id, doc_id, item_id, style, kind, image (resolved path), ground_truth.
+    Args:
+        include_real: Include photos from eval/ocr_data/real/.
+
+    Returns:
+        Dicts with id, doc_id, item_id, style, kind, image (resolved path) and
+        ground_truth.
     """
     entries = []
     for e in load_manifest()["entries"]:

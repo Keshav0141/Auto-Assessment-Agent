@@ -1,15 +1,19 @@
-"""Pydantic schemas for the whole pipeline."""
+"""Pydantic schemas shared by the parser, grading engine, scorer and API."""
 from typing import List, Optional
 
 from pydantic import BaseModel
 
 
 class RubricCriterion(BaseModel):
+    """One rubric line: what earns marks and how many."""
+
     criterion: str
     marks: float
 
 
 class QuestionSpec(BaseModel):
+    """A question with its marks, rubric criteria and model answer."""
+
     question_id: str
     question_text: str
     max_marks: float
@@ -21,11 +25,15 @@ class QuestionSpec(BaseModel):
 
 
 class StudentAnswer(BaseModel):
+    """The student's answer text for one question."""
+
     question_id: str
     student_answer_text: str
 
 
 class CriterionScore(BaseModel):
+    """Marks awarded for one rubric criterion, with the reason."""
+
     criterion: str
     awarded: float
     max: float
@@ -33,6 +41,8 @@ class CriterionScore(BaseModel):
 
 
 class GradingResult(BaseModel):
+    """One grading of one answer: per-criterion marks, total and feedback."""
+
     question_id: str
     criterion_scores: List[CriterionScore]
     total_awarded: float
@@ -42,9 +52,12 @@ class GradingResult(BaseModel):
 
 
 class ConfidenceScore(BaseModel):
+    """Confidence components, the combined score and review status for one question."""
+
     n_samples: int
     score_variance: float
-    semantic_consistency: float
+    # None when not computed (W_SEMANTIC is 0, so no embeddings are made).
+    semantic_consistency: Optional[float] = None
     agreement_confidence: Optional[float] = None
     cross_model_confidence: Optional[float] = None
     judge2_total: Optional[float] = None
@@ -67,6 +80,8 @@ class ConfidenceScore(BaseModel):
 
 
 class QuestionResult(BaseModel):
+    """The final grading, confidence and sampled totals for one question."""
+
     grading: GradingResult
     confidence: ConfidenceScore
     sampled_totals: List[float]
@@ -75,6 +90,8 @@ class QuestionResult(BaseModel):
 
 
 class PipelineResult(BaseModel):
+    """The response of /api/grade: every question plus totals and warnings."""
+
     results: List[QuestionResult]
     total_awarded: float
     total_max: float

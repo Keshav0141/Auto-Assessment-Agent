@@ -46,6 +46,7 @@ print("WARNINGS:", data["warnings"])
 for res in data["results"]:
     g = res["grading"]
     c = res["confidence"]
+    sem = "-" if c["semantic_consistency"] is None else f"{c['semantic_consistency']:.3f}"
     print(f"  Q{g['question_id']}: {g['total_awarded']}/{g['max_marks']} conf={c['combined_confidence']:.3f} "
-          f"(var={c['score_variance']:.3f} sem={c['semantic_consistency']:.3f}) flagged={c['flagged']} "
+          f"(var={c['score_variance']:.3f} sem={sem}) flagged={c['flagged']} "
           f"samples={res['sampled_totals']}")

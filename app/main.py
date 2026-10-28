@@ -1,10 +1,13 @@
-"""Confidence-Aware Auto-Assessment - FastAPI application."""
+"""Confidence-Aware Auto-Assessment: the FastAPI application.
+
+Serves the JSON API under /api and the static frontend at /.
+"""
 import concurrent.futures
 import json
 import os
 import queue
 import threading
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.encoders import jsonable_encoder
@@ -33,7 +36,7 @@ engine = GradingEngine()
 _MAX_UPLOAD_BYTES = 4 * 1024 * 1024  # 4 MB per uploaded file (Vercel caps request bodies at ~4.5 MB)
 
 
-def _warm_embeddings():
+def _warm_embeddings() -> None:
     """Load the embedding model up front so the first request doesn't pay for it."""
     try:
         from app.embeddings import embed_texts
@@ -43,13 +46,17 @@ def _warm_embeddings():
 
 
 @app.on_event("startup")
-def _startup_warmup():
-    """Warm the embedding model and LLM provider in the background so the first
-    user grading isn't hit with the cold start. No-op on serverless (Vercel), where
-    background threads don't survive past the current invocation."""
+def _startup_warmup() -> None:
+    """Warm the embedding model and LLM provider in the background.
+
+    This keeps the first grading from paying for the cold start. The embedding model
+    is only loaded when the semantic weight is non-zero. No-op on serverless
+    (Vercel), where background threads don't survive past the current invocation.
+    """
     if settings.serverless:
         return
-    threading.Thread(target=_warm_embeddings, daemon=True).start()
+    if settings.uses_embeddings:
+        threading.Thread(target=_warm_embeddings, daemon=True).start()
     if settings.using_mock:
         return
     threading.Thread(target=engine.llm.warmup, daemon=True).start()
@@ -62,8 +69,9 @@ def _second_examiner_active() -> bool:
     return bool(settings.judge2_api_key) and not settings.using_mock
 
 
-@app.get("/api/health")
-def health():
+@app.get("/api/health", response_model=None)
+def health() -> Dict[str, Any]:
+    """Report status, mock mode, models and confidence settings (never keys)."""
     fallback = settings.fallback_provider()
     return {
         "status": "ok",
@@ -99,14 +107,25 @@ SAMPLES = {
 }
 
 
-@app.get("/api/samples")
-def samples():
+@app.get("/api/samples", response_model=None)
+def samples() -> List[Dict[str, str]]:
+    """List the bundled sample sets."""
     return [{"name": k, "label": v[0]} for k, v in SAMPLES.items()]
 
 
-@app.get("/api/sample")
-def sample(name: str = "good"):
-    """Return one bundled sample set (used by the sample picker)."""
+@app.get("/api/sample", response_model=None)
+def sample(name: str = "good") -> Dict[str, str]:
+    """Return one bundled sample set (used by the sample picker).
+
+    Args:
+        name: Sample set name, one of SAMPLES.
+
+    Returns:
+        The set's name, label and the text of each input.
+
+    Raises:
+        HTTPException: 404 for an unknown name.
+    """
     if name not in SAMPLES:
         raise HTTPException(404, f"Unknown sample '{name}'. Choose one of: {', '.join(SAMPLES)}.")
     files = {
@@ -137,18 +156,22 @@ def _upload_bytes(upload: UploadFile) -> bytes:
     return data
 
 
-@app.post("/api/extract")
+@app.post("/api/extract", response_model=None)
 def extract(
     question_paper: Optional[UploadFile] = File(None),
     answer_sheet: Optional[UploadFile] = File(None),
     rubric: Optional[UploadFile] = File(None),
     model_answers: Optional[UploadFile] = File(None),
-):
-    """Read uploaded files (text, PDF or OCR for images / scans) and return the text
-    per input, so it can be checked and corrected before grading. Nothing is graded.
+) -> Dict[str, Dict[str, Dict[str, Any]]]:
+    """Extract the text of uploaded files without grading anything.
 
-    Each entry: {filename, text, ocr, warning, error}. A file that cannot be read gives
-    an `error` for that input instead of failing the whole request.
+    Text and text-layer PDFs are read directly; images and scans go through OCR. The
+    text is returned so it can be checked and corrected before grading. A file that
+    cannot be read gives an `error` for that input instead of failing the request.
+
+    Returns:
+        {"inputs": {key: {filename, text, ocr, warning, error}}} for each uploaded
+        input.
     """
     uploads = {
         "question_paper": question_paper,
@@ -209,8 +232,14 @@ def _read(upload: Optional[UploadFile], text: Optional[str], warnings: List[str]
 
 def _prepare(question_paper, answer_sheet, rubric, model_answers, question_paper_text,
              answer_sheet_text, rubric_text, model_answers_text, structured_json):
-    """Ingest and parse the inputs. Returns (questions, answer_map, warnings) or raises
-    an HTTPException with a clear message."""
+    """Ingest and parse the inputs.
+
+    Returns:
+        (questions, answer_map, warnings).
+
+    Raises:
+        HTTPException: 400 with a clear message when there is nothing to grade.
+    """
     warnings: List[str] = []
     if settings.using_mock:
         warnings.append(
@@ -266,8 +295,11 @@ def _prepare(question_paper, answer_sheet, rubric, model_answers, question_paper
 
 
 def _grade_all(questions, answer_map, warnings, n, thr, emit=None) -> PipelineResult:
-    """Grade every question (in parallel) and aggregate. `emit`, if given, receives
-    progress events: {"type": "stage", "stage": ..., "question": id}."""
+    """Grade every question in parallel and aggregate the results.
+
+    `emit`, if given, receives progress events:
+    {"type": "stage", "stage": ..., "question": id}.
+    """
 
     def _grade_one(q):
         student = answer_map.get(q.question_id, StudentAnswer(question_id=q.question_id, student_answer_text=""))
@@ -322,7 +354,7 @@ def _grade_all(questions, answer_map, warnings, n, thr, emit=None) -> PipelineRe
 
 
 def _stream(questions, answer_map, warnings, n, thr):
-    """NDJSON stream of real progress events, then the result (or an error)."""
+    """Return an NDJSON stream of real progress events, then the result (or an error)."""
     events: "queue.Queue" = queue.Queue()
 
     def worker():
@@ -355,7 +387,7 @@ def _stream(questions, answer_map, warnings, n, thr):
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
-@app.post("/api/grade")
+@app.post("/api/grade", response_model=None)
 def grade(
     question_paper: Optional[UploadFile] = File(None),
     answer_sheet: Optional[UploadFile] = File(None),
@@ -369,11 +401,21 @@ def grade(
     n_samples: Optional[int] = Form(None),
     threshold: Optional[float] = Form(None),
     stream: Optional[bool] = Form(False),
-):
-    """Grade an answer sheet. Returns a PipelineResult, or with `stream=true` an NDJSON
-    stream: a `start` event, `stage` events as each question moves through grading,
-    second examiner and moderation, then a `result` (or `error`) event. Input errors
-    are a normal 4xx response in both modes."""
+) -> Union[PipelineResult, StreamingResponse]:
+    """Grade an answer sheet.
+
+    Inputs are files or the matching `*_text` form fields. `n_samples` is clamped to
+    1-10 and `threshold` to 0-1.
+
+    Returns:
+        A PipelineResult, or with `stream=true` an NDJSON stream: a `start` event,
+        `stage` events as each question moves through grading, second examiner and
+        moderation, then a `result` (or `error`) event.
+
+    Raises:
+        HTTPException: 4xx for input errors (in both modes), 502 when grading fails
+            (non-streaming).
+    """
     questions, answer_map, warnings = _prepare(
         question_paper, answer_sheet, rubric, model_answers, question_paper_text,
         answer_sheet_text, rubric_text, model_answers_text, structured_json,

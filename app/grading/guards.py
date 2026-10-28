@@ -11,7 +11,7 @@ so they cannot influence the mark.
 import re
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
-from typing import List, Optional
+from typing import Iterable, List, Optional, Tuple
 
 INTEGRITY_FLAGS = (
     "prompt_injection",
@@ -77,8 +77,15 @@ _SENTENCE_END = ".!?।\n"
 REDACTION = "[instruction-like text removed]"
 
 
-def find_injections(text: str):
-    """Return [(start, end, matched_text)] for every instruction-like phrase."""
+def find_injections(text: str) -> List[Tuple[int, int, str]]:
+    """Find instruction-like phrases aimed at the grader.
+
+    Args:
+        text: The student's answer.
+
+    Returns:
+        Sorted (start, end, matched_text) tuples, one per pattern hit.
+    """
     hits = []
     for rx in _INJECTION_RES:
         for m in rx.finditer(text):
@@ -86,9 +93,15 @@ def find_injections(text: str):
     return sorted(hits)
 
 
-def redact_injections(text: str):
+def redact_injections(text: str) -> Tuple[str, List[str]]:
     """Replace each sentence that contains an injection phrase with REDACTION.
-    Returns (redacted_text, matched_phrases)."""
+
+    Args:
+        text: The student's answer.
+
+    Returns:
+        (redacted_text, matched_phrases).
+    """
     hits = find_injections(text)
     if not hits:
         return text, []
@@ -137,6 +150,7 @@ _ILLEGIBLE_RE = re.compile(r"(?i)\[\s*illegible\s*\]")
 
 
 def is_blank(text: str) -> bool:
+    """True for an empty answer, a placeholder ("N/A", "not attempted") or only [illegible]."""
     t = _ILLEGIBLE_RE.sub(" ", text or "").strip().lower()
     if not _WORD_RE.search(t):
         return True
@@ -148,8 +162,11 @@ def _content_tokens(text: str):
 
 
 def restatement_score(answer: str, question: str) -> float:
-    """0-1 similarity of the answer to the question text. High when the answer adds
-    almost nothing new AND covers most of the question, or is near-verbatim."""
+    """Score how much the answer just repeats the question (0-1).
+
+    High when the answer adds almost nothing new and covers most of the question, or
+    is near-verbatim.
+    """
     a = _content_tokens(answer)
     q = set(_content_tokens(question))
     if len(a) < 4 or not q:
@@ -175,8 +192,10 @@ def _gibberish_word(w: str) -> bool:
 
 
 def gibberish_ratio(text: str) -> float:
-    """Share of the answer that looks like keyboard mash / random symbols (0-1).
-    Formulas, numbers and Devanagari words are treated as meaningful."""
+    """Return the share of the answer that looks like keyboard mash or random symbols (0-1).
+
+    Formulas, numbers and Devanagari words are treated as meaningful.
+    """
     chars = re.sub(r"\s", "", text or "")
     if not chars:
         return 0.0
@@ -218,16 +237,22 @@ _REQUIRED_LANG_RE = re.compile(
 )
 
 
-def detect_language(text: str):
-    """Best-effort answer language: 'English', 'Hindi', 'Hinglish', 'Tamil', ...,
-    or 'Hindi + English' when a second script makes up 20%+ of the letters.
-    None when there is too little text to tell."""
+def detect_language(text: str) -> Optional[str]:
+    """Detect the answer's language from its script. Best effort.
+
+    Args:
+        text: The student's answer.
+
+    Returns:
+        'English', 'Hindi', 'Hinglish', 'Tamil', ..., or e.g. 'Hindi + English' when a
+        second script makes up 20%+ of the letters. None when there is too little text.
+    """
     counts = [(len(re.findall(f"[{rng}]", text or "")), name) for name, rng in _SCRIPTS]
     counts.sort(reverse=True)
     total = sum(c for c, _ in counts)
     if total < 10:
         return None
-    (n1, lang), (n2, second) = counts[0], counts[1]
+    (_, lang), (n2, second) = counts[0], counts[1]
     if lang == "English":
         words = re.findall(r"[a-z]+", text.lower())
         hits = sum(1 for w in words if w in _HINGLISH_WORDS)
@@ -238,9 +263,8 @@ def detect_language(text: str):
     return lang
 
 
-def required_language(rubric_text: str):
-    """The language the rubric explicitly requires ('in English', 'answer in Hindi'),
-    or None."""
+def required_language(rubric_text: str) -> Optional[str]:
+    """Return the language the rubric explicitly requires ("in English", "answer in Hindi"), or None."""
     m = _REQUIRED_LANG_RE.search(rubric_text or "")
     if not m:
         return None
@@ -252,6 +276,16 @@ def required_language(rubric_text: str):
 
 @dataclass
 class GuardReport:
+    """Outcome of the pre-checks on one answer.
+
+    Attributes:
+        text: Text to grade (injections redacted, over-long answers truncated).
+        blank: The answer is blank and gets 0 without an LLM call.
+        flags: Integrity flags raised by the guards.
+        reasons: One human-readable reason per flag.
+        warnings: Non-flag warnings (e.g. truncation).
+        language: Detected answer language; informational, never a flag by itself.
+    """
     text: str                       # text to grade (injections redacted, truncated)
     blank: bool = False
     flags: List[str] = field(default_factory=list)
@@ -259,13 +293,24 @@ class GuardReport:
     warnings: List[str] = field(default_factory=list)
     language: Optional[str] = None  # informational, never a flag by itself
 
-    def add(self, flag, reason):
+    def add(self, flag: str, reason: str) -> None:
+        """Record a flag and its reason (once per flag)."""
         if flag not in self.flags:
             self.flags.append(flag)
             self.reasons.append(reason)
 
 
 def check_answer(answer: str, question: str = "", rubric_text: str = "") -> GuardReport:
+    """Run every pre-check on one answer.
+
+    Args:
+        answer: The student's answer.
+        question: The question text (for restatement detection).
+        rubric_text: The rubric criteria (for a required answer language).
+
+    Returns:
+        A GuardReport with the text to grade, flags and warnings.
+    """
     answer = answer or ""
     report = GuardReport(text=answer)
     illegible = len(_ILLEGIBLE_RE.findall(answer))
@@ -309,8 +354,15 @@ def check_answer(answer: str, question: str = "", rubric_text: str = "") -> Guar
     return report
 
 
-def parse_flags(value) -> List[str]:
-    """Normalise a model-reported integrity_flags value to whitelisted flags."""
+def parse_flags(value: object) -> List[str]:
+    """Normalise a model-reported integrity_flags value to whitelisted flags.
+
+    Args:
+        value: A list of flag names, or a comma/semicolon separated string.
+
+    Returns:
+        Known flags in order, without duplicates; anything else is dropped.
+    """
     if isinstance(value, str):
         value = re.split(r"[,;]", value)
     if not isinstance(value, (list, tuple)):
@@ -323,13 +375,19 @@ def parse_flags(value) -> List[str]:
     return out
 
 
-def merge_flags(report: GuardReport, gradings) -> tuple:
+def merge_flags(report: GuardReport, gradings: Iterable[object]) -> Tuple[List[str], List[str]]:
     """Combine guard flags with flags the graders reported.
 
     Guard flags always count. A model-reported flag counts when at least half of the
     gradings (primary samples + second grader + referee, whichever ran) report it,
     so one noisy sample at temperature > 0 cannot force review on its own.
-    Returns (flags, reasons).
+
+    Args:
+        report: The guard report for the answer.
+        gradings: GradingResults (None entries are ignored).
+
+    Returns:
+        (flags, reasons).
     """
     flags, reasons = list(report.flags), list(report.reasons)
     gradings = [g for g in gradings if g is not None]

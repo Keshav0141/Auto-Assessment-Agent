@@ -1,0 +1,20 @@
+line-length = 120
+target-version = "py311"
+extend-exclude = [".venv", "eval/ocr_data"]
+
+[lint]
+select = ["E", "F", "W", "I", "D", "ANN201"]
+ignore = [
+    "D105",  # magic methods
+    "D107",  # __init__ (documented on the class)
+]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.per-file-ignores]
+# Labelled eval items and attack cases: one long string per field reads better than wrapped text.
+"eval/dataset.py" = ["E501"]
+"eval/adversarial.py" = ["E501"]
+"tests/**" = ["D", "ANN"]
+"smoke_test.py" = ["D", "ANN"]

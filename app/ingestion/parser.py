@@ -1,14 +1,20 @@
-"""Ingestion & parsing: extract text from PDFs/images/text and segment by question."""
+"""Ingestion and parsing: extract text from files and segment it by question.
+
+Question papers, rubrics, model answers and answer sheets are split on English
+question anchors ("Question 1 (5 marks)", "Q2", "Problem 3") or, failing that, a
+numbered list ("1." / "2)"). Question papers may also be structured JSON.
+"""
 import io
 import json
 import os
 import re
+from typing import Dict, List, Optional, Tuple
 
 from app.models import QuestionSpec, RubricCriterion, StudentAnswer
 
 
 class ParseError(Exception):
-    pass
+    """An input could not be read or parsed; the message is shown to the user."""
 
 
 class NoTextError(ParseError):
@@ -43,7 +49,9 @@ def _check_image(filename, data: bytes):
     except ImportError:
         return
     except Exception as exc:
-        raise ParseError(f"Could not read the image '{filename}': the file is corrupt or not a supported image.") from exc
+        raise ParseError(
+            f"Could not read the image '{filename}': the file is corrupt or not a supported image."
+        ) from exc
 
 
 def _pdf_text(filename, data: bytes) -> str:
@@ -76,11 +84,22 @@ def _decode_text(filename, data: bytes) -> str:
         return data.decode("latin-1")
 
 
-def extract_text_meta(filename, data: bytes):
-    """Return (text, ocr_backend_or_None).
+def extract_text_meta(filename: Optional[str], data: bytes) -> Tuple[str, Optional[str]]:
+    """Extract text from an uploaded file.
 
-    Raises ParseError for unsupported / corrupt files and NoTextError (a subclass)
-    when the file is readable but contains no text.
+    The format is detected from magic bytes as well as the extension. Text-layer PDFs
+    are read directly; scanned PDFs and images go through OCR.
+
+    Args:
+        filename: The uploaded file's name (may be empty).
+        data: The file contents.
+
+    Returns:
+        (text, ocr_backend), where ocr_backend is None when no OCR was needed.
+
+    Raises:
+        ParseError: For unsupported, corrupt or password-protected files.
+        NoTextError: When the file is readable but contains no text.
     """
     from app.ingestion.ocr import NoTextError as OCRNoText
     from app.ingestion.ocr import OCRError, ocr_pages, render_pdf_pages
@@ -126,7 +145,8 @@ def extract_text_meta(filename, data: bytes):
     return text, None
 
 
-def extract_text(filename, data: bytes) -> str:
+def extract_text(filename: Optional[str], data: bytes) -> str:
+    """Extract text from an uploaded file (see `extract_text_meta`)."""
     return extract_text_meta(filename, data)[0]
 
 
@@ -143,7 +163,12 @@ _CRITERION_RE = re.compile(
 
 
 def _split_segments(text):
-    """Return list of (question_number, header, body) tuples, or None if no anchors."""
+    """Split text on question anchors.
+
+    Returns:
+        A list of (question_number, header, body) tuples, or None if there are no
+        anchors.
+    """
     markers = list(_HEADER_RE.finditer(text))
     if not markers:
         markers = list(_NUMBERED_RE.finditer(text))
@@ -167,8 +192,11 @@ def _qlist(ids):
 
 
 def _dedupe(segments, what, warnings=None, merge=False):
-    """Resolve repeated question numbers. merge=True joins the repeated parts (a
-    student continuing an answer later); otherwise the first occurrence wins."""
+    """Resolve repeated question numbers.
+
+    merge=True joins the repeated parts (a student continuing an answer later);
+    otherwise the first occurrence wins.
+    """
     seen, order, dups = {}, [], []
     for qid, header, body in segments:
         if qid in seen:
@@ -223,8 +251,22 @@ def _parse_structured_json(text):
 # Domain parsers
 # ---------------------------------------------------------------------------
 
-def parse_question_paper(text, warnings=None):
-    """Parse a question paper into a list of QuestionSpec."""
+def parse_question_paper(text: str, warnings: Optional[List[str]] = None) -> List[QuestionSpec]:
+    """Parse a question paper.
+
+    Marks are read from the header ("Question 1 (5 marks)") or the start of the body.
+    A question without marks is worth 1 until a rubric says otherwise.
+
+    Args:
+        text: Question paper text, or structured JSON.
+        warnings: List that receives warnings (e.g. repeated question numbers).
+
+    Returns:
+        One QuestionSpec per question, in paper order.
+
+    Raises:
+        ParseError: If no questions can be found.
+    """
     structured = _parse_structured_json(text)
     if structured is not None:
         segments = [(q.question_id, "", q) for q in structured]
@@ -258,8 +300,19 @@ def parse_question_paper(text, warnings=None):
     return questions
 
 
-def parse_rubric(text, warnings=None):
-    """Parse rubric text into {question_id: [RubricCriterion]}. Best effort."""
+def parse_rubric(text: str, warnings: Optional[List[str]] = None) -> Dict[str, List[RubricCriterion]]:
+    """Parse a rubric into criteria per question. Best effort.
+
+    Criteria are phrases like "2 marks for stating the law". Text without question
+    anchors is treated as the rubric for question 1.
+
+    Args:
+        text: Rubric text.
+        warnings: List that receives warnings.
+
+    Returns:
+        {question_id: [RubricCriterion]}; questions with no criteria are omitted.
+    """
     segments = _split_segments(text)
     if not segments:
         segments = [("1", "", text)]
@@ -273,19 +326,37 @@ def parse_rubric(text, warnings=None):
     return result
 
 
-def parse_model_answers(text, warnings=None):
-    """Parse model answers into {question_id: text}. Best effort."""
+def parse_model_answers(text: str, warnings: Optional[List[str]] = None) -> Dict[str, str]:
+    """Parse model answers per question. Best effort.
+
+    Args:
+        text: Model answers text.
+        warnings: List that receives warnings.
+
+    Returns:
+        {question_id: model_answer}; text without anchors is the answer to question 1.
+    """
     segments = _split_segments(text)
     if not segments:
         return {"1": text}
     return {qid: body for qid, _h, body in _dedupe(segments, "model answers", warnings)}
 
 
-def parse_answer_sheet(text, question_ids):
+def parse_answer_sheet(
+    text: str, question_ids: List[str]
+) -> Tuple[Optional[Dict[str, StudentAnswer]], List[str]]:
     """Segment the student answer sheet by question anchors.
 
-    Returns (answers_or_None, warnings). Answers to questions that are not in the
-    question paper are dropped with a warning; repeated question numbers are joined.
+    Answers to questions that are not in the question paper are dropped with a
+    warning; repeated question numbers are joined.
+
+    Args:
+        text: Answer sheet text.
+        question_ids: The question paper's question ids.
+
+    Returns:
+        (answers, warnings). answers is None when the sheet has no usable anchors, and
+        the caller then attaches the whole text to the first question.
     """
     warnings = []
     segments = _split_segments(text)
@@ -309,17 +380,25 @@ def parse_answer_sheet(text, question_ids):
     )
 
 
-def default_criterion(max_marks):
+def default_criterion(max_marks: float) -> RubricCriterion:
+    """Return the single catch-all criterion used when a question has no rubric."""
     return RubricCriterion(criterion="Overall answer quality", marks=float(max_marks))
 
 
-def apply_rubric(q: QuestionSpec, criteria):
+def apply_rubric(q: QuestionSpec, criteria: Optional[List[RubricCriterion]]) -> List[str]:
     """Attach rubric criteria to `q`, reconciling them with the paper's marks.
 
-    Rule: the question paper's marks are authoritative. If the rubric criteria add
-    up to a different total, they are scaled proportionally to the paper's marks.
-    If the paper gives no marks, the rubric total becomes the maximum; with neither,
-    the question is worth 1 mark. Returns a list of warnings.
+    The question paper's marks are authoritative. If the criteria add up to a
+    different total, they are scaled proportionally to the paper's marks. If the
+    paper gives no marks, the rubric total becomes the maximum; with neither, the
+    question is worth 1 mark.
+
+    Args:
+        q: The question; its `rubric_criteria` (and possibly `max_marks`) are updated.
+        criteria: Criteria from the rubric, or None/empty for no rubric.
+
+    Returns:
+        Warnings describing any adjustment.
     """
     warnings = []
     if not criteria:
