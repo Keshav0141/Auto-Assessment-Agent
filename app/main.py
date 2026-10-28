@@ -119,6 +119,8 @@ SAMPLES = {
     "adversarial": ("Adversarial (prompt injection)", _sample_files(answer_sheet="answer_sheet_adversarial.txt")),
     "hindi": ("Hindi", _sample_files("hindi")),
     "tamil": ("Tamil", _sample_files("tamil")),
+    "telugu": ("Telugu", _sample_files("telugu")),
+    "hinglish": ("Hinglish (code-mixed)", _sample_files("hinglish")),
 }
 
 

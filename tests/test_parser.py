@@ -260,14 +260,14 @@ def test_indic_rubric_forms():
     assert [(c.criterion, c.marks) for c in rubric["2"]] == [("சரியான விடை", 2.0), ("యూనిట్", 1.0)]
 
 
-@pytest.mark.parametrize("folder", ["hindi", "tamil"])
+@pytest.mark.parametrize("folder", ["hindi", "tamil", "telugu", "hinglish"])
 def test_language_samples_parse(sample_text, folder):
     paper = parse_question_paper(sample_text(f"{folder}/question_paper.txt"))
     rubric = parse_rubric(sample_text(f"{folder}/rubric.txt"))
     models = parse_model_answers(sample_text(f"{folder}/model_answers.txt"))
     ids = [q.question_id for q in paper]
     answers, warnings = parse_answer_sheet(sample_text(f"{folder}/answer_sheet.txt"), ids)
-    assert ids == ["1", "2", "3"]
+    assert ids == (["1", "2", "3", "4"] if folder in ("telugu", "hinglish") else ["1", "2", "3"])
     assert set(models) == set(answers) == set(ids) and warnings == []
     for q in paper:
         assert sum(c.marks for c in rubric[q.question_id]) == q.max_marks

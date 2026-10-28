@@ -141,9 +141,17 @@ model is never loaded.
   question, rubric, model answer or student answer are allowed, since feedback may quote
   them. If the retry fails or drifts again, the grading is kept and the question gets a
   warning. This applies to every sample, the second grader and the referee.
-- **Samples.** "Hindi" (Hindi paper, rubric, model answers and answers; the paper
-  numbers questions with Devanagari digits and the answer sheet with ASCII digits) and
-  "Tamil" (English paper, Tamil answers) in the sample picker.
+- **Samples** in the sample picker:
+  - "Hindi": Hindi paper, rubric, model answers and answers. The paper numbers
+    questions with Devanagari digits and the answer sheet with ASCII digits.
+  - "Tamil": English paper, Tamil answers.
+  - "Telugu": the English (good) paper, rubric and model answers, with Telugu answers
+    labelled "ప్రశ్న 1" and so on (one answer only partly correct). The answers are
+    machine-translated and not reviewed by a native speaker; the file says so.
+  - "Hinglish (code-mixed)": the same English paper with answers in romanised Hindi
+    mixed with English ("net force = mass x acceleration hota hai, toh a = 10/2 =
+    5 m/s^2"), one of them partial. Detected as Hinglish, so `auto` feedback comes back
+    in Hinglish.
 - **Bodhan IndicOCR** (`OCR_PROVIDER=bodhan`, `BODHAN_BASE_URL`, `BODHAN_OCR_KEY`,
   `BODHAN_OCR_MODEL`) is a documented stub: the API reference was not available, so
   selecting it returns a clear error. The vision model reads Indic scripts meanwhile.
@@ -488,7 +496,7 @@ the server rejects files over 4 MB.
 | Method and path | Purpose |
 |---|---|
 | `GET /api/health` | status, mock flag, models, sampling and confidence settings (no keys) |
-| `GET /api/samples` | bundled sample sets: `good`, `weak`, `adversarial`, `hindi`, `tamil` |
+| `GET /api/samples` | bundled sample sets: `good`, `weak`, `adversarial`, `hindi`, `tamil`, `telugu`, `hinglish` |
 | `GET /api/sample?name=good` | text of one sample set |
 | `POST /api/extract` | multipart files `question_paper`, `answer_sheet`, `rubric`, `model_answers`; returns `{"inputs": {key: {filename, text, ocr, warning, error}}}` without grading |
 | `POST /api/grade` | the same files or `*_text` form fields, optional `structured_json`, `n_samples` (1-10), `threshold`, `feedback_language`, `stream` |
@@ -577,6 +585,14 @@ sample_data/
   tamil/rubric.txt            English rubric
   tamil/model_answers.txt     English model answers
   tamil/answer_sheet.txt      Tamil answers
+  telugu/question_paper.txt   English paper (same as question_paper.txt)
+  telugu/rubric.txt           English rubric
+  telugu/model_answers.txt    English model answers
+  telugu/answer_sheet.txt     Telugu answers (machine-translated)
+  hinglish/question_paper.txt  English paper (same as question_paper.txt)
+  hinglish/rubric.txt         English rubric
+  hinglish/model_answers.txt  English model answers
+  hinglish/answer_sheet.txt   Hinglish (code-mixed) answers
 docs/screenshots/             UI screenshots with the real models; fixture-moderation-1280.webp is a fixture
 .github/workflows/tests.yml   ruff and pytest on every push
 smoke_test.py                 end-to-end request through the API

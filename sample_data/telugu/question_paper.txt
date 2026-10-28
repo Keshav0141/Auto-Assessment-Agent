@@ -1,0 +1,11 @@
+Question 1 (5 marks)
+State Newton's second law of motion and give its mathematical form. A 2 kg object experiences a net force of 10 N. What is its acceleration?
+
+Question 2 (3 marks)
+Define photosynthesis in your own words.
+
+Question 3 (4 marks)
+Solve the quadratic equation x^2 - 5x + 6 = 0 and verify your solutions.
+
+Question 4 (6 marks)
+A ball is thrown vertically upward with an initial velocity of 30 m/s. Find (a) the maximum height reached and (b) the time taken to reach it. (g = 10 m/s^2)

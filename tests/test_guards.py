@@ -180,7 +180,7 @@ def test_indic_words_are_not_split_at_vowel_signs():
     assert guards._WORD_RE.findall("ஒளிச்சேர்க்கை என்பது; కిరణజన్య") == ["ஒளிச்சேர்க்கை", "என்பது", "కిరణజన్య"]
 
 
-@pytest.mark.parametrize("folder", ["hindi", "tamil"])
+@pytest.mark.parametrize("folder", ["hindi", "tamil", "telugu", "hinglish"])
 def test_no_false_positives_on_language_samples(sample_text, folder):
     questions = parse_question_paper(sample_text(f"{folder}/question_paper.txt"))
     answers, _ = parse_answer_sheet(sample_text(f"{folder}/answer_sheet.txt"), [q.question_id for q in questions])

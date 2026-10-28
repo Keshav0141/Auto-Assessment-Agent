@@ -1,0 +1,11 @@
+Question 1
+Second law: the net force acting on an object equals the rate of change of its momentum. For constant mass, F = ma. a = F/m = 10/2 = 5 m/s^2, in the direction of the applied force.
+
+Question 2
+Plants use light energy to convert carbon dioxide and water into glucose and oxygen; this converts light energy into chemical energy stored in glucose.
+
+Question 3
+x^2 - 5x + 6 = (x - 2)(x - 3) = 0, so x = 2 or x = 3. Verify: 4 - 10 + 6 = 0 and 9 - 15 + 6 = 0.
+
+Question 4
+At maximum height the final velocity v = 0. (a) v^2 = u^2 - 2gh, so h = u^2 / (2g) = 900 / 20 = 45 m. (b) v = u - gt, so t = u/g = 30/10 = 3 s.

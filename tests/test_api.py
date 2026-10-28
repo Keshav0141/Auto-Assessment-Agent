@@ -32,7 +32,7 @@ def test_health():
 
 def test_samples():
     names = [s["name"] for s in client.get("/api/samples").json()]
-    assert names == ["good", "weak", "adversarial", "hindi", "tamil"]
+    assert names == ["good", "weak", "adversarial", "hindi", "tamil", "telugu", "hinglish"]
     sample = client.get("/api/sample", params={"name": "weak"}).json()
     assert sample["answer_sheet_text"].startswith("Question 1")
     assert client.get("/api/sample", params={"name": "nope"}).status_code == 404
@@ -132,7 +132,10 @@ def test_grade_clamps_samples(sample_form):
     assert all(len(q["sampled_totals"]) == 10 for q in body["results"])
 
 
-@pytest.mark.parametrize("name,anchor", [("hindi", "प्रश्न"), ("tamil", "கேள்வி")])
+@pytest.mark.parametrize(
+    "name,anchor",
+    [("hindi", "प्रश्न"), ("tamil", "கேள்வி"), ("telugu", "Note: these Telugu answers"), ("hinglish", "Question 1")],
+)
 def test_language_samples(name, anchor):
     sample = client.get("/api/sample", params={"name": name}).json()
     assert all(sample[k] for k in ("question_paper_text", "answer_sheet_text", "rubric_text", "model_answers_text"))
@@ -163,3 +166,16 @@ def test_grade_rejects_free_text_feedback_language(sample_form):
 
 def test_health_reports_feedback_language():
     assert client.get("/api/health").json()["feedback_language"] == "auto"
+
+
+@pytest.mark.parametrize("name,language", [("telugu", "Telugu"), ("hinglish", "Hinglish")])
+def test_grade_telugu_and_hinglish_samples(name, language):
+    sample = client.get("/api/sample", params={"name": name}).json()
+    form = {k: v for k, v in sample.items() if k.endswith("_text")}
+    body = client.post("/api/grade", data={**form, "n_samples": "2"}).json()
+    assert body["total_max"] == 18.0 and len(body["results"]) == 4
+    for q in body["results"]:
+        c = q["confidence"]
+        assert c["answer_language"].split(" + ")[0] == language
+        assert c["feedback_language"] == language
+        assert c["integrity_flags"] == []

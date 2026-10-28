@@ -1,0 +1,11 @@
+Question 1
+Newton ka second law kehta hai ki net force = mass x acceleration hota hai, yaani F = ma. Yahan m = 2 kg aur F = 10 N hai, toh a = F/m = 10/2 = 5 m/s^2.
+
+Question 2
+Photosynthesis woh process hai jisme plants sunlight ki energy use karke carbon dioxide aur paani se glucose banate hain, aur oxygen release karte hain. Isme light energy chemical energy mein convert hoti hai.
+
+Question 3
+x^2 - 5x + 6 ko factorise karein toh (x - 2)(x - 3) = 0 aata hai, isliye x = 2 ya x = 3 hai.
+
+Question 4
+Sabse upar pahunch kar ball ki velocity zero ho jaati hai. Isliye h = u^2/2g = 900/20 = 45 m, aur upar jaane mein time t = u/g = 30/10 = 3 s lagta hai.
