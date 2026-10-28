@@ -53,7 +53,8 @@ def needs_adjudication(rep_total: float, judge2_total: float, max_marks: float) 
 
 
 def referee_grade(q: QuestionSpec, student: StudentAnswer, primary: GradingResult,
-                  second: GradingResult, validate: Validator) -> GradingResult:
+                  second: GradingResult, validate: Validator,
+                  feedback_language: Optional[str] = None) -> GradingResult:
     """Ask the referee for the final grading.
 
     One temperature-0 call to the REFEREE_* provider (default: the primary LLM).
@@ -64,6 +65,7 @@ def referee_grade(q: QuestionSpec, student: StudentAnswer, primary: GradingResul
         primary: The primary's representative grading.
         second: The second grader's grading.
         validate: Turns the referee's raw JSON into a GradingResult.
+        feedback_language: Language for feedback and justifications (None: English).
 
     Returns:
         The referee's grading.
@@ -74,7 +76,7 @@ def referee_grade(q: QuestionSpec, student: StudentAnswer, primary: GradingResul
     tag = new_tag()
     raw = LLMClient(settings.referee_provider()).chat_json(
         grade_system(tag, referee=True),
-        build_referee_prompt(q, student, primary, second, tag),
+        build_referee_prompt(q, student, primary, second, tag, feedback_language=feedback_language),
         temperature=0.0,
         max_tokens=800,
     )
@@ -89,6 +91,7 @@ def maybe_adjudicate(
     rep_total: float,
     validate: Validator,
     notify: Optional[Callable[[str], None]] = None,
+    feedback_language: Optional[str] = None,
 ) -> Tuple[GradingResult, bool, float, Optional[str]]:
     """Referee the two gradings when they disagree materially.
 
@@ -101,6 +104,7 @@ def maybe_adjudicate(
         validate: Turns the referee's raw JSON into a GradingResult.
         notify: Optional progress hook, called with "moderation" and
             "moderation_done".
+        feedback_language: Language for the referee's feedback (None: English).
 
     Returns:
         (final_grading, adjudicated, pre_adjudication_total, referee_reason). On
@@ -113,7 +117,7 @@ def maybe_adjudicate(
     if notify:
         notify("moderation")
     try:
-        referee = referee_grade(q, student, primary, judge2_grade, validate)
+        referee = referee_grade(q, student, primary, judge2_grade, validate, feedback_language)
     except Exception as exc:  # noqa: BLE001 - keep the original grading on failure
         logger.warning("Adjudication failed for Q%s (keeping original): %s", q.question_id, exc)
         return primary, False, rep_total, None

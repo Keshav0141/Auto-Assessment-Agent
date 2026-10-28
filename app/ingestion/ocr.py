@@ -5,10 +5,11 @@ OCR_PROVIDER (env):
   vision    -> vision-LLM transcription via the OpenAI-compatible endpoint
                (OCR_MODEL; "gemini" is accepted as an alias)
   tesseract -> local pytesseract (needs the Tesseract binary)
-  bodhan    -> Bodhan OCR API (placeholder until course access is enabled)
+  bodhan    -> Bodhan IndicOCR (stub: not implemented yet, see `_bodhan_page`)
 
 Vision LLMs read handwriting far better than Tesseract and need no system
-binary, so they also work on serverless/container deployments.
+binary, so they also work on serverless/container deployments. Text may be English,
+any Indic script or code-mixed; it is transcribed in the script it is written in.
 """
 import base64
 import io
@@ -21,9 +22,15 @@ from app.llm import OutputBudgetError, _is_auth_error, check_output_budget
 
 OCR_PROMPT = (
     "Transcribe ALL text in this image of an exam document exactly as written. "
-    "Rules: keep the original wording, spelling mistakes, equations and units; "
-    "do NOT correct, solve or summarise anything; keep question labels such as "
-    "'Question 1', 'Q2', '3)' on their own lines exactly as they appear; write "
+    "The text may be in English, in any Indian language script (Devanagari, Tamil, "
+    "Telugu, Bengali, Kannada, Malayalam, Gujarati, Gurmukhi, Odia, ...) or "
+    "code-mixed, for example Hindi words written in Latin letters (Hinglish) or "
+    "English terms inside a Hindi sentence. "
+    "Rules: write every word in the script it is written in; NEVER translate or "
+    "transliterate anything; keep the original wording, spelling mistakes, digits "
+    "(including Indic digits such as १ or ௧), equations and units; do NOT correct, "
+    "solve or summarise anything; keep question labels such as 'Question 1', 'Q2', "
+    "'3)', 'प्रश्न 1' or 'கேள்வி 1' on their own lines exactly as they appear; write "
     "math in plain text (e.g. x^2, sqrt(x), a/b); mark unreadable parts as "
     "[illegible]. If the image contains no text at all, output exactly [no text]. "
     "Output only the transcription, no commentary."
@@ -138,8 +145,20 @@ def _tesseract_page(img_or_bytes):
 
 
 def _bodhan_page(img_or_bytes):
-    # TODO: wire up once Bodhan OCR credits/docs are available (console.bodhan.ai).
-    raise OCRError("Bodhan OCR is not configured yet - set OCR_PROVIDER=vision for now.")
+    """Bodhan IndicOCR backend (stub).
+
+    Bodhan's IndicOCR reads printed and handwritten Indian-language scripts. It is
+    configured with BODHAN_BASE_URL, BODHAN_OCR_KEY and BODHAN_OCR_MODEL, but the
+    request itself is not implemented yet because the API reference was not
+    available. The intended routing, once it is: with OCR_PROVIDER=auto, read with the
+    vision model first and, when the result contains Indic script or several
+    [illegible] parts and BODHAN_OCR_KEY is set, re-read with Bodhan (results cached
+    by image hash, keeping the vision text plus a warning on any Bodhan error).
+    """
+    raise OCRError(
+        "Bodhan IndicOCR is not implemented yet; set OCR_PROVIDER=vision (or auto) to "
+        "use the vision model, which also reads Indic scripts."
+    )
 
 
 _BACKENDS = {"vision": _vision_page, "tesseract": _tesseract_page, "bodhan": _bodhan_page}

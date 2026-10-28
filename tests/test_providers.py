@@ -241,3 +241,38 @@ def test_empty_reply_without_length_is_retried(backend):
     backend.on("primary", lambda kwargs: next(replies))
     assert LLMClient().chat_json("s", "u")["total_awarded"] == 2
     assert backend.roles() == ["primary", "primary"]
+
+
+# --- feedback language ------------------------------------------------------------
+
+
+HINDI_ANSWER = StudentAnswer(question_id="1", student_answer_text="बल द्रव्यमान और त्वरण का गुणनफल है, F = ma।")
+
+
+def _user_message(kwargs):
+    return next(m["content"] for m in kwargs["messages"] if m["role"] == "user")
+
+
+def test_feedback_language_reaches_every_grader(backend, monkeypatch):
+    monkeypatch.setattr(settings, "judge2_api_key", "test-judge2-key")
+    backend.on("primary", ok(1))
+    backend.on("judge2", ok(5))
+    backend.on("referee", ok(3))
+    _, _, conf = GradingEngine().grade_with_confidence(QUESTION, HINDI_ANSWER, n_samples=2)
+    assert conf.feedback_language == "Hindi" and conf.adjudicated
+    for role in ("primary", "judge2", "referee"):
+        for request in backend.requests(role):
+            assert "in Hindi (Devanagari script)" in _user_message(request), role
+
+
+def test_english_answer_gets_no_language_line(backend):
+    backend.on("primary", ok(4))
+    grade()
+    assert all("LANGUAGE:" not in _user_message(r) for r in backend.requests("primary"))
+
+
+def test_explicit_feedback_language_overrides_auto(backend):
+    backend.on("primary", ok(4))
+    _, _, conf = GradingEngine().grade_with_confidence(QUESTION, ANSWER, n_samples=1, feedback_language="ta")
+    assert conf.feedback_language == "Tamil"
+    assert "in Tamil (Tamil script)" in _user_message(backend.requests("primary")[0])

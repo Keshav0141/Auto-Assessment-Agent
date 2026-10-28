@@ -196,3 +196,78 @@ def test_extract_rejects_corrupt_pdf():
 def test_extract_empty_text_file():
     with pytest.raises(NoTextError):
         extract_text_meta("paper.txt", b"   \n")
+
+
+# --- Indian languages ------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "word,digits",
+    [
+        ("प्रश्न", "१२"),  # Hindi / Marathi
+        ("கேள்வி", "௧௨"),  # Tamil
+        ("ప్రశ్న", "౧౨"),  # Telugu
+        ("প্রশ্ন", "১২"),  # Bengali
+        ("ಪ್ರಶ್ನೆ", "೧೨"),  # Kannada
+        ("ചോദ്യം", "൧൨"),  # Malayalam
+        ("પ્રશ્ન", "૧૨"),  # Gujarati
+        ("ਪ੍ਰਸ਼ਨ", "੧੨"),  # Punjabi
+    ],
+)
+def test_indic_anchors_and_digits(word, digits):
+    one, two = digits
+    qs = parse_question_paper(f"{word} {one} (5 marks)\nA?\n\n{word} {two} (3 marks)\nB?")
+    assert [q.question_id for q in qs] == ["1", "2"]
+    assert [q.max_marks for q in qs] == [5.0, 3.0]
+    qs = parse_question_paper(f"{word} 1\nA?\n{word} 2\nB?")
+    assert [q.question_id for q in qs] == ["1", "2"]
+
+
+@pytest.mark.parametrize(
+    "header,marks",
+    [
+        ("प्रश्न 1 (४ अंक)", 4.0),
+        ("கேள்வி 1 (4 மதிப்பெண்கள்)", 4.0),
+        ("ప్రశ్న 1 (4 మార్కులు)", 4.0),
+        ("প্রশ্ন ১ (৪ নম্বর)", 4.0),
+        ("प्रश्न-1 [2.5 अंक]", 2.5),
+    ],
+)
+def test_indic_marks_words(header, marks):
+    assert parse_question_paper(f"{header}\nसमझाइए।")[0].max_marks == marks
+
+
+def test_normalize_digits():
+    from app.ingestion.parser import normalize_digits
+
+    assert normalize_digits("१२३ ௪ ౫ ৬ 7") == "123 4 5 6 7"
+    assert normalize_digits("plain 42") == "plain 42"
+
+
+def test_question_ids_match_across_scripts():
+    paper = parse_question_paper("प्रश्न १ (२ अंक)\nक्या?\n\nप्रश्न २ (२ अंक)\nक्यों?")
+    answers, warnings = parse_answer_sheet("Question 1\nyes\n\nகேள்வி 2\nஆம்", [q.question_id for q in paper])
+    assert set(answers) == {"1", "2"} and warnings == []
+    assert set(parse_rubric("প্রশ্ন ১\n2 marks for the idea")) == {"1"}
+
+
+def test_indic_rubric_forms():
+    rubric = parse_rubric(
+        "प्रश्न 1\n1 अंक: नियम का सही कथन\nसूत्र F = ma के लिए 2 अंक\n"
+        "கேள்வி 2\n2 மதிப்பெண்கள் - சரியான விடை; 1 మార్కు: యూనిట్"
+    )
+    assert [(c.criterion, c.marks) for c in rubric["1"]] == [("नियम का सही कथन", 1.0), ("सूत्र F = ma", 2.0)]
+    assert [(c.criterion, c.marks) for c in rubric["2"]] == [("சரியான விடை", 2.0), ("యూనిట్", 1.0)]
+
+
+@pytest.mark.parametrize("folder", ["hindi", "tamil"])
+def test_language_samples_parse(sample_text, folder):
+    paper = parse_question_paper(sample_text(f"{folder}/question_paper.txt"))
+    rubric = parse_rubric(sample_text(f"{folder}/rubric.txt"))
+    models = parse_model_answers(sample_text(f"{folder}/model_answers.txt"))
+    ids = [q.question_id for q in paper]
+    answers, warnings = parse_answer_sheet(sample_text(f"{folder}/answer_sheet.txt"), ids)
+    assert ids == ["1", "2", "3"]
+    assert set(models) == set(answers) == set(ids) and warnings == []
+    for q in paper:
+        assert sum(c.marks for c in rubric[q.question_id]) == q.max_marks

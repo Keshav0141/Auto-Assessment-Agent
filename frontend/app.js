@@ -24,6 +24,7 @@ const FLAG_LABELS = {
 const LANG_CODES = {
   English: "en", Hindi: "hi", Hinglish: "hi-Latn", Tamil: "ta", Telugu: "te", Kannada: "kn",
   Malayalam: "ml", Bengali: "bn", Gujarati: "gu", Punjabi: "pa", Odia: "or", Urdu: "ur",
+  Marathi: "mr", Assamese: "as",
 };
 
 const state = {
@@ -80,6 +81,7 @@ async function loadHealth() {
     if (h.weights) state.weights = h.weights;
     if (h.samples_per_question != null) $("#n_samples").value = Math.min(10, h.samples_per_question);
     if (h.confidence_threshold != null) $("#threshold").value = h.confidence_threshold;
+    setFeedbackLanguage(h.feedback_language);
     const parts = [];
     if (h.mock) {
       parts.push(`<span class="mock">Mock marking: no LLM key is set, so marks come from a keyword heuristic.</span>`);
@@ -95,6 +97,15 @@ async function loadHealth() {
   } catch (e) {
     line.innerHTML = `<span class="mock">The server could not be reached.</span>`;
   }
+}
+
+/** Select the server's FEEDBACK_LANGUAGE in the settings if it is one of the options. */
+function setFeedbackLanguage(value) {
+  if (!value) return;
+  const sel = $("#feedback_language");
+  const want = String(value).toLowerCase();
+  const match = [...sel.options].find((o) => o.value.toLowerCase() === want || o.textContent.toLowerCase() === want);
+  if (match) sel.value = match.value;
 }
 
 async function loadSampleList() {
@@ -458,6 +469,7 @@ async function grade() {
   }
   fd.append("n_samples", String(n));
   fd.append("threshold", String(thr));
+  fd.append("feedback_language", $("#feedback_language").value || "auto");
   fd.append("stream", "true");
 
   const btn = $("#grade-btn");
@@ -605,12 +617,15 @@ function pageFor(r, idx) {
   const anchor = `q-${idx}`;
   const flagged = !!c.flagged;
   const langCode = LANG_CODES[(c.answer_language || "").split(" + ")[0]] || "";
+  // The mock grader always writes English, whatever language was requested.
+  const fbCode = c.grader_role === "mock" ? "" : (LANG_CODES[c.feedback_language] || "");
+  const fbLang = fbCode && fbCode !== "en" ? ` lang="${fbCode}"` : "";
 
   const criteria = g.criterion_scores.map((s) => {
     const m = markSymbol(s.awarded, s.max);
     return `<li>
         <span class="mark-sym" role="img" aria-label="${m.word}">${m.svg}<span class="mark-word" aria-hidden="true">${m.short}</span></span>
-        <span class="crit-text">${esc(s.criterion)}${s.justification ? `<span class="crit-why">${esc(s.justification)}</span>` : ""}</span>
+        <span class="crit-text">${esc(s.criterion)}${s.justification ? `<span class="crit-why"${fbLang}>${esc(s.justification)}</span>` : ""}</span>
         <span class="crit-mark" aria-label="${fmt(s.awarded)} of ${fmt(s.max)} marks">${fmt(s.awarded)}/${fmt(s.max)}</span>
       </li>`;
   }).join("");
@@ -650,7 +665,7 @@ function pageFor(r, idx) {
         <span class="block-label">Student's answer</span>
         ${answer}
         <ol class="criteria" aria-label="Marks per rubric criterion">${criteria}</ol>
-        ${g.feedback ? `<p class="comment">${esc(g.feedback)}</p>` : ""}
+        ${g.feedback ? `<p class="comment"${fbLang}>${esc(g.feedback)}</p>` : ""}
         ${moderator}
         ${sticky}
         <button class="btn-link why-toggle" type="button" aria-expanded="false" aria-controls="${anchor}-why">Why this stamp? ${CHEV}</button>

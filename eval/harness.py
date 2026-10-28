@@ -177,6 +177,30 @@ def calibration_curve(confidences: Sequence[float], errors: Sequence[float], mar
     return {"bin_centers": centers, "error_rates": error_rates, "counts": counts, "bins": bins.tolist()}
 
 
+def question_for(item: Dict) -> QuestionSpec:
+    """Build the QuestionSpec for a labelled item from eval.dataset.
+
+    Args:
+        item: A dataset item (id, question, max_marks, rubric_text, model_answer).
+
+    Returns:
+        The question with its parsed rubric criteria.
+    """
+    rubric_map = parse_rubric(item["rubric_text"])
+    criteria = (
+        rubric_map.get(item["id"])
+        or rubric_map.get("1")  # single-block rubric without question headers
+        or [default_criterion(item["max_marks"])]
+    )
+    return QuestionSpec(
+        question_id=item["id"],
+        question_text=item["question"],
+        max_marks=float(item["max_marks"]),
+        rubric_criteria=criteria,
+        model_answer=item["model_answer"],
+    )
+
+
 def run_eval(engine: Any, items: List[Dict], n_samples: Optional[int] = None,
              threshold: Optional[float] = None) -> Tuple[Dict[str, Any], Dict[str, List[float]], List[Dict]]:
     """Grade every item and compute all metrics.
@@ -196,19 +220,7 @@ def run_eval(engine: Any, items: List[Dict], n_samples: Optional[int] = None,
     pre_predictions = []
     agrees, variances, semantics, crosses = [], [], [], []
     for it in items:
-        rubric_map = parse_rubric(it["rubric_text"])
-        criteria = (
-            rubric_map.get(it["id"])
-            or rubric_map.get("1")  # single-block rubric without question headers
-            or [default_criterion(it["max_marks"])]
-        )
-        q = QuestionSpec(
-            question_id=it["id"],
-            question_text=it["question"],
-            max_marks=float(it["max_marks"]),
-            rubric_criteria=criteria,
-            model_answer=it["model_answer"],
-        )
+        q = question_for(it)
         student = StudentAnswer(question_id=it["id"], student_answer_text=it["answer"])
         representative, samples, conf = engine.grade_with_confidence(
             q, student, n_samples=n_samples, threshold=threshold

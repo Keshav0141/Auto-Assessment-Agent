@@ -25,6 +25,7 @@ from app.grading.prompts import (  # noqa: F401
     build_referee_prompt,
     grade_system,
     new_tag,
+    resolve_feedback_language,
 )
 from app.grading.prompts import fence as _fence  # noqa: F401
 from app.ingestion.parser import default_criterion
@@ -78,7 +79,8 @@ class GradingEngine:
         self._last_call = now
 
     def grade_once(self, q: QuestionSpec, student: StudentAnswer, temperature: Optional[float] = None,
-                   jitter: float = 0.0, llm: Optional[LLMClient] = None) -> GradingResult:
+                   jitter: float = 0.0, llm: Optional[LLMClient] = None,
+                   feedback_language: Optional[str] = None) -> GradingResult:
         """Grade an answer once.
 
         Args:
@@ -87,19 +89,21 @@ class GradingEngine:
             temperature: Sampling temperature (default: GRADING_TEMPERATURE).
             jitter: Mock-mode perturbation so repeated mock samples differ.
             llm: Client to use instead of the primary.
+            feedback_language: Language for feedback and justifications (None: English).
 
         Returns:
             The validated grading.
         """
         if self.mock:
             return self._mock_grade(q, student, jitter)
-        system, user = build_grade_messages(q, student)
+        system, user = build_grade_messages(q, student, feedback_language)
         raw = (llm or self.llm).chat_json(system, user, temperature=temperature, max_tokens=800)
         return self._validate(q, raw)
 
     def grade_with_confidence(
         self, q: QuestionSpec, student: StudentAnswer, n_samples: Optional[int] = None,
         threshold: Optional[float] = None, progress: Optional[ProgressHook] = None,
+        feedback_language: Optional[str] = None,
     ) -> Tuple[GradingResult, List[GradingResult], ConfidenceScore]:
         """Sample N gradings and score their confidence.
 
@@ -111,6 +115,8 @@ class GradingEngine:
             progress: Optional hook called with a stage name as the work proceeds
                 (grading, graded, second, second_done, moderation, moderation_done).
                 For display only; it never affects grading.
+            feedback_language: "auto", a language code or a name (default:
+                FEEDBACK_LANGUAGE). auto writes feedback in the answer's language.
 
         Returns:
             (representative, all_samples, confidence). The representative is the
@@ -139,6 +145,8 @@ class GradingEngine:
         if report.blank:
             return self._blank_result(q, report, warnings, threshold)
         graded = StudentAnswer(question_id=q.question_id, student_answer_text=report.text)
+        requested = settings.feedback_language if feedback_language is None else feedback_language
+        lang = resolve_feedback_language(requested, report.language)
 
         notify("grading")
         self._maybe_warmup()
@@ -147,12 +155,12 @@ class GradingEngine:
         else:
             role, graded_by = "primary", self.llm.provider.model
         try:
-            results = self._sample_gradings(q, graded, n_samples, self.llm, settings.llm_native_n)
+            results = self._sample_gradings(q, graded, n_samples, self.llm, settings.llm_native_n, lang)
         except Exception as exc:
             # Auth errors are real config problems - never silently fall back.
             if _is_auth_error(exc) or self.mock:
                 raise
-            results, role, graded_by, warn = self._fallback_grade(q, graded, n_samples, exc)
+            results, role, graded_by, warn = self._fallback_grade(q, graded, n_samples, exc, lang)
             warnings.append(warn)
         notify("graded")
 
@@ -169,7 +177,7 @@ class GradingEngine:
         else:
             if not self.mock and settings.judge2_api_key:
                 notify("second")
-            judge2_grade = self._second_grader(q, graded)
+            judge2_grade = self._second_grader(q, graded, lang)
             if not self.mock and settings.judge2_api_key:
                 notify("second_done")
             judge2_total = judge2_grade.total_awarded if judge2_grade is not None else None
@@ -181,7 +189,7 @@ class GradingEngine:
             adjudicated, pre_total, referee_reason = False, rep_total, None
         else:
             representative, adjudicated, pre_total, referee_reason = self._maybe_adjudicate(
-                q, graded, representative, judge2_grade, rep_total, notify
+                q, graded, representative, judge2_grade, rep_total, notify, lang
             )
             if adjudicated:
                 referee_model = settings.referee_provider().model
@@ -198,6 +206,7 @@ class GradingEngine:
         confidence.graded_by = graded_by
         confidence.grader_role = role
         confidence.warnings = warnings
+        confidence.feedback_language = lang
 
         voters = list(results) + [judge2_grade] + ([representative] if adjudicated else [])
         flags, reasons = merge_flags(report, voters)
@@ -253,7 +262,7 @@ class GradingEngine:
         return grading, [], confidence
 
     def _sample_gradings(self, q: QuestionSpec, student: StudentAnswer, n_samples: int,
-                         llm: LLMClient, native_n: bool) -> List[GradingResult]:
+                         llm: LLMClient, native_n: bool, lang: Optional[str] = None) -> List[GradingResult]:
         """Sample N gradings from `llm`.
 
         Uses one native-n request when enabled, else a per-sample loop. Raises if
@@ -262,7 +271,7 @@ class GradingEngine:
         results = []
         if native_n and not self.mock:
             try:
-                system, user = build_grade_messages(q, student)
+                system, user = build_grade_messages(q, student, lang)
                 raw_list = llm.chat_json_n(
                     system,
                     user,
@@ -284,13 +293,14 @@ class GradingEngine:
             # Fewer than 2 valid native-n results: fall back to the per-sample loop.
             results = []
             for i in range(n_samples):
-                results.append(self.grade_once(q, student, jitter=i, llm=llm))
+                results.append(self.grade_once(q, student, jitter=i, llm=llm, feedback_language=lang))
                 # Delay between samples to respect free-tier rate limits
                 if not self.mock and settings.request_pacing and i < n_samples - 1:
                     time.sleep(settings.request_pacing)
         return results
 
-    def _fallback_grade(self, q: QuestionSpec, student: StudentAnswer, n_samples: int, primary_exc: Exception):
+    def _fallback_grade(self, q: QuestionSpec, student: StudentAnswer, n_samples: int, primary_exc: Exception,
+                        lang: Optional[str] = None):
         """Grade with the next provider in the chain after the primary failed.
 
         The chain is the fallback provider (per-sample loop, never native n), then
@@ -303,7 +313,7 @@ class GradingEngine:
             logger.warning("Primary grading failed for Q%s; trying fallback %s: %s",
                            q.question_id, fallback.model, primary_exc)
             try:
-                results = self._sample_gradings(q, student, n_samples, LLMClient(fallback), native_n=False)
+                results = self._sample_gradings(q, student, n_samples, LLMClient(fallback), False, lang)
                 return results, "fallback", fallback.model, (
                     f"Q{q.question_id}: the primary model failed after retries, so this "
                     f"question was graded by the fallback model ({fallback.model})."
@@ -315,7 +325,7 @@ class GradingEngine:
         if judge2 is not None:
             logger.warning("Grading Q%s with the second grader %s", q.question_id, judge2.model)
             try:
-                results = [self._judge2_grade(q, student)]
+                results = [self._judge2_grade(q, student, lang)]
                 also = " (and so did the fallback)" if fallback is not None else ""
                 return results, "judge2", judge2.model, (
                     f"Q{q.question_id}: the primary model failed after retries{also}, so this "
@@ -327,31 +337,32 @@ class GradingEngine:
             raise primary_exc
         raise LLMError("all graders failed - " + "; ".join(errors))
 
-    def _second_grader(self, q: QuestionSpec, student: StudentAnswer) -> Optional[GradingResult]:
+    def _second_grader(self, q: QuestionSpec, student: StudentAnswer,
+                       lang: Optional[str] = None) -> Optional[GradingResult]:
         """Grade once with an independent second model (best-effort; None if unavailable)."""
         if self.mock or not settings.judge2_api_key:
             return None
         try:
-            return self._judge2_grade(q, student)
+            return self._judge2_grade(q, student, lang)
         except Exception as exc:  # noqa: BLE001 - judge 2 is best-effort only
             logger.warning("Second-grader check failed for Q%s (skipped): %s", q.question_id, exc)
             return None
 
-    def _maybe_adjudicate(self, q, student, primary, judge2_grade, rep_total, notify=None):
+    def _maybe_adjudicate(self, q, student, primary, judge2_grade, rep_total, notify=None, lang=None):
         """Referee the two gradings when they disagree materially (see `maybe_adjudicate`)."""
-        return maybe_adjudicate(q, student, primary, judge2_grade, rep_total, self._validate, notify)
+        return maybe_adjudicate(q, student, primary, judge2_grade, rep_total, self._validate, notify, lang)
 
-    def _judge2_grade(self, q: QuestionSpec, student: StudentAnswer) -> GradingResult:
+    def _judge2_grade(self, q: QuestionSpec, student: StudentAnswer, lang: Optional[str] = None) -> GradingResult:
         """Single temperature-0 grading by the independent second model."""
-        system, user = build_grade_messages(q, student)
+        system, user = build_grade_messages(q, student, lang)
         raw = LLMClient(settings.judge2_provider()).chat_json(
             system, user, temperature=0.0, max_tokens=800, max_attempts=2
         )
         return self._validate(q, raw)
 
-    def _referee_grade(self, q, student, primary, second) -> GradingResult:
+    def _referee_grade(self, q, student, primary, second, lang=None) -> GradingResult:
         """One referee call deciding the final mark (see `referee_grade`)."""
-        return referee_grade(q, student, primary, second, self._validate)
+        return referee_grade(q, student, primary, second, self._validate, lang)
 
     # -- JSON validation -----------------------------------------------------
 

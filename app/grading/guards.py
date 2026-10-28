@@ -132,7 +132,10 @@ def redact_injections(text: str) -> Tuple[str, List[str]]:
 
 # --- blank / restated / gibberish / script ---------------------------------
 
-_WORD_RE = re.compile(r"[\wऀ-ॿ]+")
+# Indic scripts (Devanagari to Sinhala) are listed explicitly because \w does not
+# match their vowel signs, which would split words apart.
+_INDIC = "ऀ-෿"
+_WORD_RE = re.compile(r"[\w" + _INDIC + r"]+")
 _PLACEHOLDERS = {
     "n/a", "na", "no answer", "not attempted", "not answered", "skip", "skipped",
     "idk", "i don't know", "i dont know", "i do not know", "don't know", "dont know",
@@ -194,12 +197,12 @@ def _gibberish_word(w: str) -> bool:
 def gibberish_ratio(text: str) -> float:
     """Return the share of the answer that looks like keyboard mash or random symbols (0-1).
 
-    Formulas, numbers and Devanagari words are treated as meaningful.
+    Formulas, numbers and words in Indic scripts are treated as meaningful.
     """
     chars = re.sub(r"\s", "", text or "")
     if not chars:
         return 0.0
-    meaningful = sum(1 for c in chars if c.isalnum() or "ऀ" <= c <= "ॿ" or c in "=+-*/^().,;:%'\"?!<>[]{}|_")
+    meaningful = sum(1 for c in chars if c.isalnum() or "ऀ" <= c <= "෿" or c in "=+-*/^().,;:%'\"?!<>[]{}|_")
     if len(chars) >= 10 and meaningful / len(chars) < 0.5:
         return 1.0 - meaningful / len(chars)
     words = [w for w in re.findall(r"[A-Za-z]+", text) if len(w) >= 3]

@@ -72,6 +72,8 @@ class ConfidenceScore(BaseModel):
     # Detected language of the answer (e.g. "English", "Hindi", "Hinglish"). Informational:
     # never a flag unless the rubric explicitly requires a language.
     answer_language: Optional[str] = None
+    # Language the feedback and justifications were requested in.
+    feedback_language: Optional[str] = None
     eigv_confidence: Optional[float] = None
     warnings: List[str] = []
     combined_confidence: float

@@ -49,6 +49,8 @@
               <option value="good">English (good)</option>
               <option value="weak">English (weak)</option>
               <option value="adversarial">Adversarial (prompt injection)</option>
+              <option value="hindi">Hindi</option>
+              <option value="tamil">Tamil</option>
             </select>
             <button id="sample-load" class="btn btn-ghost" type="button">Load sample</button>
           </div>
@@ -167,6 +169,26 @@
             <label for="threshold">Confidence needed</label>
             <input type="number" id="threshold" value="0.85" min="0" max="1" step="0.05" inputmode="decimal" aria-describedby="threshold-hint" />
             <p class="field-hint" id="threshold-hint">Below this (0–1), an answer is sent to a second examiner.</p>
+          </div>
+          <div class="field">
+            <label for="feedback_language">Feedback language</label>
+            <select id="feedback_language" aria-describedby="feedback_language-hint">
+              <option value="auto">Auto (student's language)</option>
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="Hinglish">Hinglish</option>
+              <option value="ta">Tamil</option>
+              <option value="te">Telugu</option>
+              <option value="bn">Bengali</option>
+              <option value="kn">Kannada</option>
+              <option value="ml">Malayalam</option>
+              <option value="mr">Marathi</option>
+              <option value="gu">Gujarati</option>
+              <option value="pa">Punjabi</option>
+              <option value="or">Odia</option>
+              <option value="ur">Urdu</option>
+            </select>
+            <p class="field-hint" id="feedback_language-hint">Language of the comments and reasons. Marks do not depend on it.</p>
           </div>
         </div>
       </details>

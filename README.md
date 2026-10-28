@@ -25,6 +25,9 @@ Grades a student's answer sheet against a rubric and model answers, and attaches
 - **Edge cases handled without crashing**: blank answers, over-long answers, missing
   or extra questions, mismatched rubric totals, unreadable files.
 - **Fallback chain**: primary model, then a fallback model, then the second grader.
+- **Indian languages and code-mixed text**: question papers, rubrics and answers in
+  Hindi, Tamil, Telugu, Bengali and other Indic scripts, or Hinglish; feedback in the
+  student's language or one you choose (see [Languages](#languages)).
 - **Any input format**: text, PDF (text layer), or scans and photos through a vision
   LLM or Tesseract OCR. The extracted text is editable before marking.
 - **Examiner's-desk UI**: streamed progress, a hand-marked script with red-pen
@@ -53,9 +56,10 @@ flowchart TD
 
 1. **Ingestion** ([app/ingestion/](app/ingestion/)). Files are identified by magic
    bytes as well as extension. Text-layer PDFs are read with pypdf. Images and scanned
-   PDFs (up to 10 pages) go to OCR. Inputs are split on English question anchors
-   ("Question 1 (5 marks)", "Q2", "Problem 3") or a numbered list, and marks and rubric
-   criteria ("2 marks for ...") are extracted. Question papers can also be JSON.
+   PDFs (up to 10 pages) go to OCR. Inputs are split on question anchors in English
+   ("Question 1 (5 marks)", "Q2", "Problem 3") or an Indian language ("प्रश्न १ (५ अंक)",
+   "கேள்வி 2") or a numbered list, and marks and rubric criteria ("2 marks for ...",
+   "2 अंक: ...") are extracted. Question papers can also be JSON.
 2. **Guards** ([app/grading/guards.py](app/grading/guards.py)). Deterministic checks
    run before any LLM call (see [Robustness](#robustness)).
 3. **Sampling** ([app/grading/engine.py](app/grading/engine.py)). The primary model
@@ -95,6 +99,31 @@ Semantic consistency is off by default because it did not predict errors in the
 ablation (AUROC 0.49, chance level). With its weight at 0 and EigV not requested,
 no embeddings are computed and the embedding model is never loaded.
 
+## Languages
+
+- **Inputs.** Question anchors are recognised in English and in Hindi/Marathi
+  (प्रश्न), Tamil (கேள்வி), Telugu (ప్రశ్న), Bengali (প্রশ্ন), Kannada (ಪ್ರಶ್ನೆ), Malayalam
+  (ചോദ്യം), Gujarati (પ્રશ્ન) and Punjabi (ਪ੍ਰਸ਼ਨ), with marks written as marks, अंक,
+  மதிப்பெண்கள், మార్కులు, নম্বর and the like. Hindi rubrics can also use Hindi word
+  order ("नियम के कथन के लिए 1 अंक"). Indic digits (१ ௧ ౧ ১ ...) become ASCII, so
+  "प्रश्न १" in a Hindi paper matches "Question 1" or "கேள்வி 1" in an answer sheet.
+- **OCR.** The vision model is told the text may be English, any Indic script or
+  code-mixed, and to transcribe every word in its original script without translating
+  or transliterating.
+- **Feedback language.** `FEEDBACK_LANGUAGE` (or the `feedback_language` form field,
+  or "Feedback language" under Marking settings in the UI) is `auto`, `en`, or a
+  language code or name (`hi`, `Tamil`, `Hinglish`, ...). `auto` uses the student's
+  detected answer language, so a Tamil answer gets Tamil feedback and an English
+  answer English feedback. Feedback and per-criterion justifications are written in it;
+  the marks are not supposed to depend on it. For English the prompt is unchanged. The
+  value is checked against language codes and names before it goes into a prompt.
+- **Samples.** "Hindi" (Hindi paper, rubric, model answers and answers; the paper
+  numbers questions with Devanagari digits and the answer sheet with ASCII digits) and
+  "Tamil" (English paper, Tamil answers) in the sample picker.
+- **Bodhan IndicOCR** (`OCR_PROVIDER=bodhan`, `BODHAN_BASE_URL`, `BODHAN_OCR_KEY`,
+  `BODHAN_OCR_MODEL`) is a documented stub: the API reference was not available, so
+  selecting it returns a clear error. The vision model reads Indic scripts meanwhile.
+
 ## Robustness
 
 ### Prompt-injection defence
@@ -115,7 +144,9 @@ no embeddings are computed and the embedding model is never loaded.
   least half of the gradings report it, so one noisy sample cannot force review.
 - **Language is not a problem.** Answers in Hindi, Tamil, Hinglish and other
   languages are graded normally; the detected language is shown for information.
-  `language_mismatch` is raised only when the rubric requires a language.
+  `language_mismatch` is raised only when the rubric requires a language. The guards
+  treat every Indic script as text, so Tamil or Telugu answers are not mistaken for
+  gibberish.
 - Flags never change marks. The only change to the graded text is the redaction.
 
 ### Edge cases
@@ -216,9 +247,49 @@ reports CER, WER, question-label recall, latency, and optionally the change in m
 when OCR text is graded instead of the ground truth. Real photos with a `.txt`
 transcription can be added to `eval/ocr_data/real/`.
 
-Recorded run: 8 images from items P1-P3 (3 clean typed, 3 handwriting, 2 phone
-photo) through `deepseek/deepseek-v4.1-flash-1017` on OpenRouter. CER 0.000 and WER
-0.000 on all 8; mean latency 9.7 s, inflated by one 55 s first request.
+Recorded run (before the multilingual OCR prompt): 8 images from items P1-P3 (3 clean
+typed, 3 handwriting, 2 phone photo) through `deepseek/deepseek-v4.1-flash-1017` on
+OpenRouter. CER 0.000 and WER 0.000 on all 8; mean latency 9.7 s, inflated by one 55 s
+first request. The benchmark has no Indic-script images yet.
+
+### Multilingual consistency
+
+`python -m eval.multilingual` grades 8 items from the eval set (P2, P5, M1, M4, E1, E2,
+C2, P8: full, partial and zero marks) with the student's answer in English, Hindi,
+Tamil and Telugu. The question, rubric, model answer and ground truth stay in English.
+The translations are machine-translated and not reviewed by native speakers. The
+English answers are graded a second time, so that sampling noise alone can be compared
+with the cross-language differences. Results are in
+[eval/results/multilingual.json](eval/results/multilingual.json).
+
+Run of Oct 28: primary `deepseek/deepseek-v4.1-flash`, second grader
+`gemini-3.5-flash-lite`, referee `mistralai/mistral-large-4-0`, 5 samples,
+`FEEDBACK_LANGUAGE=auto`.
+
+| Language | MAE vs ground truth | Mean \|mark − English mark\| | Max | Mean confidence | Flagged |
+|---|---|---|---|---|---|
+| English | 0.00 | - | - | 0.94 | 2 |
+| Hindi | 0.25 | 0.25 | 2.0 | 0.92 | 1 |
+| Tamil | 0.25 | 0.25 | 2.0 | 0.92 | 2 |
+| Telugu | 0.31 | 0.31 | 2.0 | 0.85 | 2 |
+| English, graded again | 0.06 | 0.06 | 0.5 | 0.92 | 2 |
+
+Seven of the eight items got the same mark in every language (Telugu C2 got 3.5
+instead of 4; the English rerun of C2 also got 3.5). All of the remaining gap comes from
+one item, P8 ("50 m/s" where the working gives 50 km/h, ground truth 2/5). It got 2 in
+English both times but 0 in Hindi, Tamil and Telugu. In each language the second
+grader gave 2, and the referee sided with 0. So on this item the primary and the
+referee were stricter when the same answer was not in English. The main answer
+language was detected correctly for every translated answer (the short English P5
+answer is undetectable and falls back to English), and feedback came back in the
+requested language every time. Hindi feedback read
+naturally. Tamil and Telugu feedback was understandable but mixed in English words
+("methods", "conversion step"), and one Telugu reply contained a stray Japanese
+fragment.
+
+The bundled Hindi sample graded end to end with the same models: 7/8 (Q2 partly
+correct, as intended), all five samples and the second grader in agreement, no flags,
+feedback and justifications in Hindi.
 
 ### Limitations
 
@@ -231,6 +302,12 @@ photo) through `deepseek/deepseek-v4.1-flash-1017` on OpenRouter. CER 0.000 and 
   mark once in 6 adjudications; MAE moved from 0.24 to 0.23, within noise.
 - **One ground-truth mark per item**, with no inter-rater agreement to compare the
   model against.
+- **Multilingual eval is small and translated.** 8 items, one run, machine-translated
+  answers; the language effect it found rests on a single item (P8). Indic-script
+  question papers and rubrics are covered by tests and the Hindi sample, not by a
+  labelled eval.
+- **Feedback quality varies by language** with the primary model: fluent in Hindi,
+  with code-mixing artefacts in Tamil and Telugu.
 - **Mock mode** checks the pipeline, not grading quality.
 
 ## Setup
@@ -260,6 +337,7 @@ pytest                                  # mock mode only, no network
 python smoke_test.py --mock             # end-to-end through the API
 python -m eval.run --samples 5 --repeats 3
 python -m eval.adversarial
+python -m eval.multilingual
 python -m eval.make_ocr_images && python -m eval.ocr_run --provider openrouter --limit 8
 ```
 
@@ -289,6 +367,7 @@ The tests and lint also run on every push ([.github/workflows/tests.yml](.github
 | `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | sentence-transformers model |
 | `ERROR_MARGIN` | `0.5` | marks gap counted as an error (eval) |
 | `ADJUDICATE` | `true` | referee material disagreements |
+| `FEEDBACK_LANGUAGE` | `auto` | feedback language: `auto` (student's answer language), `en`, or a code or name such as `hi` or `Tamil` |
 | `JUDGE2_BASE_URL` | Gemini OpenAI-compatible endpoint | second grader endpoint |
 | `JUDGE2_API_KEY` | *(empty)* | enables the second grader |
 | `JUDGE2_MODEL` | `gemini-3.5-flash-lite` | second grader model |
@@ -297,11 +376,12 @@ The tests and lint also run on every push ([.github/workflows/tests.yml](.github
 | `FALLBACK_MODEL` | *(empty)* | enables the fallback grader |
 | `FALLBACK_BASE_URL` / `FALLBACK_API_KEY` | primary's values | fallback endpoint and key |
 | `FALLBACK_EXTRA_BODY` | *(empty)* | JSON merged into fallback requests |
-| `OCR_PROVIDER` | `auto` | `auto` (vision if a key is set, else Tesseract), `vision`, `tesseract`, `bodhan` (placeholder) |
+| `OCR_PROVIDER` | `auto` | `auto` (vision if a key is set, else Tesseract), `vision`, `tesseract`, `bodhan` (stub) |
 | `OCR_BASE_URL` / `OCR_API_KEY` | primary's values | OCR endpoint and key (must be a vision model) |
 | `OCR_MODEL` | `LLM_MODEL` | OCR model |
 | `OCR_DISABLE_THINKING` | `false` | turn off reasoning for OCR requests |
 | `OCR_EXTRA_BODY` | *(empty)* | JSON merged into OCR requests; overrides `OCR_DISABLE_THINKING` |
+| `BODHAN_BASE_URL` / `BODHAN_OCR_KEY` / `BODHAN_OCR_MODEL` | *(empty)* | Bodhan IndicOCR (backend not implemented yet) |
 
 [.env.example](.env.example) has a working configuration with comments.
 
@@ -332,15 +412,15 @@ the server rejects files over 4 MB.
 | Method and path | Purpose |
 |---|---|
 | `GET /api/health` | status, mock flag, models, sampling and confidence settings (no keys) |
-| `GET /api/samples` | bundled sample sets: `good`, `weak`, `adversarial` |
+| `GET /api/samples` | bundled sample sets: `good`, `weak`, `adversarial`, `hindi`, `tamil` |
 | `GET /api/sample?name=good` | text of one sample set |
 | `POST /api/extract` | multipart files `question_paper`, `answer_sheet`, `rubric`, `model_answers`; returns `{"inputs": {key: {filename, text, ocr, warning, error}}}` without grading |
-| `POST /api/grade` | the same files or `*_text` form fields, optional `structured_json`, `n_samples` (1-10), `threshold`, `stream` |
+| `POST /api/grade` | the same files or `*_text` form fields, optional `structured_json`, `n_samples` (1-10), `threshold`, `feedback_language`, `stream` |
 
 `/api/grade` returns a `PipelineResult`: per question the grading (criterion
 scores, total, feedback), the sampled totals, and a `confidence` object with every
 component, `combined_confidence`, `flagged`, `integrity_flags` /
-`integrity_reasons`, `answer_language`, `judge2_total`, `adjudicated`,
+`integrity_reasons`, `answer_language`, `feedback_language`, `judge2_total`, `adjudicated`,
 `pre_adjudication_total`, `referee_model`, `graded_by` and `grader_role`; plus
 totals, overall confidence, flagged question ids and warnings. With `stream=true` it
 returns NDJSON: a `start` event, `stage` events per question (`grading`, `graded`,
@@ -385,19 +465,22 @@ eval/
   ocr_dataset.py              OCR benchmark entries and loaders
   make_ocr_images.py          renders the synthetic OCR images
   ocr_run.py                  OCR benchmark CLI: CER, WER, label recall, latency, grading impact
+  multilingual.py             same answers in English, Hindi, Tamil, Telugu: per-language MAE and consistency
   ocr_data/manifest.json      list of generated OCR images and their ground truth
   ocr_data/real/README.md     how to add real photos
   results/metrics.json        grading eval results
   results/calibration_curve.png  calibration plot
   results/adversarial.json    adversarial eval results
   results/ocr_metrics.json    OCR benchmark results
+  results/multilingual.json   multilingual eval results
 tests/
   conftest.py                 mock mode, no .env, no network, no sleeps
-  test_parser.py              anchors, marks, rubric sums, answer sheets, file extraction
-  test_guards.py              each injection pattern, blank, restated, gibberish, sample sheets
+  test_parser.py              English and Indic anchors, digits, marks, rubric sums, answer sheets, files
+  test_guards.py              each injection pattern, blank, restated, gibberish, Indic answers, samples
   test_scorer.py              agreement, cross-model, weight renormalisation, 0.5 cap
   test_providers.py           fallback chain, extra_body scoping, output-budget error (fake client)
-  test_api.py                 /api/health, /api/extract, /api/grade (JSON and stream)
+  test_api.py                 /api/health, /api/extract, /api/grade (JSON and stream), language samples
+  test_language.py            feedback language, OCR prompt, Bodhan stub, multilingual eval
 sample_data/
   question_paper.txt          four-question sample paper
   rubric.txt                  rubric for the sample paper
@@ -405,6 +488,14 @@ sample_data/
   answer_sheet_good.txt       strong answers
   answer_sheet_poor.txt       weak answers
   answer_sheet_adversarial.txt  injection, blank and Hindi answers
+  hindi/question_paper.txt    Hindi paper (Devanagari question numbers)
+  hindi/rubric.txt            Hindi rubric
+  hindi/model_answers.txt     Hindi model answers
+  hindi/answer_sheet.txt      Hindi answers
+  tamil/question_paper.txt    English paper
+  tamil/rubric.txt            English rubric
+  tamil/model_answers.txt     English model answers
+  tamil/answer_sheet.txt      Tamil answers
 docs/screenshots/             UI screenshots (mock mode)
 .github/workflows/tests.yml   ruff and pytest on every push
 smoke_test.py                 end-to-end request through the API

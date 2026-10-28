@@ -160,3 +160,31 @@ def test_merge_flags_ignores_model_blank_and_language():
     report = check_answer("A real answer about forces and motion.", "Explain forces.")
     votes = [_grading(["blank", "language_mismatch"]) for _ in range(3)]
     assert merge_flags(report, votes + [None])[0] == []
+
+
+INDIC_ANSWERS = {
+    "Hindi": "प्रकाश संश्लेषण वह प्रक्रिया है जिसके द्वारा पौधे भोजन बनाते हैं।",
+    "Tamil": "ஒளிச்சேர்க்கை என்பது தாவரங்கள் சூரிய ஒளியை வேதி ஆற்றலாக மாற்றும் செயல்முறை ஆகும்.",
+    "Telugu": "కిరణజన్య సంయోగక్రియ అనేది మొక్కలు సూర్యరశ్మిని రసాయన శక్తిగా మార్చే ప్రక్రియ.",
+    "Bengali": "সালোকসংশ্লেষণ হল সেই প্রক্রিয়া যার মাধ্যমে উদ্ভিদ সূর্যালোককে রাসায়নিক শক্তিতে রূপান্তর করে।",
+}
+
+
+@pytest.mark.parametrize("language,answer", list(INDIC_ANSWERS.items()))
+def test_indic_answers_are_not_flagged(language, answer):
+    report = check_answer(answer, "Define photosynthesis in your own words.")
+    assert report.flags == [] and report.language == language
+
+
+def test_indic_words_are_not_split_at_vowel_signs():
+    assert guards._WORD_RE.findall("ஒளிச்சேர்க்கை என்பது; కిరణజన్య") == ["ஒளிச்சேர்க்கை", "என்பது", "కిరణజన్య"]
+
+
+@pytest.mark.parametrize("folder", ["hindi", "tamil"])
+def test_no_false_positives_on_language_samples(sample_text, folder):
+    questions = parse_question_paper(sample_text(f"{folder}/question_paper.txt"))
+    answers, _ = parse_answer_sheet(sample_text(f"{folder}/answer_sheet.txt"), [q.question_id for q in questions])
+    for q in questions:
+        report = check_answer(answers[q.question_id].student_answer_text, q.question_text)
+        assert report.flags == [], (folder, q.question_id, report.reasons)
+        assert report.language.split(" + ")[0] == folder.capitalize()

@@ -1,13 +1,17 @@
 """Ingestion and parsing: extract text from files and segment it by question.
 
-Question papers, rubrics, model answers and answer sheets are split on English
-question anchors ("Question 1 (5 marks)", "Q2", "Problem 3") or, failing that, a
-numbered list ("1." / "2)"). Question papers may also be structured JSON.
+Question papers, rubrics, model answers and answer sheets are split on question
+anchors in English ("Question 1 (5 marks)", "Q2", "Problem 3") or an Indian language
+("प्रश्न 1 (5 अंक)", "கேள்வி 2", "ప్రశ్న 3", "প্রশ্ন ৪", ...) or, failing that, a
+numbered list ("1." / "2)"). Indic digits are normalised to ASCII, so "प्रश्न १" in
+the paper matches "Question 1" in an answer sheet. Question papers may also be
+structured JSON.
 """
 import io
 import json
 import os
 import re
+import unicodedata
 from typing import Dict, List, Optional, Tuple
 
 from app.models import QuestionSpec, RubricCriterion, StudentAnswer
@@ -154,12 +158,47 @@ def extract_text(filename: Optional[str], data: bytes) -> str:
 # Question segmentation helpers
 # ---------------------------------------------------------------------------
 
-_HEADER_RE = re.compile(r"(?mi)^\s*(?:question|q\.?|problem)\s*(\d+)\b[^\n]*")
-_NUMBERED_RE = re.compile(r"(?m)^\s*(\d+)\s*[.)]\s+")
-_MARKS_RE = re.compile(r"(?i)(\d+(?:\.\d+)?)\s*(?:marks?|points?|pts?)")
-_CRITERION_RE = re.compile(
-    r"(?i)(\d+(?:\.\d+)?)\s*(?:mark|point|pt)s?\s*(?:for|if|-|:)\s*([^\n;,]+)"
+# "Question" in English and Indian languages: Hindi/Marathi, Tamil, Telugu, Bengali,
+# Kannada, Malayalam, Gujarati, Punjabi.
+_QUESTION_WORDS = (
+    r"question|q\.?|problem|प्रश्न|கேள்வி|ప్రశ్న|প্রশ্ন|ಪ್ರಶ್ನೆ|ചോദ്യം|પ્રશ્ન|ਪ੍ਰਸ਼ਨ"
 )
+# "Marks": longer forms first so the whole word is consumed.
+_MARKS_WORDS = (
+    r"marks?|points?|pts?|अंक|नंबर|मार्क्स|மதிப்பெண்கள்|மதிப்பெண்|మార్కులు|మార్కు|নম্বর|"
+    r"ಅಂಕಗಳು|ಅಂಕ|മാർക്ക്|ગુણ|ਅੰਕ"
+)
+# \d matches every Unicode decimal digit (१, ௧, ౧, ১, ...); numbers are normalised
+# with normalize_digits before use.
+_HEADER_RE = re.compile(r"(?mi)^\s*(?:" + _QUESTION_WORDS + r")\s*[-–.:]?\s*(\d+)\b[^\n]*")
+_NUMBERED_RE = re.compile(r"(?m)^\s*(\d+)\s*[.)]\s+")
+_MARKS_RE = re.compile(r"(?i)(\d+(?:\.\d+)?)\s*(?:" + _MARKS_WORDS + r")")
+# "2 marks for X", "2 अंक: X", "2 மதிப்பெண்கள் - X"
+_CRITERION_RE = re.compile(
+    r"(?i)(\d+(?:\.\d+)?)\s*(?:" + _MARKS_WORDS + r")\s*(?:for|if|-|:|के\s+लिए)\s*([^\n;,।]+)"
+)
+# Hindi word order: "X के लिए 2 अंक"
+_CRITERION_HI_RE = re.compile(r"([^\n;,।:]+?)\s+के\s+लिए\s+(\d+(?:\.\d+)?)\s*(?:अंक|नंबर|मार्क्स)")
+
+
+def normalize_digits(text: str) -> str:
+    """Replace every non-ASCII decimal digit (१, ௧, ౧, ১, ...) with its ASCII digit.
+
+    Args:
+        text: Any text.
+
+    Returns:
+        The text with only ASCII digits.
+    """
+    if text.isascii():
+        return text
+    return "".join(
+        str(unicodedata.decimal(c)) if c.isdecimal() and not c.isascii() else c for c in text
+    )
+
+
+def _number(value: str) -> float:
+    return float(normalize_digits(value))
 
 
 def _split_segments(text):
@@ -179,7 +218,7 @@ def _split_segments(text):
         header = m.group(0)
         start = m.end()
         end = markers[i + 1].start() if i + 1 < len(markers) else len(text)
-        segments.append((m.group(1), header, text[start:end].strip()))
+        segments.append((normalize_digits(m.group(1)), header, text[start:end].strip()))
     return segments
 
 
@@ -236,7 +275,7 @@ def _parse_structured_json(text):
             raise ParseError(f"Structured JSON question has invalid marks: {exc}") from exc
         questions.append(
             QuestionSpec(
-                question_id=str(item.get("question_id", item.get("id", len(questions) + 1))),
+                question_id=normalize_digits(str(item.get("question_id", item.get("id", len(questions) + 1)))),
                 question_text=str(item["question_text"]),
                 max_marks=max_marks if max_marks > 0 else 1.0,
                 rubric_criteria=criteria,
@@ -285,7 +324,7 @@ def parse_question_paper(text: str, warnings: Optional[List[str]] = None) -> Lis
         if not m:
             m = _MARKS_RE.search(body[:300])
         if m:
-            marks = float(m.group(1))
+            marks = _number(m.group(1))
         specified = marks is not None and marks > 0
         questions.append(
             QuestionSpec(
@@ -303,8 +342,9 @@ def parse_question_paper(text: str, warnings: Optional[List[str]] = None) -> Lis
 def parse_rubric(text: str, warnings: Optional[List[str]] = None) -> Dict[str, List[RubricCriterion]]:
     """Parse a rubric into criteria per question. Best effort.
 
-    Criteria are phrases like "2 marks for stating the law". Text without question
-    anchors is treated as the rubric for question 1.
+    Criteria are phrases like "2 marks for stating the law", "2 अंक: नियम का कथन" or,
+    in Hindi word order, "नियम के कथन के लिए 2 अंक". Text without question anchors is
+    treated as the rubric for question 1.
 
     Args:
         text: Rubric text.
@@ -319,8 +359,14 @@ def parse_rubric(text: str, warnings: Optional[List[str]] = None) -> Dict[str, L
     result = {}
     for qid, _header, body in _dedupe(segments, "rubric", warnings):
         criteria = []
-        for m in _CRITERION_RE.finditer(body):
-            criteria.append(RubricCriterion(criterion=m.group(2).strip(), marks=float(m.group(1))))
+        matches = [(m.start(), m.end(), m.group(2), m.group(1)) for m in _CRITERION_RE.finditer(body)]
+        matches += [(m.start(), m.end(), m.group(1), m.group(2)) for m in _CRITERION_HI_RE.finditer(body)]
+        last_end = -1
+        for start, end, criterion, marks in sorted(matches):
+            if start < last_end:
+                continue  # both forms matched the same text
+            last_end = end
+            criteria.append(RubricCriterion(criterion=criterion.strip(), marks=_number(marks)))
         if criteria:
             result[qid] = criteria
     return result

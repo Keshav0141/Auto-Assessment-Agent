@@ -16,6 +16,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.grading.engine import GradingEngine
+from app.grading.prompts import FeedbackLanguageError, normalize_language
 from app.ingestion.ocr import backend_label as ocr_backend_label
 from app.ingestion.ocr import provider_name as ocr_provider_name
 from app.ingestion.parser import (
@@ -87,6 +88,7 @@ def health() -> Dict[str, Any]:
         "judge2_model": settings.judge2_model if settings.judge2_api_key else None,
         "second_examiner_active": _second_examiner_active(),
         "adjudicate": settings.adjudicate,
+        "feedback_language": settings.feedback_language,
         "referee_model": settings.referee_provider().model,
         "fallback_model": fallback.model if fallback else None,
         "weights": {
@@ -98,12 +100,25 @@ def health() -> Dict[str, Any]:
     }
 
 
-# Bundled sample sets: they share the paper, rubric and model answers and differ in
-# the answer sheet.
+def _sample_files(folder: str = "", answer_sheet: str = "answer_sheet.txt") -> Dict[str, str]:
+    """File names (relative to sample_data/) for one sample set."""
+    names = {
+        "question_paper_text": "question_paper.txt",
+        "answer_sheet_text": answer_sheet,
+        "rubric_text": "rubric.txt",
+        "model_answers_text": "model_answers.txt",
+    }
+    return {key: f"{folder}/{name}" if folder else name for key, name in names.items()}
+
+
+# Bundled sample sets. The English ones share the paper, rubric and model answers and
+# differ in the answer sheet; each language has its own folder.
 SAMPLES = {
-    "good": ("English (good)", "answer_sheet_good.txt"),
-    "weak": ("English (weak)", "answer_sheet_poor.txt"),
-    "adversarial": ("Adversarial (prompt injection)", "answer_sheet_adversarial.txt"),
+    "good": ("English (good)", _sample_files(answer_sheet="answer_sheet_good.txt")),
+    "weak": ("English (weak)", _sample_files(answer_sheet="answer_sheet_poor.txt")),
+    "adversarial": ("Adversarial (prompt injection)", _sample_files(answer_sheet="answer_sheet_adversarial.txt")),
+    "hindi": ("Hindi", _sample_files("hindi")),
+    "tamil": ("Tamil", _sample_files("tamil")),
 }
 
 
@@ -128,13 +143,8 @@ def sample(name: str = "good") -> Dict[str, str]:
     """
     if name not in SAMPLES:
         raise HTTPException(404, f"Unknown sample '{name}'. Choose one of: {', '.join(SAMPLES)}.")
-    files = {
-        "question_paper_text": "question_paper.txt",
-        "answer_sheet_text": SAMPLES[name][1],
-        "rubric_text": "rubric.txt",
-        "model_answers_text": "model_answers.txt",
-    }
-    out = {"name": name, "label": SAMPLES[name][0]}
+    label, files = SAMPLES[name]
+    out = {"name": name, "label": label}
     for key, fname in files.items():
         try:
             with open(os.path.join(_SAMPLE_DIR, fname), "r", encoding="utf-8") as f:
@@ -294,11 +304,12 @@ def _prepare(question_paper, answer_sheet, rubric, model_answers, question_paper
     return questions, answer_map, warnings
 
 
-def _grade_all(questions, answer_map, warnings, n, thr, emit=None) -> PipelineResult:
+def _grade_all(questions, answer_map, warnings, n, thr, emit=None, feedback_language=None) -> PipelineResult:
     """Grade every question in parallel and aggregate the results.
 
     `emit`, if given, receives progress events:
-    {"type": "stage", "stage": ..., "question": id}.
+    {"type": "stage", "stage": ..., "question": id}. `feedback_language` is passed
+    to the engine (None: FEEDBACK_LANGUAGE).
     """
 
     def _grade_one(q):
@@ -312,7 +323,8 @@ def _grade_all(questions, answer_map, warnings, n, thr, emit=None) -> PipelineRe
                 emit({"type": "stage", "stage": stage, "question": qid})
         try:
             representative, _samples, confidence = engine.grade_with_confidence(
-                q, student, n_samples=n, threshold=thr, progress=progress
+                q, student, n_samples=n, threshold=thr, progress=progress,
+                feedback_language=feedback_language,
             )
         except Exception as exc:
             raise HTTPException(502, f"Grading failed for Q{q.question_id}: {exc}")
@@ -353,13 +365,14 @@ def _grade_all(questions, answer_map, warnings, n, thr, emit=None) -> PipelineRe
     )
 
 
-def _stream(questions, answer_map, warnings, n, thr):
+def _stream(questions, answer_map, warnings, n, thr, feedback_language=None):
     """Return an NDJSON stream of real progress events, then the result (or an error)."""
     events: "queue.Queue" = queue.Queue()
 
     def worker():
         try:
-            result = _grade_all(questions, answer_map, warnings, n, thr, emit=events.put)
+            result = _grade_all(questions, answer_map, warnings, n, thr, emit=events.put,
+                                feedback_language=feedback_language)
             events.put({"type": "result", "result": jsonable_encoder(result)})
         except HTTPException as exc:
             events.put({"type": "error", "status": exc.status_code, "detail": exc.detail})
@@ -401,11 +414,14 @@ def grade(
     n_samples: Optional[int] = Form(None),
     threshold: Optional[float] = Form(None),
     stream: Optional[bool] = Form(False),
+    feedback_language: Optional[str] = Form(None),
 ) -> Union[PipelineResult, StreamingResponse]:
     """Grade an answer sheet.
 
     Inputs are files or the matching `*_text` form fields. `n_samples` is clamped to
-    1-10 and `threshold` to 0-1.
+    1-10 and `threshold` to 0-1. `feedback_language` is auto (the student's answer
+    language), a language code such as `en` or `hi`, or a name such as `Tamil`
+    (default: FEEDBACK_LANGUAGE).
 
     Returns:
         A PipelineResult, or with `stream=true` an NDJSON stream: a `start` event,
@@ -416,6 +432,11 @@ def grade(
         HTTPException: 4xx for input errors (in both modes), 502 when grading fails
             (non-streaming).
     """
+    if feedback_language is not None:
+        try:
+            feedback_language = normalize_language(feedback_language)
+        except FeedbackLanguageError as exc:
+            raise HTTPException(400, str(exc))
     questions, answer_map, warnings = _prepare(
         question_paper, answer_sheet, rubric, model_answers, question_paper_text,
         answer_sheet_text, rubric_text, model_answers_text, structured_json,
@@ -423,8 +444,8 @@ def grade(
     n = settings.n_samples if n_samples is None else max(1, min(10, n_samples))
     thr = settings.confidence_threshold if threshold is None else max(0.0, min(1.0, threshold))
     if stream:
-        return _stream(questions, answer_map, warnings, n, thr)
-    return _grade_all(questions, answer_map, warnings, n, thr)
+        return _stream(questions, answer_map, warnings, n, thr, feedback_language)
+    return _grade_all(questions, answer_map, warnings, n, thr, feedback_language=feedback_language)
 
 
 # API routes first, then serve the frontend at /

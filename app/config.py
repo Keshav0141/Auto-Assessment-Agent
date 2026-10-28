@@ -128,6 +128,15 @@ class Settings:
         # OCR_DISABLE_THINKING shortcut when set.
         self.ocr_extra_body = _env_json("OCR_EXTRA_BODY", {})
 
+        # Bodhan IndicOCR (optional backend; currently a stub, see app/ingestion/ocr.py).
+        self.bodhan_base_url = os.getenv("BODHAN_BASE_URL", "").strip().rstrip("/")
+        self.bodhan_ocr_key = os.getenv("BODHAN_OCR_KEY", "").strip()
+        self.bodhan_ocr_model = os.getenv("BODHAN_OCR_MODEL", "").strip()
+
+        # Language of feedback and justifications: auto (the student's detected answer
+        # language), en, or a language name/code such as Hindi or ta.
+        self.feedback_language = os.getenv("FEEDBACK_LANGUAGE", "auto").strip() or "auto"
+
     @property
     def using_mock(self) -> bool:
         """True when grading uses the offline mock grader (no API key, or LLM_PROVIDER=mock)."""

@@ -1,0 +1,8 @@
+Question 1
+The net force on an object equals its mass times its acceleration: F = ma. a = F/m = 10/2 = 5 m/s^2.
+
+Question 2
+Photosynthesis is the process in which green plants use light energy to make glucose from carbon dioxide and water, releasing oxygen.
+
+Question 3
+x^2 - 5x + 6 = (x - 2)(x - 3) = 0, so x = 2 or x = 3. Check: 4 - 10 + 6 = 0 and 9 - 15 + 6 = 0.
