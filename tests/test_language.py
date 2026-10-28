@@ -137,3 +137,27 @@ def test_ocr_cer_normalises_unicode():
 
     word = "क़लम"  # precomposed vs decomposed nukta form
     assert cer(unicodedata.normalize("NFC", word), unicodedata.normalize("NFD", word)) == 0.0
+
+
+def test_ocr_prompt_keeps_the_danda():
+    assert "danda (।)" in OCR_PROMPT and "double danda (॥)" in OCR_PROMPT
+    assert "never the digit 1" in OCR_PROMPT
+
+
+def test_ocr_rerun_merges_one_language(tmp_path):
+    import json
+
+    from eval.ocr_run import _merge_rerun
+
+    def rec(id_, lang, cer):
+        react = {"ok": True, "cer": cer, "wer": cer, "label_recall": None, "latency_s": 1.0, "text": ""}
+        return {"id": id_, "lang": lang, "style": "clean", "kind": "item", "cer": cer, "wer": cer,
+                "reacts": [react]}
+
+    path = tmp_path / "ocr_metrics.json"
+    path.write_text(json.dumps({"entries": [rec("a_en", "en", 0.0), rec("b_hi", "hi", 0.5)]}), encoding="utf-8")
+    _merge_rerun(str(path), "hi", [rec("b_hi", "hi", 0.1)], {"model": "m"})
+    merged = json.loads(path.read_text(encoding="utf-8"))
+    assert [(r["id"], r["cer"]) for r in merged["entries"]] == [("a_en", 0.0), ("b_hi", 0.1)]
+    assert merged["per_language_style"]["Hindi / clean typed"]["cer"]["mean"] == 0.1
+    assert merged["n_images"] == 2 and merged["reruns"][0]["lang"] == "hi"

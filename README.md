@@ -125,7 +125,8 @@ model is never loaded.
   "प्रश्न १" in a Hindi paper matches "Question 1" or "கேள்வி 1" in an answer sheet.
 - **OCR.** The vision model is told the text may be English, any Indic script or
   code-mixed, and to transcribe every word in its original script without translating
-  or transliterating.
+  or transliterating. It is also told that the Devanagari danda (।) and double danda
+  (॥) are punctuation, never the digit 1.
 - **Feedback language.** `FEEDBACK_LANGUAGE` (or the `feedback_language` form field,
   or "Feedback language" under Marking settings in the UI) is `auto`, `en`, or a
   language code or name (`hi`, `Tamil`, `Hinglish`, ...). `auto` uses the student's
@@ -337,27 +338,30 @@ comparison). Real photos with a `.txt` transcription can be added to
 `eval/ocr_data/real/`.
 
 <!-- report:ocr -->
-Run of 2026-10-28: `deepseek/deepseek-v4.1-flash` at `api.goedelmachines.com` (backend `vision`), 133 images, 1 read each, no grading step.
+Run of 2026-10-28: `deepseek/deepseek-v4.1-flash` at `api.goedelmachines.com` (backend `vision`), 133 images, 1 read each, no grading step. The 24 Hindi images were read again on 2026-10-28 with `deepseek/deepseek-v4.1-flash` after an OCR prompt change.
 
 | Language / style | Images | Failures | CER | WER | Latency (s) |
 |---|---|---|---|---|---|
 | English / clean typed | 28 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 1.3 |
 | English / handwriting | 28 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 1.1 |
 | English / phone photo | 28 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 1.2 |
-| Hindi / clean typed | 8 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 1.1 |
-| Hindi / handwriting | 8 | 0 | 0.002 ± 0.005 | 0.007 ± 0.019 | 1.2 |
-| Hindi / phone photo | 8 | 0 | 0.006 ± 0.010 | 0.018 ± 0.031 | 1.2 |
+| Hindi / clean typed | 8 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 3.9 |
+| Hindi / handwriting | 8 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 1.8 |
+| Hindi / phone photo | 8 | 0 | 0.002 ± 0.005 | 0.007 ± 0.019 | 2.0 |
 | Tamil / clean typed | 8 | 0 | 0.001 ± 0.004 | 0.007 ± 0.019 | 1.2 |
 | Tamil / handwriting | 8 | 0 | 0.001 ± 0.004 | 0.007 ± 0.019 | 1.1 |
 | Tamil / phone photo | 8 | 0 | 0.003 ± 0.007 | 0.012 ± 0.022 | 1.3 |
 | English / scanned PDF | 1 | 0 | 0.000 ± 0.000 | 0.000 ± 0.000 | 4.1 |
-| All images | 133 | 0 | 0.001 ± 0.004 | 0.003 ± 0.014 | 1.2 |
+| All images | 133 | 0 | 0.000 ± 0.003 | 0.002 ± 0.011 | 1.5 |
 <!-- /report:ocr -->
 
 The configured vision model read every image, with near-perfect English and a handful
-of small errors in Hindi and Tamil, most of them in the phone-photo style. In Hindi, a
-danda (।) straight after a digit was read as "1" or dropped, so "6x + 2।" became
-"6x + 21", which changes the maths. In Tamil, the long vowel ஏ was read as the short எ,
+of small errors in Hindi and Tamil, most of them in the phone-photo style. In the first
+run, a Hindi danda (।) straight after a digit was read as "1" or dropped in three
+images, so "6x + 2।" became "6x + 21", which changes the maths. The OCR prompt now says
+that । and ॥ are punctuation, never the digit 1. Re-reading the Hindi images with it
+fixed two of the three, but the blurred phone photo of that same line still came back as
+"6x + 21". In Tamil, the long vowel ஏ was read as the short எ,
 one vowel sign was misread, and one letter was dropped in a photo. No text was
 translated or transliterated. These are clean renders of typed text with simulated
 damage, so they test the prompt and script handling more than real handwriting.

@@ -261,6 +261,71 @@ def _print_table(by_style, overall):
         )
 
 
+def _aggregate(results):
+    """(per_style, per_language_style, overall) blocks for a list of entry records."""
+    by_style = {}
+    for style in STYLES + ("pdf", "real"):
+        obs = [o for rec in results if rec["style"] == style for o in rec["reacts"]]
+        if obs:
+            by_style[STYLE_LABELS.get(style, style)] = _block(obs)
+    overall = _block([o for rec in results for o in rec["reacts"]])
+    by_language = {}
+    for lang in sorted({rec.get("lang", "en") for rec in results}, key=lambda x: (x != "en", x)):
+        for style in STYLES:
+            obs = [o for rec in results if rec.get("lang", "en") == lang and rec["style"] == style
+                   for o in rec["reacts"]]
+            if obs:
+                by_language[f"{LANG_LABELS.get(lang, lang)} / {STYLE_LABELS.get(style, style)}"] = _block(obs)
+    return by_style, by_language, overall
+
+
+def _merge_rerun(out_path, lang, results, ocr_config):
+    """Replace one language's entries in an existing ocr_metrics.json and recompute the totals.
+
+    Prints a before/after comparison per image and per style, and records the re-run
+    under "reruns" so the report can say which images were read when.
+    """
+    with open(out_path, encoding="utf-8") as f:
+        payload = json.load(f)
+    old = {rec["id"]: rec for rec in payload["entries"]}
+    print(f"\nBefore -> after ({LANG_LABELS.get(lang, lang)}):")
+    for rec in results:
+        before = old.get(rec["id"], {})
+        print(f"  {rec['id']:<22} CER {before.get('cer', float('nan')):.3f} -> {rec.get('cer', float('nan')):.3f}   "
+              f"WER {before.get('wer', float('nan')):.3f} -> {rec.get('wer', float('nan')):.3f}")
+    old_blocks = _aggregate([old[r["id"]] for r in results if r["id"] in old])[1]
+    new_blocks = _aggregate(results)[1]
+    for name, block in new_blocks.items():
+        prev = old_blocks.get(name)
+        prev_text = f"CER {_fmt(prev, 'cer')}  WER {_fmt(prev, 'wer')}" if prev else "-"
+        print(f"  {name:<26} {prev_text}  ->  CER {_fmt(block, 'cer')}  WER {_fmt(block, 'wer')}")
+
+    new_ids = {rec["id"] for rec in results}
+    merged = [rec for rec in payload["entries"] if rec["id"] not in new_ids] + results
+    order = {rec["id"]: i for i, rec in enumerate(payload["entries"])}
+    merged.sort(key=lambda rec: order.get(rec["id"], len(order)))
+    by_style, by_language, overall = _aggregate(merged)
+    observations = [o for rec in merged for o in rec["reacts"]]
+    payload.update(
+        n_images=len(merged),
+        n_ocr_calls=len(observations),
+        total_latency_s=sum(o["latency_s"] for o in observations),
+        per_style=by_style,
+        per_language_style=by_language,
+        overall=overall,
+        entries=merged,
+    )
+    payload.setdefault("reruns", []).append({
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "lang": lang,
+        "n_images": len(results),
+        "ocr_config": ocr_config,
+    })
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    print(f"\nMerged {len(results)} re-read image(s) into {out_path}")
+
+
 def main() -> None:
     """Run the OCR benchmark from the command line."""
     parser = argparse.ArgumentParser(description="OCR benchmark")
@@ -270,6 +335,9 @@ def main() -> None:
     parser.add_argument("--samples", type=int, default=2, help="grading samples for the end-to-end check")
     parser.add_argument("--no-grade", action="store_true", help="skip the end-to-end grading comparison")
     parser.add_argument("--out", default=os.path.join("eval", "results"), help="output directory")
+    parser.add_argument("--lang", default=None,
+                        help="only re-read images in this language (en, hi, ta) and merge them into the "
+                             "existing ocr_metrics.json, keeping the other images' results")
     args = parser.parse_args()
 
     _select_provider(args.provider)
@@ -282,6 +350,8 @@ def main() -> None:
     except FileNotFoundError:
         print("No manifest found. Run: python -m eval.make_ocr_images")
         sys.exit(2)
+    if args.lang:
+        entries = [e for e in entries if e.get("lang", "en") == args.lang]
     if args.limit:
         entries = entries[: args.limit]
     if not entries:
@@ -342,18 +412,7 @@ def main() -> None:
         print(f"  [{status}] {rec['id']:<22} {detail}")
 
     observations = [o for rec in results for o in rec["reacts"]]
-    by_style = {}
-    for style in STYLES + ("pdf", "real"):
-        obs = [o for rec in results if rec["style"] == style for o in rec["reacts"]]
-        if obs:
-            by_style[STYLE_LABELS.get(style, style)] = _block(obs)
-    overall = _block(observations)
-    by_language = {}
-    for lang in sorted({rec["lang"] for rec in results}, key=lambda x: (x != "en", x)):
-        for style in STYLES:
-            obs = [o for rec in results if rec["lang"] == lang and rec["style"] == style for o in rec["reacts"]]
-            if obs:
-                by_language[f"{LANG_LABELS.get(lang, lang)} / {STYLE_LABELS.get(style, style)}"] = _block(obs)
+    by_style, by_language, overall = _aggregate(results)
 
     total_latency = sum(o["latency_s"] for o in observations)
     print()
@@ -383,16 +442,21 @@ def main() -> None:
             )
 
     os.makedirs(args.out, exist_ok=True)
+    out_path = os.path.join(args.out, "ocr_metrics.json")
+    ocr_config = {
+        "backend": settings.ocr_provider,
+        "model": settings.ocr_model,
+        "base_url": base_url,
+        "api_key_set": bool(settings.ocr_api_key),
+        "extra_body_set": bool(settings.ocr_extra_body),
+    }
+    if args.lang:
+        _merge_rerun(out_path, args.lang, results, ocr_config)
+        return
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "provider": args.provider,
-        "ocr_config": {
-            "backend": settings.ocr_provider,
-            "model": settings.ocr_model,
-            "base_url": base_url,
-            "api_key_set": bool(settings.ocr_api_key),
-            "extra_body_set": bool(settings.ocr_extra_body),
-        },
+        "ocr_config": ocr_config,
         "limit": args.limit,
         "repeats": repeats,
         "n_images": len(results),
@@ -404,7 +468,6 @@ def main() -> None:
         "end_to_end": end_to_end,
         "entries": results,
     }
-    out_path = os.path.join(args.out, "ocr_metrics.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
     print(f"\nSaved results -> {out_path}")

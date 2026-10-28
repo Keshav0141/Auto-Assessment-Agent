@@ -31,7 +31,10 @@ OCR_PROMPT = (
     "(including Indic digits such as १ or ௧), equations and units; do NOT correct, "
     "solve or summarise anything; keep question labels such as 'Question 1', 'Q2', "
     "'3)', 'प्रश्न 1' or 'கேள்வி 1' on their own lines exactly as they appear; write "
-    "math in plain text (e.g. x^2, sqrt(x), a/b); mark unreadable parts as "
+    "math in plain text (e.g. x^2, sqrt(x), a/b); the Devanagari danda (।) and "
+    "double danda (॥) are punctuation marks that end a sentence, never the digit 1: "
+    "keep them as । and ॥ exactly where they appear, also right after a digit "
+    "(write '5 m/s^2।', not '5 m/s^21'); mark unreadable parts as "
     "[illegible]. If the image contains no text at all, output exactly [no text]. "
     "Output only the transcription, no commentary."
 )

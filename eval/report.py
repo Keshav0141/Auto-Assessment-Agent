@@ -168,6 +168,11 @@ def ocr_block(ocr: Dict[str, Any]) -> str:
         f"Run of {ocr['generated_at'][:10]}: `{cfg['model']}` at `{host}` (backend `{cfg['backend']}`), "
         f"{ocr['n_images']} images, {ocr['repeats']} read each, no grading step."
     )
+    for rerun in ocr.get("reruns", []):
+        intro += (
+            f" The {rerun['n_images']} {LANG_NAMES.get(rerun['lang'], rerun['lang'])} images were read again on "
+            f"{rerun['generated_at'][:10]} with `{rerun['ocr_config']['model']}` after an OCR prompt change."
+        )
     return intro + "\n\n" + _table(["Language / style", "Images", "Failures", "CER", "WER", "Latency (s)"], rows)
 
 
