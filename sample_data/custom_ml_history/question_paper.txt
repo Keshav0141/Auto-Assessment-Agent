@@ -1,0 +1,5 @@
+Question 1 (4 marks)
+Explain overfitting in machine learning and give two ways to reduce it.
+
+Question 2 (3 marks)
+Who wrote the Indian national anthem, and in which year was it first sung?

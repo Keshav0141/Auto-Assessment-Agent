@@ -1,0 +1,5 @@
+Question 1
+Overfitting is when a model learns the noise in its training data, so it does well on training data but poorly on unseen data. It can be reduced with regularisation, dropout, more training data, early stopping or cross-validation.
+
+Question 2
+Rabindranath Tagore. It was first sung in 1911 at the Calcutta session of the Indian National Congress.

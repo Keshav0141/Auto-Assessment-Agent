@@ -1,0 +1,5 @@
+Question 1
+Overfitting means the model memorises the training data so its test accuracy is bad. We can use dropout.
+
+Question 2
+Rabindranath Tagore wrote it.
